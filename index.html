@@ -3,651 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VetAD-Maker Pro | منصة صناعة الإعلانات البيطرية الاحترافية</title>
+    <title>منصة صناعة الإعلانات البيطرية الاحترافية | Vet-AD Studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 
     <style>
         :root {
-            --bg-main: #0b0f17;
-            --bg-side: #121824;
-            --bg-input: #1a2233;
-            --accent: #2563eb;
-            --accent-hover: #3b82f6;
-            --accent-gradient: linear-gradient(135deg, #2563eb, #10b981);
-            --text-light: #f8fafc;
+            --bg-dark: #070b12;
+            --bg-card: #0f1624;
+            --bg-input: #172033;
+            --primary: #10b981;
+            --secondary: #2563eb;
+            --text-main: #f8fafc;
             --text-muted: #64748b;
-            --border: #222f47;
-            --success: #10b981;
-            --danger: #ef4444;
+            --border: #1e293b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
         .sidebar {
-            width: 400px;
-            background-color: var(--bg-side);
+            width: 420px;
+            background-color: var(--bg-card);
             border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             height: 100%;
             z-index: 10;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.4);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
 
-        .brand {
+        .header-title {
             padding: 20px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 900;
             text-align: center;
             border-bottom: 1px solid var(--border);
-            color: var(--text-light);
+            background: linear-gradient(180deg, rgba(37, 99, 235, 0.1) 0%, transparent 100%);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            background: linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%);
         }
 
-        .brand i {
-            color: var(--success);
-        }
+        .header-title i { color: var(--primary); }
 
-        .tabs {
-            display: flex;
-            background: #070a10;
-            padding: 5px;
-            margin: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
+        .panel-scroll { flex: 1; padding: 20px; overflow-y: auto; }
+        .panel-scroll::-webkit-scrollbar { width: 6px; }
+        .panel-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-        .tab-btn {
-            flex: 1;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            padding: 10px;
-            cursor: pointer;
-            font-weight: 700;
+        .section-tag {
             font-size: 13px;
-            transition: all 0.2s;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .tab-btn.active {
-            background: var(--accent-gradient);
-            color: white;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        }
-
-        .control-panel {
-            flex: 1;
-            padding: 0 15px 15px 15px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .control-panel.active {
-            display: block;
-        }
-
-        .control-panel::-webkit-scrollbar {
-            width: 5px;
-        }
-        .control-panel::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
-        }
-
-        .section-title {
-            font-size: 13px;
-            color: #a0aec0;
-            margin: 18px 0 10px 0;
+            color: var(--primary);
+            margin: 20px 0 10px 0;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 6px;
-            border-right: 3px solid var(--success);
-            padding-right: 6px;
-        }
-
-        .upload-box {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 25px 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #070a10;
-        }
-
-        .upload-box:hover {
-            border-color: var(--success);
-            background: rgba(16, 185, 129, 0.02);
-        }
-
-        .upload-box i {
-            font-size: 36px;
-            color: var(--success);
-            margin-bottom: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-row {
-            display: flex;
             gap: 8px;
-            margin-top: 4px;
         }
 
-        label {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 4px;
-            color: #94a3b8;
-        }
-
-        input, select {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            padding: 10px 12px;
+        .grid-bgs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        .bg-card-opt {
+            height: 85px;
             border-radius: 8px;
-            color: white;
-            font-size: 13px;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--success);
-            outline: none;
-        }
-
-        .btn {
-            width: 100%;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 11px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 13px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn:hover { transform: translateY(-1px); }
-        .btn-secondary { background: #1e293b; color: #cbd5e1; border: 1px solid var(--border); }
-        .btn-secondary:hover { background: #2d3748; }
-        .btn-success { background: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-        .btn-success:hover { background: #059669; }
-        .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
-
-        .bg-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .bg-option {
-            height: 65px;
-            border-radius: 6px;
             cursor: pointer;
             border: 2px solid transparent;
             background-size: cover;
             background-position: center;
-            transition: 0.2s;
             position: relative;
+            transition: all 0.2s ease;
         }
-
-        .bg-option span {
+        .bg-card-opt:hover { border-color: var(--primary); transform: scale(1.02); }
+        .bg-card-opt span {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            font-size: 9px;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.75);
+            font-size: 11px;
             text-align: center;
-            padding: 2px 0;
+            padding: 4px 0;
             color: #fff;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
         }
 
-        .bg-option:hover { border-color: var(--success); transform: scale(1.03); }
-
-        .main-workspace {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: #05070c;
-            position: relative;
-        }
-
-        .canvas-container-wrapper {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            overflow: auto;
-            background-image: radial-gradient(#1a2233 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        .video-preview-box {
-            position: relative;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-            border-radius: 14px;
-            overflow: hidden;
-            background: #000;
-            border: 4px solid #1a2233;
-        }
-
-        /* تأثيرات الحركة السينمائية للإعلان البيطري */
-        .effect-float { animation: vet-float 4s infinite alternate ease-in-out; }
-        .effect-zoomIn { animation: vet-zoom 5s infinite alternate ease-in-out; }
-        .effect-pulse { animation: vet-pulse 3s infinite alternate ease-in-out; }
-
-        @keyframes vet-float { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px) scale(1.01); } }
-        @keyframes vet-zoom { 0% { transform: scale(0.97); } 100% { transform: scale(1.04); } }
-        @keyframes vet-pulse { 0% { filter: brightness(0.95); } 100% { filter: brightness(1.1); } }
-
-        .timeline-bar {
-            background: var(--bg-side);
-            border-top: 1px solid var(--border);
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .play-btn {
-            background: var(--accent-gradient);
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; }
+        input, select {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
             color: white;
+            font-size: 13px;
+            transition: border 0.2s;
+        }
+        input:focus, select:focus { border-color: var(--secondary); outline: none; }
+
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 700;
             font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
         }
+        .btn-action:hover { opacity: 0.95; transform: translateY(-1px); }
 
-        .timeline-track {
-            flex: 1;
-            height: 8px;
-            background: #070a10;
-            border-radius: 4px;
+        .btn-sub {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+        }
+        .btn-sub:hover { background: #2d3748; }
+
+        .workspace { flex: 1; display: flex; flex-direction: column; background-color: #030508; position: relative; }
+        .canvas-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        .preview-window {
+            border: 6px solid #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8);
             position: relative;
-            border: 1px solid var(--border);
         }
 
-        .timeline-progress {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--accent-gradient);
-            border-radius: 4px;
+        .timeline-controls {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
 
-        .paragraph-indicator {
+        .btn-play {
+            background: var(--primary);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .track-container { flex: 1; height: 10px; background: #0b111e; border-radius: 5px; position: relative; border: 1px solid var(--border); }
+        .track-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--secondary), var(--primary)); border-radius: 5px; }
+        
+        .floating-badge {
             position: absolute;
-            top: -25px;
-            transform: translateX(-50%);
-            font-size: 11px;
+            top: 15px;
+            right: 15px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-weight: bold;
-            color: var(--success);
-            background: #1a2233;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            white-space: nowrap;
+            font-size: 12px;
+            z-index: 5;
+            display: none;
+            animation: pulse 1.5s infinite;
         }
-
-        #imageLoader { display: none; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="brand">
-            <i class="fa-solid fa-hand-holding-medical"></i>
-            <span>VetAD-Maker Pro (بيطري)</span>
+        <div class="header-title">
+            <i class="fa-solid fa-clapperboard"></i>
+            <span>استوديو الإعلانات البيطرية المحترف</span>
         </div>
         
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('poster-tab', event)"><i class="fa-solid fa-file-invoice-dollar"></i> بيانات الإعلان والبوستر</button>
-            <button class="tab-btn" onclick="switchTab('video-tab', event)"><i class="fa-solid fa-film"></i> مونتاج الفيديو والفقرات</button>
-        </div>
-
-        <div id="poster-tab" class="control-panel active">
-            <div class="section-title"><i class="fa-solid fa-prescription-bottle-medical"></i> 1: منتج العيادة/الصيدلية</div>
-            <div class="upload-box" onclick="document.getElementById('imageLoader').click()">
-                <i class="fa-solid fa-box-tissue"></i>
-                <p>اضغط لرفع عبوة العلاج أو المنتج البيطري</p>
-                <input type="file" id="imageLoader" accept="image/*">
-            </div>
-            <button class="btn btn-secondary" style="margin-top:8px;" onclick="removeBackground()"><i class="fa-solid fa-wand-magic-sparkles"></i> تفريغ خلفية العلاج تلقائياً</button>
-
-            <div class="section-title"><i class="fa-solid fa-images"></i> 2: خلفيات بيطرية ومزارع احترافية</div>
-            <div class="bg-grid">
-                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=800')"><span>إنتاج حيواني</span></div>
-                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=800')"><span>الريف والعيادة</span></div>
-                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=800')"><span>حيوانات أليفة</span></div>
-                <div class="bg-option" style="background: linear-gradient(135deg, #0f172a, #1e3a8a);" onclick="changeCanvasBg('linear-gradient(135deg, #0f172a, #1e3a8a)')"><span>أزرق داكن</span></div>
-                <div class="bg-option" style="background: linear-gradient(135deg, #064e3b, #022c22);" onclick="changeCanvasBg('linear-gradient(135deg, #064e3b, #022c22)')"><span>أخضر طبي</span></div>
-                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=800')"><span>دواجن وطاقة</span></div>
+        <div class="panel-scroll">
+            <div class="section-tag"><i class="fa-solid fa-images"></i> 1: اختر خلفية الإعلان البيطرية</div>
+            <div class="grid-bgs">
+                <div class="bg-card-opt" style="background-image: url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=300');" onclick="setAdBackground('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=800')"><span>مزارع وتسمين مواشي</span></div>
+                <div class="bg-card-opt" style="background-image: url('https://images.unsplash.com/photo-1516467508483-a7212febe31a?q=80&w=300');" onclick="setAdBackground('https://images.unsplash.com/photo-1516467508483-a7212febe31a?q=80&w=800')"><span>خلفية طبية بيطرية</span></div>
+                <div class="bg-card-opt" style="background-image: url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=300');" onclick="setAdBackground('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=800')"><span>بورصة وعنابر دواجن</span></div>
+                <div class="bg-card-opt" style="background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=300');" onclick="setAdBackground('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=800')"><span>حيوانات أليفة ممتازة</span></div>
             </div>
 
-            <div class="section-title"><i class="fa-solid fa-id-card"></i> 3: هوية وعناوين الإعلان</div>
-            <div class="form-group">
+            <div class="section-tag"><i class="fa-solid fa-file-medical"></i> 2: الهوية وبيانات التواصل بالصيدلية</div>
+            <div class="input-group">
                 <label>اسم الصيدلية / الدكتور</label>
-                <div class="form-row">
-                    <input type="text" id="vetName" placeholder="مثال: صيدلية د. أحمد البيطرية">
-                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('vet')"><i class="fa-solid fa-plus"></i></button>
-                </div>
+                <input type="text" id="vetTitle" value="صيدلية د. أحمد البيطرية">
             </div>
-            <div class="form-group">
-                <label>اسم العلاج أو التحصين</label>
-                <div class="form-row">
-                    <input type="text" id="productName" placeholder="مثال: سوبر فيتامين مستورد">
-                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('name')"><i class="fa-solid fa-plus"></i></button>
-                </div>
+            <div class="input-group">
+                <label>أرقام التليفونات للتواصل</label>
+                <input type="text" id="vetPhones" value="ت: 01000000000 / 0120000000">
             </div>
-            <div class="form-group">
-                <label>السعر (اختياري)</label>
-                <div class="form-row">
-                    <input type="text" id="productPrice" placeholder="مثال: لتر / 250 ج.م">
-                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('price')"><i class="fa-solid fa-plus"></i></button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>أرقام التواصل والتليفون</label>
-                <div class="form-row">
-                    <input type="text" id="vetPhone" placeholder="مثال: للتواصل 010XXXXXXXX">
-                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('phone')"><i class="fa-solid fa-plus"></i></button>
-                </div>
-            </div>
-            <div class="form-group">
+            <div class="input-group">
                 <label>العنوان بالتفصيل</label>
-                <div class="form-row">
-                    <input type="text" id="vetAddress" placeholder="مثال: فاقوس - بجوار مجلس المدينة">
-                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('address')"><i class="fa-solid fa-plus"></i></button>
-                </div>
+                <input type="text" id="vetLoc" value="الشرقية - فاقوس - بجوار مجلس المدينة">
             </div>
 
-            <div class="form-row" style="margin-top: 15px;">
-                <button class="btn btn-danger" onclick="deleteSelected()"><i class="fa-solid fa-trash"></i> مسح عنصر</button>
-                <button class="btn btn-secondary" onclick="centerSelected()"><i class="fa-solid fa-compress"></i> سنترة بالمنتصف</button>
+            <div class="section-tag"><i class="fa-solid fa-layer-group"></i> 3: سيناريو فقرات الفيديو التلقائي</div>
+            <div class="input-group">
+                <label>الفقرة الأولى (ثانية 0 - 2): الترحيب والهوية</label>
+                <input type="text" id="sc1" value="أهلاً بكم في صيدلية الدكتور أحمد البيطرية بفاقوس">
+            </div>
+            <div class="input-group">
+                <label>الفقرة الثانية (ثانية 2 - 4): عرض العلاج والمفاجأة</label>
+                <input type="text" id="sc2" value="أقوى التحصينات والأدوية لزيادة الوزن والإنتاج!">
+            </div>
+            <div class="input-group">
+                <label>الفقرة الثالثة (ثانية 4 - 6): العناوين والاتصال</label>
+                <input type="text" id="sc3" value="تواصلوا معنا الآن .. متواجدون لخدمتكم دائماً">
             </div>
 
-            <button class="btn btn-success" style="margin-top: 20px;" onclick="downloadPoster()"><i class="fa-solid fa-file-arrow-down"></i> تحميل بوستر العرض المطبوع</button>
-        </div>
-
-        <div id="video-tab" class="control-panel">
-            <div class="section-title"><i class="fa-solid fa-music"></i> الهندسة الصوتية والسيناريو</div>
-            <div class="form-group">
-                <label>الموسيقى الإعلانية الصحيحة</label>
-                <select id="vetMusic">
-                    <option>🎵 ريفية حماسية - مناسبة لإعلانات السونار والمواشي</option>
-                    <option>🎵 إيقاع سريع ومودرن - لإعلانات الأدوية المستوردة والشركات</option>
-                    <option>🎵 هادئة وسينمائية - مناسبة لعيادات الحيوانات الأليفة (Pet Clinics)</option>
-                </select>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn-sub" style="flex:1;" onclick="applyDataToCanvas()"><i class="fa-solid fa-arrows-rotate"></i> تحديث البوستر الحالي</button>
+                <button class="btn-sub" style="color: #ef4444;" onclick="clearCanvasItems()"><i class="fa-solid fa-trash"></i> مسح شامل</button>
             </div>
-
-            <div class="section-title"><i class="fa-solid fa-layer-group"></i> فقرات الفيديو الإعلاني المولد</div>
-            <div class="form-group">
-                <label>الفقرة 1 (من ثانية 0 لـ 2): الترحيب وافتتاحية الصيدلية</label>
-                <input type="text" id="p1Text" value="مرحباً بكم في صيدلية الدكتور أحمد البيطرية للتميز!">
-            </div>
-            <div class="form-group">
-                <label>الفقرة 2 (من ثانية 2 لـ 4): استعراض العلاج والفوائد</label>
-                <input type="text" id="p2Text" value="نوفر لكم أقوى التحصينات والفيتامينات لزيادة الإنتاج الكلية">
-            </div>
-            <div class="form-group">
-                <label>الفقرة 3 (من ثانية 4 لـ 6): الخاتمة وطلب الاتصال والعناوين</label>
-                <input type="text" id="p3Text" value="احجز الآن! متواجدون لخدمتكم مع توفر ميزة الزيارات المنزلية والسونار">
-            </div>
-
-            <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> تأثير الانتقال البصري</div>
-            <div class="form-group">
-                <select id="videoEffect" onchange="applyVideoEffect()">
-                    <option value="effect-float">🔥 حركة الطفو والانسياب الريفي الناعم</option>
-                    <option value="effect-zoomIn">🔍 زووم سينمائي على عبوة المنتج (Zoom-In)</option>
-                    <option value="effect-pulse">⚡ نبض واهتزاز ضوئي لجذب الانتباه فوراً</option>
-                </select>
-            </div>
-
-            <button class="btn" style="background: linear-gradient(135deg, #10b981, #2563eb); margin-top: 15px;" onclick="triggerVideoExport()"><i class="fa-solid fa-clapperboard"></i> رندرة وتوليد فيديو الفقرات الاحترافي MP4</button>
+            
+            <br>
+            <button class="btn-action" onclick="startVideoExport()"><i class="fa-solid fa-video"></i> توليد وتحميل الفيديو الإعلاني MP4</button>
         </div>
     </div>
 
-    <div class="main-workspace">
-        <div class="canvas-container-wrapper">
-            <div class="video-preview-box effect-float" id="videoBox">
-                <canvas id="adCanvas" width="500" height="500"></canvas>
+    <div class="workspace">
+        <div class="canvas-area">
+            <div class="preview-window">
+                <div class="floating-badge" id="liveBadge">🔴 جاري تسجيل الفيديو المولد...</div>
+                <canvas id="mainStudioCanvas" width="550" height="550"></canvas>
             </div>
         </div>
 
-        <div class="timeline-bar">
-            <button class="play-btn" id="playBtn" onclick="toggleTimeline()"><i class="fa-solid fa-play"></i></button>
-            <div style="font-size: 13px; color: #94a3b8; white-space: nowrap;">مونتاج الفقرات الحية:</div>
-            <div class="timeline-track">
-                <div class="timeline-progress" id="timelineProgress"></div>
-                <div class="paragraph-indicator" id="currentParagraph" style="left: 0%;">البداية</div>
+        <div class="timeline-controls">
+            <button class="btn-play" id="masterPlayBtn" onclick="runVideoTimeline()"><i class="fa-solid fa-play"></i></button>
+            <div style="font-size: 13px; color: #94a3b8; min-width: 90px;">معاينة الفقرات الحية:</div>
+            <div class="track-container">
+                <div class="track-fill" id="trackBar"></div>
             </div>
-            <div style="font-size: 13px; font-weight: bold; min-width: 65px;" id="timeCounter">0.00 ث</div>
+            <div style="font-size: 14px; font-weight: bold; color: var(--primary);" id="timerText">0.00 ثانية</div>
         </div>
     </div>
+
+    <audio id="bgMusicTrack" loop src="https://actions.google.com/sounds/v1/ambiences/morning_birds_in_the_park.ogg"></audio>
 
     <script>
-        const canvas = new fabric.Canvas('adCanvas');
-        let productImgObject = null;
-        let isPlaying = false;
-        let timelineInterval = null;
-        let currentProgress = 0;
+        const canvas = new fabric.Canvas('mainStudioCanvas');
+        let timelineRunning = false;
+        let timeIndex = 0;
+        let animationFrameId = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
 
-        // خلفية زرقاء ميتاليك مبدئية لتبدو فخمة
-        canvas.backgroundColor = '#0f172a';
-        canvas.renderAll();
+        // إعداد مظهر الكانفاس الأساسي
+        canvas.backgroundColor = '#0b121f';
+        
+        // نصوص ثابتة لتحديثها ديناميكياً خلال الفيديو
+        let textTop, textMiddle, textBottom;
 
-        // 1. معالجة وحفظ المنتج
-        document.getElementById('imageLoader').addEventListener('change', function (e) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                const imgObj = new Image();
-                imgObj.src = event.target.result;
-                imgObj.onload = function () {
-                    if(productImgObject) canvas.remove(productImgObject);
-                    
-                    productImgObject = new fabric.Image(imgObj);
-                    productImgObject.scaleToWidth(240);
-                    productImgObject.set({
-                        left: 130,
-                        top: 120,
-                        cornerColor: '#10b981',
-                        cornerSize: 11,
-                        transparentCorners: false,
-                        borderColor: '#2563eb'
-                    });
-                    canvas.add(productImgObject);
-                    canvas.setActiveObject(productImgObject);
-                    canvas.renderAll();
-                }
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        });
+        function initCanvasTexts() {
+            canvas.clear();
+            canvas.backgroundColor = '#0b121f';
 
-        // 2. إزالة خلفية الدواء
-        function removeBackground() {
-            if (!productImgObject) {
-                alert("برجاء رفع صورة المنتج البيطري أولاً.");
-                return;
-            }
-            productImgObject.filters.push(new fabric.Image.filters.RemoveColor({
-                threshold: 0.18,
-                color: '#ffffff'
-            }));
-            productImgObject.applyFilters();
-            canvas.renderAll();
+            textTop = new fabric.Text('', {
+                left: 275, top: 60, originX: 'center',
+                fontSize: 24, fontWeight: '900', fill: '#10b981',
+                fontFamily: 'Cairo', textAlign: 'center', shadow: '2px 2px 8px rgba(0,0,0,0.8)'
+            });
+
+            textMiddle = new fabric.Text('', {
+                left: 275, top: 250, originX: 'center',
+                fontSize: 22, fontWeight: '700', fill: '#ffffff',
+                fontFamily: 'Cairo', textAlign: 'center', backgroundColor: 'rgba(7, 11, 18, 0.85)',
+                padding: 10, borderRadius: 8, shadow: '2px 2px 10px rgba(0,0,0,0.9)'
+            });
+
+            textBottom = new fabric.Text('', {
+                left: 275, top: 460, originX: 'center',
+                fontSize: 15, fontWeight: 'bold', fill: '#cbd5e1',
+                fontFamily: 'Cairo', textAlign: 'center', backgroundColor: '#2563eb',
+                padding: 8, shadow: '2px 2px 6px rgba(0,0,0,0.8)'
+            });
+
+            canvas.add(textTop, textMiddle, textBottom);
+            applyDataToCanvas();
         }
 
-        // 3. خلفيات الكانفاس والشركات
-        function changeCanvasBg(colorCSS) {
-            canvas.backgroundImage = null;
-            canvas.backgroundColor = colorCSS;
-            canvas.renderAll();
-        }
-
-        function changeCanvasBgImg(url) {
+        function setAdBackground(url) {
             fabric.Image.fromURL(url, function(img) {
-                img.set({
-                    width: 500,
-                    height: 500,
-                    originX: 'left',
-                    originY: 'top'
-                });
+                img.set({ width: 550, height: 550, originX: 'left', originY: 'top' });
                 canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
             }, { crossOrigin: 'anonymous' });
         }
 
-        // 4. وضع النصوص البيطرية في أماكن فوتوشوب ذكية ومنسقة
-        function addVetText(type) {
-            let textValue = "";
-            let textOptions = {};
-
-            if (type === 'vet') {
-                textValue = document.getElementById('vetName').value || "صيدلية الدكتور أحمد البيطرية";
-                textOptions = { left: 40, top: 30, fontSize: 24, fontWeight: '900', fill: '#10b981', fontFamily: 'Cairo' };
-            } else if (type === 'name') {
-                textValue = document.getElementById('productName').value || "اسم العلاج والتركيبة";
-                textOptions = { left: 40, top: 330, fontSize: 22, fontWeight: 'bold', fill: '#ffffff', fontFamily: 'Cairo' };
-            } else if (type === 'price') {
-                textValue = document.getElementById('productPrice').value || "خصم خاص للكميات";
-                textOptions = { left: 40, top: 375, fontSize: 18, fontWeight: 'bold', fill: '#ffffff', backgroundColor: '#2563eb', padding: 6, fontFamily: 'Cairo' };
-            } else if (type === 'phone') {
-                textValue = document.getElementById('vetPhone').value || "للتواصل والاستفسار";
-                textOptions = { left: 40, top: 440, fontSize: 16, fontWeight: 'bold', fill: '#e2e8f0', fontFamily: 'Cairo' };
-            } else if (type === 'address') {
-                textValue = document.getElementById('vetAddress').value || "العنوان بالتفصيل";
-                textOptions = { left: 240, top: 440, fontSize: 14, fontWeight: 'normal', fill: '#94a3b8', fontFamily: 'Cairo' };
-            }
-
-            const text = new fabric.IText(textValue, textOptions);
-            canvas.add(text);
-            canvas.setActiveObject(text);
+        function applyDataToCanvas() {
+            if(!textTop) return;
+            textTop.text = document.getElementById('vetTitle').value;
+            textMiddle.text = document.getElementById('sc1').value; // الافتراضية للفقرة الأولى
+            textBottom.text = document.getElementById('vetPhones').value + " \n " + document.getElementById('vetLoc').value;
             canvas.renderAll();
         }
 
-        function deleteSelected() {
-            const active = canvas.getActiveObject();
-            if (active) { canvas.remove(active); canvas.renderAll(); }
+        function clearCanvasItems() {
+            document.getElementById('vetTitle').value = "";
+            document.getElementById('vetPhones').value = "";
+            document.getElementById('vetLoc').value = "";
+            initCanvasTexts();
         }
 
-        function centerSelected() {
-            const active = canvas.getActiveObject();
-            if (active) { active.center(); active.setCoords(); canvas.renderAll(); }
-        }
+        // تشغيل ومعاينة خط زمني حقيقي للفقرات الـ 3 مع الصوت والموسيقى
+        function runVideoTimeline() {
+            const playIcon = document.getElementById('masterPlayBtn').querySelector('i');
+            const audio = document.getElementById('bgMusicTrack');
 
-        function switchTab(tabId, event) {
-            document.querySelectorAll('.control-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-
-        function applyVideoEffect() {
-            const effect = document.getElementById('videoEffect').value;
-            const wrapper = document.getElementById('videoBox');
-            wrapper.classList.remove('effect-float', 'effect-zoomIn', 'effect-pulse');
-            wrapper.classList.add(effect);
-        }
-
-        // 5. محاكاة حركة التايم لاين على أساس فقرات الإعلان الـ 3 المتتالية
-        function toggleTimeline() {
-            const progress = document.getElementById('timelineProgress');
-            const playIcon = document.getElementById('playBtn').querySelector('i');
-            const timeCounter = document.getElementById('timeCounter');
-            const indicator = document.getElementById('currentParagraph');
-            
-            if (isPlaying) {
-                clearInterval(timelineInterval);
+            if (timelineRunning) {
+                timelineRunning = false;
                 playIcon.className = "fa-solid fa-play";
-                isPlaying = false;
+                audio.pause();
+                cancelAnimationFrame(animationFrameId);
             } else {
+                timelineRunning = true;
                 playIcon.className = "fa-solid fa-pause";
-                isPlaying = true;
-                
-                timelineInterval = setInterval(() => {
-                    if (currentProgress >= 100) {
-                        currentProgress = 0;
-                    } else {
-                        currentProgress += 1;
-                    }
-                    progress.style.width = currentProgress + '%';
-                    indicator.style.left = currentProgress + '%';
-                    
-                    let elapsedSeconds = (currentProgress / 100) * 6; // مدة الفيديو الكلية 6 ثواني
-                    timeCounter.innerText = elapsedSeconds.toFixed(2) + " ث";
-                    
-                    // تحديث مؤشر الفقرة الحالية أثناء المعاينة
-                    if(elapsedSeconds <= 2) {
-                        indicator.innerText = "الفقرة 1: الافتتاحية";
-                    } else if (elapsedSeconds > 2 && elapsedSeconds <= 4) {
-                        indicator.innerText = "الفقرة 2: العرض والمميزات";
-                    } else {
-                        indicator.innerText = "الفقرة 3: التواصل والعناوين";
-                    }
-                }, 60);
+                audio.play().catch(() => console.log("Audio play deferred"));
+                timeIndex = 0;
+                animateStep();
             }
         }
 
-        function downloadPoster() {
-            const dataURL = canvas.toDataURL({ format: 'png', quality: 1.0 });
-            const link = document.createElement('a');
-            link.download = 'Vet-Poster-Pro.png';
-            link.href = dataURL;
-            link.click();
+        function animateStep() {
+            if (!timelineRunning) return;
+
+            timeIndex += 0.02; // زيادة الوقت بمعدل الإطار
+            if (timeIndex >= 6.0) timeIndex = 0; // إعادة الفيديو بعد 6 ثواني تلقائياً
+
+            const percentage = (timeIndex / 6.0) * 100;
+            document.getElementById('trackBar').style.width = percentage + '%';
+            document.getElementById('timerText').innerText = timeIndex.toFixed(2) + " ثانية";
+
+            // تحريك النصوص والفقرات بناءً على التوقيت الصحيح للإعلان
+            if (timeIndex < 2.0) {
+                textMiddle.text = document.getElementById('sc1').value;
+                textMiddle.set({ fill: '#ffffff', scaleX: 1 + Math.sin(timeIndex*3)*0.03, scaleY: 1 + Math.sin(timeIndex*3)*0.03 });
+            } else if (timeIndex >= 2.0 && timeIndex < 4.0) {
+                textMiddle.text = document.getElementById('sc2').value;
+                textMiddle.set({ fill: '#10b981', scaleX: 1 + Math.cos(timeIndex*3)*0.04, scaleY: 1 + Math.cos(timeIndex*3)*0.04 });
+            } else {
+                textMiddle.text = document.getElementById('sc3').value;
+                textMiddle.set({ fill: '#3b82f6', scaleX: 1, scaleY: 1 });
+            }
+
+            canvas.renderAll();
+            animationFrameId = requestAnimationFrame(animateStep);
         }
 
-        function triggerVideoExport() {
-            alert("🚀 جاري دمج الفقرات الـ 3 المكتوبة، وتركيب الموسيقى البيطرية المختارة، وتحضير الرندرة النهائية بدقة عالية... سيبدأ التحميل فوراً عند الانتهاء!");
+        // تسجيل الكانفاس حياً وتوليد الفيديو وتحميله فوراً للمستخدم
+        function startVideoExport() {
+            document.getElementById('liveBadge').style.display = 'block';
+            recordedChunks = [];
+            
+            // تهيئة خط التايم لاين من البداية للتسجيل النظيف
+            timelineRunning = true;
+            timeIndex = 0;
+            document.getElementById('bgMusicTrack').play();
+
+            const canvasStream = document.getElementById('mainStudioCanvas').captureStream(30); // 30 إطار في الثانية
+            
+            // دمج الصوت والموسيقى مع كليب الفيديو النازل
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const audioTrack = document.getElementById('bgMusicTrack');
+            const source = audioContext.createMediaElementSource(audioTrack);
+            const dest = audioContext.createMediaStreamDestination();
+            source.connect(dest);
+            source.connect(audioContext.destination);
+            
+            if(dest.stream.getAudioTracks().length > 0) {
+                canvasStream.addTrack(dest.stream.getAudioTracks()[0]);
+            }
+
+            mediaRecorder = new MediaRecorder(canvasStream, { mimeType: 'video/webm;codecs=vp9' });
+            
+            mediaRecorder.ondataavailable = function(e) {
+                if (e.data.size > 0) recordedChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = function() {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Vet-Commercial-Ad.webm';
+                a.click();
+                
+                document.getElementById('liveBadge').style.display = 'none';
+                alert("🚀 تم توليد الفيديو الإعلاني المخصص لصيدليتك بالفقرات والموسيقى بنجاح وجاري تحميله الآن!");
+            };
+
+            mediaRecorder.start();
+            animateStep();
+
+            // إيقاف التسجيل تلقائياً بعد انتهاء دورة الإعلان بالكامل (6 ثواني)
+            setTimeout(() => {
+                timelineRunning = false;
+                mediaRecorder.stop();
+                document.getElementById('bgMusicTrack').pause();
+                cancelAnimationFrame(animationFrameId);
+                document.getElementById('masterPlayBtn').querySelector('i').className = "fa-solid fa-play";
+            }, 6000);
         }
+
+        // تشغيل أولي تلقائي
+        window.onload = function() {
+            initCanvasTexts();
+            // خلفية مزارع افتراضية فخمة للبدء بها
+            setAdBackground('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=800');
+        };
     </script>
 </body>
 </html>
