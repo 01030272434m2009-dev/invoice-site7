@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكسر الصوت الاحترافي | بنظام الهندسة الصوتية</title>
+    <title>مكسر الصوت الاحترافي المطور | Pro Audio Studio</title>
     <style>
         :root {
-            --bg-color: #0a0f1d;
-            --panel-color: #161f33;
-            --accent-blue: #00d2ff;
-            --accent-green: #00ff88;
-            --text-color: #e2e8f0;
-            --metallic-grad: linear-gradient(145deg, #23314f, #111a2e);
-            --border-metal: 1px solid #2d3d5a;
+            --bg-color: #080c16;
+            --panel-color: #121929;
+            --panel-inset: #090d16;
+            --accent-cyan: #00e5ff;
+            --accent-green: #39ff14;
+            --accent-red: #ff0055;
+            --text-color: #f1f5f9;
+            --text-muted: #64748b;
+            --border-glow: 1px solid rgba(0, 229, 255, 0.15);
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -27,221 +29,299 @@
             min-height: 100vh;
         }
 
-        .mixer-container {
-            background: var(--metallic-grad);
-            border: var(--border-metal);
-            border-radius: 16px;
-            padding: 30px;
-            width: 90%;
-            max-width: 1000px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        .mixer-board {
+            background: linear-gradient(135deg, #162035 0%, #0d1322 100%);
+            border: 2px solid #22314d;
+            border-radius: 24px;
+            padding: 25px;
+            width: 95%;
+            max-width: 1200px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.1);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--accent-blue);
-            margin-top: 0;
-            font-size: 24px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: var(--border-metal);
-            padding-bottom: 15px;
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        .mixer-hardware {
+        .header-area h1 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--text-color);
+            text-shadow: 0 0 10px rgba(0,229,255,0.3);
+        }
+
+        .brand-badge {
+            background: linear-gradient(90deg, var(--accent-cyan), #0088ff);
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .channels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
-            margin-top: 20px;
         }
 
-        .channel-strip {
+        .strip {
             background: var(--panel-color);
-            border: var(--border-metal);
-            border-radius: 12px;
+            border: var(--border-glow);
+            border-radius: 16px;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.05);
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        .channel-title {
+        .strip::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: var(--accent-cyan);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .strip.master-strip::before {
+            background: var(--accent-red);
+        }
+
+        .strip-title {
+            font-size: 15px;
             font-weight: bold;
-            color: var(--accent-blue);
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        /* تصميم البكرات الدائرية والمنزلقات */
-        .control-group {
-            width: 100%;
-            margin-bottom: 15px;
             text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
         }
 
-        label {
-            display: block;
-            font-size: 12px;
-            color: #8a99ad;
-            margin-bottom: 5px;
+        .control-row {
+            width: 100%;
+            margin-bottom: 18px;
         }
 
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .control-label span.val {
+            color: var(--accent-cyan);
+        }
+
+        /* تحسين شكل السلايدر الخطي */
         input[type="range"] {
             -webkit-appearance: none;
             width: 100%;
-            background: #0d1527;
-            height: 6px;
-            border-radius: 3px;
+            background: var(--panel-inset);
+            height: 8px;
+            border-radius: 4px;
             outline: none;
+            border: 1px solid #1e293b;
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--accent-blue);
+            width: 14px;
+            height: 24px;
+            border-radius: 3px;
+            background: linear-gradient(to bottom, #e2e8f0, #94a3b8);
+            border: 1px solid #475569;
             cursor: pointer;
-            box-shadow: 0 0 8px var(--accent-blue);
-            transition: 0.2s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.5);
         }
 
-        /* أزرار التحكم */
+        /* أزرار التحكم الاحترافية */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-top: auto;
+        }
+
         .btn {
-            background: #1e2942;
+            background: #1e293b;
             color: var(--text-color);
-            border: var(--border-metal);
-            padding: 10px 20px;
+            border: 1px solid #334155;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            flex: 1;
+            transition: all 0.2s ease;
+            text-align: center;
         }
 
         .btn:hover {
-            background: var(--accent-blue);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+            border-color: var(--accent-cyan);
+            background: #24334d;
         }
 
         .btn.active {
-            background: var(--accent-green);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            background: rgba(0, 225, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0,229,255,0.2);
         }
 
-        /* مؤشر الصوت LED VU Meter */
-        .meter-container {
+        .btn.mute-btn.active-mute {
+            background: rgba(255, 0, 85, 0.15);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* شاشة عرض الترددات الرادارية المتقدمة */
+        .display-screen {
+            background: var(--panel-inset);
+            border: 1px solid #1e293b;
+            border-radius: 10px;
             width: 100%;
-            height: 15px;
-            background: #0d1527;
-            border-radius: 4px;
+            height: 80px;
+            margin-bottom: 15px;
             overflow: hidden;
-            position: relative;
-            margin-top: 10px;
         }
 
-        .meter-bar {
+        canvas {
+            width: 100%;
             height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent-green) 70%, #ff3366 90%);
-            transition: width 0.05s linear;
+            display: block;
         }
 
-        .file-input-wrapper {
+        .file-wrapper {
             position: relative;
+            overflow: hidden;
+            display: inline-block;
             width: 100%;
         }
 
-        .file-input-wrapper input[type="file"] {
+        .file-wrapper input[type=file] {
+            font-size: 100px;
             position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
+            left: 0; top: 0; opacity: 0;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<div class="mixer-container">
-    <h1>🎛️ نظام التحكم الصوتي المطور للـمساجد والمناسبات</h1>
-    
-    <div class="mixer-hardware">
+<div class="mixer-board">
+    <div class="header-area">
+        <h1>🎛️ وحدة الهندسة الصوتية والبث الحي المتقدمة</h1>
+        <div class="brand-badge">LIVE AUDIO CORE v2.5</div>
+    </div>
+
+    <div class="channels-grid">
         
-        <div class="channel-strip">
-            <div class="channel-title">🎤 입력 | الميكروفون</div>
-            <button class="btn" id="micToggleBtn">تفعيل الميكروفون</button>
+        <div class="strip">
+            <div class="strip-title">🎤 MIC INPUT (المايك)</div>
             
-            <div class="control-group" style="margin-top: 15px;">
-                <label>حجم صوت المايك</label>
-                <input type="range" id="micVolume" min="0" max="2" step="0.1" value="1">
+            <div class="control-row">
+                <div class="control-label">حجم صوت المايك <span class="val" id="micVolVal">100%</span></div>
+                <input type="range" id="micVolume" min="0" max="2" step="0.05" value="1">
             </div>
 
-            <div class="control-group">
-                <label>تنقية الصوت (Noise Gate)</label>
-                <input type="range" id="noiseFilter" min="20" max="20000" step="10" value="20000">
+            <div class="control-row">
+                <div class="control-label">تنقية الفيدباك والصفير (Low-Cut)</div>
+                <div class="btn" id="lowCutBtn">فلتر حماية $80\text{ Hz}$ (مغلق)</div>
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">بوابة الضوضاء (Noise Gate) <span class="val" id="gateVal">مفتوح</span></div>
+                <input type="range" id="noiseFilter" min="1000" max="20000" step="100" value="20000">
+            </div>
+
+            <div class="btn-group">
+                <button class="btn" id="micToggleBtn">تشغيل المايك</button>
+                <button class="btn mute-btn" id="micMuteBtn">KUTE (كتم)</button>
             </div>
         </div>
 
-        <div class="channel-strip">
-            <div class="channel-title">💫 Effects | صدى الصوت (المحاكاة)</div>
+        <div class="strip">
+            <div class="strip-title">🎚️ 3-BAND EQ (الموزع الصوتي)</div>
             
-            <div class="control-group">
-                <label>عمق الصدى (Delay Time)</label>
-                <input type="range" id="echoDelay" min="0" max="1" step="0.05" value="0.3">
+            <div class="control-row">
+                <div class="control-label">ضخامة الصوت (Bass / الـمضخم) <span class="val" id="bassVal">0 dB</span></div>
+                <input type="range" id="eqBass" min="-15" max="15" step="1" value="0">
             </div>
 
-            <div class="control-group">
-                <label>تكرار الصدى (Feedback)</label>
-                <input type="range" id="echoFeedback" min="0" max="0.9" step="0.05" value="0.4">
+            <div class="control-row">
+                <div class="control-label">النبرة البشرية (Mid / الوسط) <span class="val" id="midVal">0 dB</span></div>
+                <input type="range" id="eqMid" min="-15" max="15" step="1" value="0">
             </div>
 
-            <div class="control-group">
-                <label>مستوى تأثير الصدى (Mix)</label>
-                <input type="range" id="echoLevel" min="0" max="1" step="0.05" value="0.5">
+            <div class="control-row">
+                <div class="control-label">الحدة والوضوح (Treble / السوبر) <span class="val" id="trebleVal">0 dB</span></div>
+                <input type="range" id="eqTreble" min="-15" max="15" step="1" value="0">
             </div>
         </div>
 
-        <div class="channel-strip">
-            <div class="channel-title">🎵 Background | الملفات والخلفية</div>
-            <div class="file-input-wrapper">
-                <button class="btn">إدراج ملف صوتي</button>
-                <input type="file" id="audioFile" accept="audio/*">
-            </div>
+        <div class="strip">
+            <div class="strip-title">💫 ECHO ENGINE (تأثير القاعات)</div>
             
-            <audio id="bgAudio" loop></audio>
-            <button class="btn" id="playAudioBtn">تشغيل الخلفية</button>
+            <div class="control-row">
+                <div class="control-label">زمن التكرار (Delay Time) <span class="val" id="delayVal">0.3s</span></div>
+                <input type="range" id="echoDelay" min="0.1" max="1.0" step="0.05" value="0.35">
+            </div>
 
-            <div class="control-group" style="margin-top: 15px;">
-                <label>حجم صوت الموسيقى/الخلفية</label>
+            <div class="control-row">
+                <div class="control-label">درجة الفيدباك (Feedback) <span class="val" id="feedbackVal">40%</span></div>
+                <input type="range" id="echoFeedback" min="0" max="0.85" step="0.05" value="0.45">
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">حجم تأثير الصدى (Wet Mix) <span class="val" id="mixVal">40%</span></div>
+                <input type="range" id="echoLevel" min="0" max="1" step="0.05" value="0.4">
+            </div>
+        </div>
+
+        <div class="strip">
+            <div class="strip-title">🎵 BACKGROUND FILE (الخلفية)</div>
+            
+            <div class="control-row">
+                <div class="file-wrapper">
+                    <button class="btn">📂 اختر ملف الصوت</button>
+                    <input type="file" id="audioFile" accept="audio/*">
+                </div>
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">حجم صوت الخلفية <span class="val" id="bgVolVal">50%</span></div>
                 <input type="range" id="bgVolume" min="0" max="1" step="0.05" value="0.5">
             </div>
+
+            <audio id="bgAudio" loop></audio>
+            <div class="btn-group">
+                <button class="btn" id="playAudioBtn" disabled>تشغيل</button>
+                <button class="btn mute-btn" id="bgMuteBtn">KUTE</button>
+            </div>
         </div>
 
-        <div class="channel-strip">
-            <div class="channel-title">🎚️ Master | التحكم الرئيسي والأمان</div>
+        <div class="strip master-strip">
+            <div class="strip-title" style="color: var(--accent-red);">🎚️ MASTER OUT (المخرج الرئيسي)</div>
             
-            <div class="control-group">
-                <label>حجم الصوت الرئيسي (Master)</label>
+            <div class="display-screen">
+                <canvas id="visualizer"></canvas>
+            </div>
+
+            <div class="control-row">
+                <div class="control-label">الصوت الكلي للمنظومة <span class="val" id="masterVolVal">100%</span></div>
                 <input type="range" id="masterVolume" min="0" max="1.5" step="0.05" value="1">
             </div>
 
-            <div class="control-group">
-                <label>حماية السماعات (Limiter)</label>
-                <span style="font-size: 11px; color: var(--accent-green);">نشط تلقائياً لحماية النظام</span>
-            </div>
-
-            <div class="control-group">
-                <label>مؤشر إشارة الصوت VU</label>
-                <div class="meter-container">
-                    <div class="meter-bar" id="vuMeter"></div>
-                </div>
+            <div class="control-row" style="text-align: center; font-size: 12px; color: var(--accent-green);">
+                🛡️ نظام الحماية الذكي للسماعات (Limiter): نـشـط دائمـاً
             </div>
         </div>
 
@@ -254,169 +334,248 @@
     let micSource = null;
     let bgSource = null;
 
-    // عقد المعالجة الصوتية
-    let micGain, bgGain, masterGain, delayNode, feedbackGain, echoMixGain, filterNode, limiterNode, analyzerNode;
+    // عقد المعالجة
+    let micGain, bgGain, masterGain, delayNode, feedbackGain, echoMixGain, noiseFilterNode, lowCutFilterNode, limiterNode, analyzerNode;
+    let eqBassNode, eqMidNode, eqTrebleNode;
 
-    const micToggleBtn = document.getElementById('micToggleBtn');
-    const playAudioBtn = document.getElementById('playAudioBtn');
-    const bgAudio = document.getElementById('bgAudio');
-    const audioFileInput = document.getElementById('audioFile');
-    const vuMeter = document.getElementById('vuMeter');
+    // الموت التلقائي (Mute states)
+    let isMicMuted = false;
+    let isBgMuted = false;
+    let isLowCutActive = false;
 
-    // تهيئة نظام الـ Web Audio
+    // عناصر الواجهة
+    const canvas = document.getElementById('visualizer');
+    const canvasCtx = canvas.getContext('2d');
+
     function initAudio() {
         if (audioCtx) return;
-        
+
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // عقد التحكم في الصوت
+
+        // إنشاء الـ Gains
         micGain = audioCtx.createGain();
         bgGain = audioCtx.createGain();
         masterGain = audioCtx.createGain();
-        
-        // عقد الصدى (Echo/Delay)
+
+        // فلتر الـ Low Cut لمنع الصفير والوميض والذبذبات الأرضية المنخفضة
+        lowCutFilterNode = audioCtx.createBiquadFilter();
+        lowCutFilterNode.type = "highpass";
+        lowCutFilterNode.frequency.value = 20; // الوضع الافتراضي ممرر للكل
+
+        // فلتر الـ Noise Gate المتقدم
+        noiseFilterNode = audioCtx.createBiquadFilter();
+        noiseFilterNode.type = "lowpass";
+
+        // إنشاء الـ Equalizer ثلاثي النطاقات
+        eqBassNode = audioCtx.createBiquadFilter();
+        eqBassNode.type = "lowshelf";
+        eqBassNode.frequency.value = 200;
+
+        eqMidNode = audioCtx.createBiquadFilter();
+        eqMidNode.type = "peaking";
+        eqMidNode.Q.value = 1.0;
+        eqMidNode.frequency.value = 1500;
+
+        eqTrebleNode = audioCtx.createBiquadFilter();
+        eqTrebleNode.type = "highshelf";
+        eqTrebleNode.frequency.value = 5000;
+
+        // عقد نظام الصدى الاحترافي
         delayNode = audioCtx.createDelay(1.0);
         feedbackGain = audioCtx.createGain();
         echoMixGain = audioCtx.createGain();
 
-        // فلاتر التنقية (LowPass لمنع الوميض والترددات الحادة)
-        filterNode = audioCtx.createBiquadFilter();
-        filterNode.type = "lowpass";
-
-        // حماية السماعات من الانفجار الصوتي (Limiter)
-        limiterNode = audioCtx.createDynamicsCompressor();
-        limiterNode.threshold.setValueAtTime(-4, audioCtx.currentTime); // قفل الصوت عند حد آمن
-        limiterNode.knee.setValueAtTime(0, audioCtx.currentTime);
-        limiterNode.ratio.setValueAtTime(20, audioCtx.currentTime);
-        limiterNode.attack.setValueAtTime(0.005, audioCtx.currentTime);
-        limiterNode.release.setValueAtTime(0.05, audioCtx.currentTime);
-
-        // تحليل الصوت للمؤشر الـ VU
-        analyzerNode = audioCtx.createAnalyser();
-        analyzerNode.fftSize = 64;
-
-        // ربط مسار الصدى (Feedback Loop)
+        // ربط حلقة الصدى المغلقة التكرارية
         delayNode.connect(feedbackGain);
         feedbackGain.connect(delayNode);
-        
-        // ربط التحكم بالقيم الابتدائية من عناصر التحكم
-        updateParameters();
 
-        // ربط المكسر النهائي
+        // نظام الأمان القصوى لحماية السماعات والأذن (Limiter)
+        limiterNode = audioCtx.createDynamicsCompressor();
+        limiterNode.threshold.setValueAtTime(-3, audioCtx.currentTime);
+        limiterNode.knee.setValueAtTime(0, audioCtx.currentTime);
+        limiterNode.ratio.setValueAtTime(20, audioCtx.currentTime);
+        limiterNode.attack.setValueAtTime(0.003, audioCtx.currentTime);
+        limiterNode.release.setValueAtTime(0.04, audioCtx.currentTime);
+
+        // عقدة تحليل الرادار الموجي
+        analyzerNode = audioCtx.createAnalyser();
+        analyzerNode.fftSize = 128;
+
+        // سلسلة الربط الهيكلية
+        // المايك -> فلتر القطع -> ميكسر الصوت -> المعادل الثلاثي الابعاد -> الماستر
+        micGain.connect(eqBassNode);
+        eqBassNode.connect(eqMidNode);
+        eqMidNode.connect(eqTrebleNode);
+        eqTrebleNode.connect(masterGain);
+
+        // ربط فرعي للصدى من المايك
+        micGain.connect(delayNode);
+        delayNode.connect(echoMixGain);
+        echoMixGain.connect(eqBassNode); // تغذية الصدى داخل الاكولايزر لمنحه فخامة
+
+        // الماستر النهائي عبر ليميتر الحماية إلى سماعات الجهاز والـ Visualizer
         masterGain.connect(limiterNode);
         limiterNode.connect(analyzerNode);
         analyzerNode.connect(audioCtx.destination);
 
-        // ربط صوت الخلفية
-        bgSource = audioCtx.createMediaElementSource(bgAudio);
+        // ربط ملف الخلفية بالميكسر الخاص بها ومباشرة للماستر لكي لا تتأثر بصدى المايك
+        bgSource = audioCtx.createMediaElementSource(document.getElementById('bgAudio'));
         bgSource.connect(bgGain);
         bgGain.connect(masterGain);
 
-        // تشغيل مؤشر الـ VU
-        drawMeter();
+        updateParams();
+        drawSpectrum();
     }
 
-    function updateParameters() {
+    function updateParams() {
         if (!audioCtx) return;
-        micGain.gain.value = document.getElementById('micVolume').value;
-        bgGain.gain.value = document.getElementById('bgVolume').value;
+
+        // تحديث المايك والخلفية والماستر مع مراعاة قنوات الـ Mute
+        micGain.gain.value = isMicMuted ? 0 : document.getElementById('micVolume').value;
+        bgGain.gain.value = isBgMuted ? 0 : document.getElementById('bgVolume').value;
         masterGain.gain.value = document.getElementById('masterVolume').value;
-        
+
+        // تحديث إعدادات الصدى
         delayNode.delayTime.value = document.getElementById('echoDelay').value;
         feedbackGain.gain.value = document.getElementById('echoFeedback').value;
         echoMixGain.gain.value = document.getElementById('echoLevel').value;
-        
-        filterNode.frequency.value = document.getElementById('noiseFilter').value;
+
+        // تحديث الاكولايزر ثلاثي الحزم
+        eqBassNode.gain.value = document.getElementById('eqBass').value;
+        eqMidNode.gain.value = document.getElementById('eqMid').value;
+        eqTrebleNode.gain.value = document.getElementById('eqTreble').value;
+
+        // قفل تنقية الضوضاء الحاد
+        noiseFilterNode.frequency.value = document.getElementById('noiseFilter').value;
+
+        // تحديث الأرقام المعروضة على الواجهة
+        document.getElementById('micVolVal').textContent = Math.round(document.getElementById('micVolume').value * 100) + "%";
+        document.getElementById('bgVolVal').textContent = Math.round(document.getElementById('bgVolume').value * 100) + "%";
+        document.getElementById('masterVolVal').textContent = Math.round(document.getElementById('masterVolume').value * 100) + "%";
+        document.getElementById('delayVal').textContent = document.getElementById('echoDelay').value + "s";
+        document.getElementById('feedbackVal').textContent = Math.round(document.getElementById('echoFeedback').value * 100) + "%";
+        document.getElementById('mixVal').textContent = Math.round(document.getElementById('echoLevel').value * 100) + "%";
+        document.getElementById('bassVal').textContent = document.getElementById('eqBass').value + " dB";
+        document.getElementById('midVal').textContent = document.getElementById('eqMid').value + " dB";
+        document.getElementById('trebleVal').textContent = document.getElementById('eqTreble').value + " dB";
     }
 
-    // تفعيل المايك والربط مع تأثير الصدى والفلاتر
-    micToggleBtn.addEventListener('click', async () => {
+    // زر تشغيل وإغلاق المايكروفون بالكامل
+    document.getElementById('micToggleBtn').addEventListener('click', async () => {
         initAudio();
-        if (audioCtx.state === 'suspended') {
-            await audioCtx.resume();
-        }
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
 
         if (!micStream) {
             try {
-                micStream = await navigator.mediaDevices.getUserMedia({ 
-                    audio: {
-                        echoCancellation: false, // نغلق إلغاء الصدى التلقائي للمتصفح لنصنع الصدى الخاص بنا
-                        noiseSuppression: true,
-                        autoGainControl: false
-                    } 
+                micStream = await navigator.mediaDevices.getUserMedia({
+                    audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
                 });
-                
                 micSource = audioCtx.createMediaStreamSource(micStream);
                 
-                // ربط المايك بالفلتر ثم الجين الرئيسي
-                micSource.connect(filterNode);
-                filterNode.connect(micGain);
-                
-                // ربط المايك بمسار الصدى ومسار الصوت المباشر (Dry/Wet)
-                micGain.connect(masterGain); // الصوت المباشر
-                micGain.connect(delayNode);  // إلى وحدة الصدى
-                delayNode.connect(echoMixGain);
-                echoMixGain.connect(masterGain); // ربط خرج الصدى بالماستر
+                // تمرير المايك أولاً عبر فلتر قطع الذبذبات المنخفضة والضوضاء
+                micSource.connect(lowCutFilterNode);
+                lowCutFilterNode.connect(noiseFilterNode);
+                noiseFilterNode.connect(micGain);
 
-                micToggleBtn.textContent = "إيقاف الميكروفون";
-                micToggleBtn.classList.add('active');
+                document.getElementById('micToggleBtn').textContent = "إيقاف المايك";
+                document.getElementById('micToggleBtn').classList.add('active');
             } catch (err) {
-                alert('يرجى السماح بالوصول للميكروفون: ' + err);
+                alert("تعذر تشغيل المايك الصوتي: " + err);
             }
         } else {
-            micStream.getTracks().forEach(track => track.stop());
+            micStream.getTracks().forEach(t => t.stop());
             micStream = null;
-            micToggleBtn.textContent = "تفعيل الميكروفون";
-            micToggleBtn.classList.remove('active');
+            document.getElementById('micToggleBtn').textContent = "تشغيل المايك";
+            document.getElementById('micToggleBtn').classList.remove('active');
         }
     });
 
-    // التعامل مع ملف الصوت الخلفي
-    audioFileInput.addEventListener('change', (e) => {
+    // التحكم بفلتر القطع المنخفض لحماية الترددات الصفرية والوميض
+    document.getElementById('lowCutBtn').addEventListener('click', () => {
+        initAudio();
+        isLowCutActive = !isLowCutActive;
+        if (isLowCutActive) {
+            lowCutFilterNode.frequency.setValueAtTime(80, audioCtx.currentTime); // بتر أي صوت تحت الـ 80 هرتز
+            document.getElementById('lowCutBtn').textContent = "فلتر حماية $80\text{ Hz}$ (مـفـعـل)";
+            document.getElementById('lowCutBtn').classList.add('active');
+        } else {
+            lowCutFilterNode.frequency.setValueAtTime(20, audioCtx.currentTime);
+            document.getElementById('lowCutBtn').textContent = "فلتر حماية $80\text{ Hz}$ (مغلق)";
+            document.getElementById('lowCutBtn').classList.remove('active');
+        }
+    });
+
+    // أزرار الكتم الفوري (Mute Buttons)
+    document.getElementById('micMuteBtn').addEventListener('click', () => {
+        isMicMuted = !isMicMuted;
+        document.getElementById('micMuteBtn').classList.toggle('active-mute', isMicMuted);
+        updateParams();
+    });
+
+    document.getElementById('bgMuteBtn').addEventListener('click', () => {
+        isBgMuted = !isBgMuted;
+        document.getElementById('bgMuteBtn').classList.toggle('active-mute', isBgMuted);
+        updateParams();
+    });
+
+    // إدراج وتشغيل ملفات الصوت
+    const bgAudio = document.getElementById('bgAudio');
+    document.getElementById('audioFile').addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if (file) {
+        if(file) {
             bgAudio.src = URL.createObjectURL(file);
-            playAudioBtn.disabled = false;
+            document.getElementById('playAudioBtn').disabled = false;
         }
     });
 
-    playAudioBtn.addEventListener('click', () => {
+    document.getElementById('playAudioBtn').addEventListener('click', () => {
         initAudio();
         if (bgAudio.paused) {
             bgAudio.play();
-            playAudioBtn.textContent = "إيقاف مؤقت للخلفية";
-            playAudioBtn.classList.add('active');
+            document.getElementById('playAudioBtn').textContent = "إيقاف مؤقت";
+            document.getElementById('playAudioBtn').classList.add('active');
         } else {
             bgAudio.pause();
-            playAudioBtn.textContent = "تشغيل الخلفية";
-            playAudioBtn.classList.remove('active');
+            document.getElementById('playAudioBtn').textContent = "تشغيل";
+            document.getElementById('playAudioBtn').classList.remove('active');
         }
     });
 
-    // تحديث الإعدادات فور تحريك البكرات والمنزلقات
+    // الاستماع لحركة منزلقات التحكم وتحديث القيم فوراً
     document.querySelectorAll('input[type="range"]').forEach(input => {
-        input.addEventListener('input', updateParameters);
+        input.addEventListener('input', updateParams);
     });
 
-    // تحديث ورسم مؤشر الصوت الـ VU Meter
-    function drawMeter() {
-        requestAnimationFrame(drawMeter);
-        if (!analyzerNode) return;
-        
-        const array = new Uint8Array(analyzerNode.frequencyBinCount);
-        analyzerNode.getByteFrequencyData(array);
-        
-        let values = 0;
-        const length = array.length;
-        for (let i = 0; i < length; i++) {
-            values += array[i];
+    // رسم رادار الذبذبات المتقدم (Frequency Spectrum Visualizer) بالـ Canvas
+    function drawSpectrum() {
+        requestAnimationFrame(drawSpectrum);
+        if(!analyzerNode) return;
+
+        const bufferLength = analyzerNode.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        analyzerNode.getByteFrequencyData(dataArray);
+
+        // إعادة ضبط حجم الكانفاس ليتطابق مع الشاشة
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+        canvasCtx.fillStyle = '#090d16';
+        canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = (canvas.width / bufferLength) * 1.5;
+        let barHeight;
+        let x = 0;
+
+        for(let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] / 1.5;
+
+            // تدرج الألوان للشاشات الرقمية (من الأزرق إلى الأخضر الفوسفوري)
+            canvasCtx.fillStyle = `rgb(${barHeight + 50}, ${i * 4}, 255)`;
+            canvasCtx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
+
+            x += barWidth;
         }
-        
-        const average = values / length;
-        // تحويل النسبة لشكل مرئي
-        vuMeter.style.width = Math.min(100, (average * 1.8)) + '%';
     }
 </script>
-
 </body>
 </html>
