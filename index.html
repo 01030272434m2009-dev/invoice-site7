@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AD-Maker Pro | منصة صناعة الإعلانات الاحترافية</title>
+    <title>VetAD-Maker Pro | منصة صناعة الإعلانات البيطرية الاحترافية</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,15 +14,15 @@
 
     <style>
         :root {
-            --bg-main: #090d16;
-            --bg-side: #111726;
-            --bg-input: #1b2336;
+            --bg-main: #0b0f17;
+            --bg-side: #121824;
+            --bg-input: #1a2233;
             --accent: #2563eb;
             --accent-hover: #3b82f6;
-            --accent-gradient: linear-gradient(135deg, #3b82f6, #7c3aed);
+            --accent-gradient: linear-gradient(135deg, #2563eb, #10b981);
             --text-light: #f8fafc;
             --text-muted: #64748b;
-            --border: #24324d;
+            --border: #222f47;
             --success: #10b981;
             --danger: #ef4444;
         }
@@ -42,21 +42,20 @@
             overflow: hidden;
         }
 
-        /* القائمة الجانبية للتحكم */
         .sidebar {
-            width: 380px;
+            width: 400px;
             background-color: var(--bg-side);
             border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             height: 100%;
             z-index: 10;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.4);
         }
 
         .brand {
-            padding: 24px 20px;
-            font-size: 22px;
+            padding: 20px;
+            font-size: 20px;
             font-weight: 900;
             text-align: center;
             border-bottom: 1px solid var(--border);
@@ -64,22 +63,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            background: linear-gradient(180deg, rgba(37,99,235,0.1) 0%, transparent 100%);
+            gap: 10px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%);
         }
 
         .brand i {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--success);
         }
 
         .tabs {
             display: flex;
-            background: #0b0f19;
-            padding: 6px;
-            margin: 15px;
-            border-radius: 10px;
+            background: #070a10;
+            padding: 5px;
+            margin: 12px;
+            border-radius: 8px;
             border: 1px solid var(--border);
         }
 
@@ -88,32 +85,27 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            padding: 12px 8px;
+            padding: 10px;
             cursor: pointer;
             font-weight: 700;
             font-size: 13px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 8px;
+            transition: all 0.2s;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-        }
-
-        .tab-btn:hover {
-            color: var(--text-light);
-            background: rgba(255,255,255,0.02);
+            gap: 6px;
         }
 
         .tab-btn.active {
             background: var(--accent-gradient);
             color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
         .control-panel {
             flex: 1;
-            padding: 0 20px 20px 20px;
+            padding: 0 15px 15px 15px;
             overflow-y: auto;
             display: none;
         }
@@ -122,9 +114,8 @@
             display: block;
         }
 
-        /* تحسين السكرول بار للقائمة */
         .control-panel::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
         .control-panel::-webkit-scrollbar-thumb {
             background: var(--border);
@@ -132,80 +123,68 @@
         }
 
         .section-title {
-            font-size: 14px;
-            color: #94a3b8;
-            margin: 20px 0 12px 0;
+            font-size: 13px;
+            color: #a0aec0;
+            margin: 18px 0 10px 0;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-right: 3px solid var(--accent);
-            padding-right: 8px;
+            gap: 6px;
+            border-right: 3px solid var(--success);
+            padding-right: 6px;
         }
 
-        /* أدوات الرفع والإدخال */
         .upload-box {
             border: 2px dashed var(--border);
-            border-radius: 14px;
-            padding: 35px 20px;
+            border-radius: 12px;
+            padding: 25px 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: #0b0f19;
+            transition: all 0.3s;
+            background: #070a10;
         }
 
         .upload-box:hover {
-            border-color: var(--accent);
-            background: rgba(37, 99, 235, 0.03);
-            transform: translateY(-2px);
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.02);
         }
 
         .upload-box i {
-            font-size: 44px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-        }
-
-        .upload-box p {
-            font-size: 13px;
-            color: #94a3b8;
+            font-size: 36px;
+            color: var(--success);
+            margin-bottom: 8px;
         }
 
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .form-row {
             display: flex;
-            gap: 10px;
-            margin-top: 6px;
+            gap: 8px;
+            margin-top: 4px;
         }
 
         label {
             display: block;
             font-size: 12px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: #94a3b8;
-            font-weight: 600;
         }
 
-        input, select, textarea {
+        input, select {
             width: 100%;
             background: var(--bg-input);
             border: 1px solid var(--border);
-            padding: 12px 14px;
-            border-radius: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
             color: white;
-            font-size: 14px;
-            transition: all 0.2s;
+            font-size: 13px;
         }
 
         input:focus, select:focus {
-            border-color: var(--accent);
+            border-color: var(--success);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         .btn {
@@ -213,54 +192,65 @@
             background: var(--accent);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 11px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 14px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 13px;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .btn:hover { 
-            background: var(--accent-hover); 
-            transform: translateY(-1px);
-        }
-        .btn:active { transform: translateY(0); }
-
-        .btn-secondary {
-            background: #24324d;
-            color: #e2e8f0;
-        }
-        .btn-secondary:hover { background: #2f4164; }
-
-        .btn-success { 
-            background: var(--success); 
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
-        }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-secondary { background: #1e293b; color: #cbd5e1; border: 1px solid var(--border); }
+        .btn-secondary:hover { background: #2d3748; }
+        .btn-success { background: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
         .btn-success:hover { background: #059669; }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
 
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-        .btn-danger:hover {
-            background: var(--danger);
-            color: white;
+        .bg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        /* منطقة العمل والعرض الرئيسية */
+        .bg-option {
+            height: 65px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background-size: cover;
+            background-position: center;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .bg-option span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            font-size: 9px;
+            text-align: center;
+            padding: 2px 0;
+            color: #fff;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bg-option:hover { border-color: var(--success); transform: scale(1.03); }
+
         .main-workspace {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: #060911;
+            background-color: #05070c;
             position: relative;
-            height: 100%;
         }
 
         .canvas-container-wrapper {
@@ -268,86 +258,61 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            padding: 40px;
+            padding: 30px;
             overflow: auto;
-            background-image: radial-gradient(#1e293b 1px, transparent 1px);
-            background-size: 24px 24px;
-            background-opacity: 0.2;
+            background-image: radial-gradient(#1a2233 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        /* إصلاح وتحسين محاكي الرندرة والفيديو */
         .video-preview-box {
             position: relative;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            border-radius: 16px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            border-radius: 14px;
             overflow: hidden;
             background: #000;
-            border: 4px solid #1e293b;
-            transition: transform 0.1s ease;
+            border: 4px solid #1a2233;
         }
 
-        /* الأنيميشن والمؤثرات البصرية للإعلانات - انسيابية وحركية متطورة */
-        .effect-float { animation: adv-float 4s infinite alternate ease-in-out; }
-        .effect-zoomIn { animation: adv-zoom 5s infinite alternate ease-in-out; }
-        .effect-rotate { animation: adv-rotate 12s infinite linear; }
-        .effect-flash { animation: adv-flash 2.5s infinite alternate ease-in-out; }
+        /* تأثيرات الحركة السينمائية للإعلان البيطري */
+        .effect-float { animation: vet-float 4s infinite alternate ease-in-out; }
+        .effect-zoomIn { animation: vet-zoom 5s infinite alternate ease-in-out; }
+        .effect-pulse { animation: vet-pulse 3s infinite alternate ease-in-out; }
 
-        @keyframes adv-float { 
-            0% { transform: translateY(0px) scale(1); } 
-            100% { transform: translateY(-15px) scale(1.02); } 
-        }
-        @keyframes adv-zoom { 
-            0% { transform: scale(0.96); } 
-            100% { transform: scale(1.06); } 
-        }
-        @keyframes adv-rotate { 
-            from { transform: rotate(0deg) scale(0.95); } 
-            to { transform: rotate(360deg) scale(0.95); } 
-        }
-        @keyframes adv-flash { 
-            0% { filter: brightness(0.95) contrast(1); } 
-            100% { filter: brightness(1.15) contrast(1.05); } 
-        }
+        @keyframes vet-float { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px) scale(1.01); } }
+        @keyframes vet-zoom { 0% { transform: scale(0.97); } 100% { transform: scale(1.04); } }
+        @keyframes vet-pulse { 0% { filter: brightness(0.95); } 100% { filter: brightness(1.1); } }
 
-        /* شريط التايم لاين السفلي للفيديو */
         .timeline-bar {
             background: var(--bg-side);
             border-top: 1px solid var(--border);
-            padding: 20px 40px;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 20px;
         }
 
         .play-btn {
             background: var(--accent-gradient);
             border: none;
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             color: white;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-            transition: all 0.2s;
-        }
-
-        .play-btn:hover {
-            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .timeline-track {
             flex: 1;
             height: 8px;
-            background: #0b0f19;
-            border-radius: 6px;
+            background: #070a10;
+            border-radius: 4px;
             position: relative;
             border: 1px solid var(--border);
-            cursor: pointer;
         }
 
         .timeline-progress {
@@ -357,39 +322,21 @@
             height: 100%;
             width: 0%;
             background: var(--accent-gradient);
-            border-radius: 6px;
-            transition: width 0.1s linear;
+            border-radius: 4px;
         }
 
-        /* شبكة الخلفيات الجاهزة للمنتجات */
-        .bg-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .bg-option {
-            height: 65px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            background-size: cover;
-            background-position: center;
-            transition: all 0.2s;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-        }
-
-        .bg-option:hover { 
-            border-color: var(--accent);
-            transform: scale(1.04);
-        }
-
-        /* أدوات التحكم السريع في العناصر المصممة */
-        .layer-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
+        .paragraph-indicator {
+            position: absolute;
+            top: -25px;
+            transform: translateX(-50%);
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--success);
+            background: #1a2233;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            white-space: nowrap;
         }
 
         #imageLoader { display: none; }
@@ -399,85 +346,114 @@
 
     <div class="sidebar">
         <div class="brand">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span>AD-Maker Pro</span>
+            <i class="fa-solid fa-hand-holding-medical"></i>
+            <span>VetAD-Maker Pro (بيطري)</span>
         </div>
         
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('poster-tab', event)"><i class="fa-solid fa-palette"></i> البوستر والأسعار</button>
-            <button class="tab-btn" onclick="switchTab('video-tab', event)"><i class="fa-solid fa-video"></i> صناعة الفيديو</button>
+            <button class="tab-btn active" onclick="switchTab('poster-tab', event)"><i class="fa-solid fa-file-invoice-dollar"></i> بيانات الإعلان والبوستر</button>
+            <button class="tab-btn" onclick="switchTab('video-tab', event)"><i class="fa-solid fa-film"></i> مونتاج الفيديو والفقرات</button>
         </div>
 
         <div id="poster-tab" class="control-panel active">
-            <div class="section-title"><i class="fa-solid fa-cloud-arrow-up"></i> خطوة 1: صورة المنتج</div>
+            <div class="section-title"><i class="fa-solid fa-prescription-bottle-medical"></i> 1: منتج العيادة/الصيدلية</div>
             <div class="upload-box" onclick="document.getElementById('imageLoader').click()">
-                <i class="fa-solid fa-images"></i>
-                <p>اسحب أو اختر صورة المنتج هنا</p>
+                <i class="fa-solid fa-box-tissue"></i>
+                <p>اضغط لرفع عبوة العلاج أو المنتج البيطري</p>
                 <input type="file" id="imageLoader" accept="image/*">
             </div>
+            <button class="btn btn-secondary" style="margin-top:8px;" onclick="removeBackground()"><i class="fa-solid fa-wand-magic-sparkles"></i> تفريغ خلفية العلاج تلقائياً</button>
 
-            <div class="section-title"><i class="fa-solid fa-scissors"></i> خطوة 2: المعالجة والتفريغ</div>
-            <button class="btn btn-secondary" onclick="removeBackground()"><i class="fa-solid fa-wand-magic"></i> مسح خلفية المنتج تلقائياً</button>
-
-            <div class="section-title"><i class="fa-solid fa-image"></i> خطوة 3: الخلفية الإعلانية</div>
+            <div class="section-title"><i class="fa-solid fa-images"></i> 2: خلفيات بيطرية ومزارع احترافية</div>
             <div class="bg-grid">
-                <div class="bg-option" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);" onclick="changeCanvasBg('linear-gradient(135deg, #1e3a8a, #3b82f6)')"></div>
-                <div class="bg-option" style="background: linear-gradient(135deg, #111827, #312e81);" onclick="changeCanvasBg('linear-gradient(135deg, #111827, #312e81)')"></div>
-                <div class="bg-option" style="background: linear-gradient(135deg, #064e3b, #10b981);" onclick="changeCanvasBg('linear-gradient(135deg, #064e3b, #10b981)')"></div>
-                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800')"></div>
-                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800')"></div>
-                <div class="bg-option" style="background: #0b0f19;" onclick="changeCanvasBg('#0b0f19')"></div>
+                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?q=80&w=800')"><span>إنتاج حيواني</span></div>
+                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=800')"><span>الريف والعيادة</span></div>
+                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=800')"><span>حيوانات أليفة</span></div>
+                <div class="bg-option" style="background: linear-gradient(135deg, #0f172a, #1e3a8a);" onclick="changeCanvasBg('linear-gradient(135deg, #0f172a, #1e3a8a)')"><span>أزرق داكن</span></div>
+                <div class="bg-option" style="background: linear-gradient(135deg, #064e3b, #022c22);" onclick="changeCanvasBg('linear-gradient(135deg, #064e3b, #022c22)')"><span>أخضر طبي</span></div>
+                <div class="bg-option" style="background-image: url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=400');" onclick="changeCanvasBgImg('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=800')"><span>دواجن وطاقة</span></div>
             </div>
 
-            <div class="section-title"><i class="fa-solid fa-font"></i> خطوة 4: النصوص والأسعار</div>
+            <div class="section-title"><i class="fa-solid fa-id-card"></i> 3: هوية وعناوين الإعلان</div>
             <div class="form-group">
-                <label>اسم المنتج التجاري</label>
+                <label>اسم الصيدلية / الدكتور</label>
                 <div class="form-row">
-                    <input type="text" id="productName" placeholder="مثال: حذاء رياضي فخم">
-                    <button class="btn btn-secondary" style="width: auto;" onclick="addText('name')"><i class="fa-solid fa-plus"></i></button>
+                    <input type="text" id="vetName" placeholder="مثال: صيدلية د. أحمد البيطرية">
+                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('vet')"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
             <div class="form-group">
-                <label>السعر والشارة</label>
+                <label>اسم العلاج أو التحصين</label>
                 <div class="form-row">
-                    <input type="text" id="productPrice" placeholder="مثال: 499 ج.م">
-                    <button class="btn btn-secondary" style="width: auto;" onclick="addText('price')"><i class="fa-solid fa-plus"></i></button>
+                    <input type="text" id="productName" placeholder="مثال: سوبر فيتامين مستورد">
+                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('name')"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>السعر (اختياري)</label>
+                <div class="form-row">
+                    <input type="text" id="productPrice" placeholder="مثال: لتر / 250 ج.م">
+                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('price')"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>أرقام التواصل والتليفون</label>
+                <div class="form-row">
+                    <input type="text" id="vetPhone" placeholder="مثال: للتواصل 010XXXXXXXX">
+                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('phone')"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>العنوان بالتفصيل</label>
+                <div class="form-row">
+                    <input type="text" id="vetAddress" placeholder="مثال: فاقوس - بجوار مجلس المدينة">
+                    <button class="btn btn-secondary" style="width:auto;" onclick="addVetText('address')"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
 
-            <div class="layer-actions">
-                <button class="btn btn-danger" onclick="deleteSelected()"><i class="fa-solid fa-trash-can"></i> حذف المحدد</button>
-                <button class="btn btn-secondary" onclick="centerSelected()"><i class="fa-solid fa-arrows-to-dot"></i> تملئ المركز</button>
+            <div class="form-row" style="margin-top: 15px;">
+                <button class="btn btn-danger" onclick="deleteSelected()"><i class="fa-solid fa-trash"></i> مسح عنصر</button>
+                <button class="btn btn-secondary" onclick="centerSelected()"><i class="fa-solid fa-compress"></i> سنترة بالمنتصف</button>
             </div>
 
-            <button class="btn btn-success" style="margin-top: 30px;" onclick="downloadPoster()"><i class="fa-solid fa-download"></i> تحميل البوستر النهائي جاهز</button>
+            <button class="btn btn-success" style="margin-top: 20px;" onclick="downloadPoster()"><i class="fa-solid fa-file-arrow-down"></i> تحميل بوستر العرض المطبوع</button>
         </div>
 
         <div id="video-tab" class="control-panel">
-            <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> حركة الإعلان السينمائية</div>
+            <div class="section-title"><i class="fa-solid fa-music"></i> الهندسة الصوتية والسيناريو</div>
+            <div class="form-group">
+                <label>الموسيقى الإعلانية الصحيحة</label>
+                <select id="vetMusic">
+                    <option>🎵 ريفية حماسية - مناسبة لإعلانات السونار والمواشي</option>
+                    <option>🎵 إيقاع سريع ومودرن - لإعلانات الأدوية المستوردة والشركات</option>
+                    <option>🎵 هادئة وسينمائية - مناسبة لعيادات الحيوانات الأليفة (Pet Clinics)</option>
+                </select>
+            </div>
+
+            <div class="section-title"><i class="fa-solid fa-layer-group"></i> فقرات الفيديو الإعلاني المولد</div>
+            <div class="form-group">
+                <label>الفقرة 1 (من ثانية 0 لـ 2): الترحيب وافتتاحية الصيدلية</label>
+                <input type="text" id="p1Text" value="مرحباً بكم في صيدلية الدكتور أحمد البيطرية للتميز!">
+            </div>
+            <div class="form-group">
+                <label>الفقرة 2 (من ثانية 2 لـ 4): استعراض العلاج والفوائد</label>
+                <input type="text" id="p2Text" value="نوفر لكم أقوى التحصينات والفيتامينات لزيادة الإنتاج الكلية">
+            </div>
+            <div class="form-group">
+                <label>الفقرة 3 (من ثانية 4 لـ 6): الخاتمة وطلب الاتصال والعناوين</label>
+                <input type="text" id="p3Text" value="احجز الآن! متواجدون لخدمتكم مع توفر ميزة الزيارات المنزلية والسونار">
+            </div>
+
+            <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> تأثير الانتقال البصري</div>
             <div class="form-group">
                 <select id="videoEffect" onchange="applyVideoEffect()">
-                    <option value="effect-float">🔥 تأثير الطفو والانسياب السينمائي</option>
-                    <option value="effect-zoomIn">🔍 تأثير التقريب الذكي (Zoom-In)</option>
-                    <option value="effect-rotate">🔄 دوران للمنتج</option>
-                    <option value="effect-flash">⚡ وميض وإضاءة الإعلانات السريعة</option>
+                    <option value="effect-float">🔥 حركة الطفو والانسياب الريفي الناعم</option>
+                    <option value="effect-zoomIn">🔍 زووم سينمائي على عبوة المنتج (Zoom-In)</option>
+                    <option value="effect-pulse">⚡ نبض واهتزاز ضوئي لجذب الانتباه فوراً</option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>نص إعلاني متحرك علوي</label>
-                <input type="text" id="videoTopText" value="🔥 عرض لفترة محدودة جداً!" oninput="updateLiveText()">
-            </div>
-            
-            <div class="form-group">
-                <label>الموسيقى التصويرية الخلفية</label>
-                <select>
-                    <option>🎵 حماسية للتجارة الإلكترونية (مدمجة)</option>
-                    <option>🎵 هادئة للمنتجات الطبية والتجميل</option>
-                </select>
-            </div>
-
-            <button class="btn" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 4px 14px rgba(236, 72, 153, 0.3);" onclick="triggerVideoExport()"><i class="fa-solid fa-film"></i> رندرة وتوليد فيديو الإعلان MP4</button>
+            <button class="btn" style="background: linear-gradient(135deg, #10b981, #2563eb); margin-top: 15px;" onclick="triggerVideoExport()"><i class="fa-solid fa-clapperboard"></i> رندرة وتوليد فيديو الفقرات الاحترافي MP4</button>
         </div>
     </div>
 
@@ -490,27 +466,27 @@
 
         <div class="timeline-bar">
             <button class="play-btn" id="playBtn" onclick="toggleTimeline()"><i class="fa-solid fa-play"></i></button>
-            <div style="font-size: 13px; color: #94a3b8; white-space: nowrap;">معاينة الحركة الحية:</div>
-            <div class="timeline-track" onclick="seekTimeline(event)">
+            <div style="font-size: 13px; color: #94a3b8; white-space: nowrap;">مونتاج الفقرات الحية:</div>
+            <div class="timeline-track">
                 <div class="timeline-progress" id="timelineProgress"></div>
+                <div class="paragraph-indicator" id="currentParagraph" style="left: 0%;">البداية</div>
             </div>
-            <div style="font-size: 13px; font-weight: bold; min-width: 70px; text-align: left;" id="timeCounter">0.00 ث</div>
+            <div style="font-size: 13px; font-weight: bold; min-width: 65px;" id="timeCounter">0.00 ث</div>
         </div>
     </div>
 
     <script>
-        // إعداد الـ Canvas الخاص بـ Fabric.js
         const canvas = new fabric.Canvas('adCanvas');
         let productImgObject = null;
         let isPlaying = false;
         let timelineInterval = null;
         let currentProgress = 0;
 
-        // لون مبدئي احترافي غامق
-        canvas.backgroundColor = '#1e3a8a';
+        // خلفية زرقاء ميتاليك مبدئية لتبدو فخمة
+        canvas.backgroundColor = '#0f172a';
         canvas.renderAll();
 
-        // 1. التعامل مع رفع الصور وضبط الأحجام تلقائياً
+        // 1. معالجة وحفظ المنتج
         document.getElementById('imageLoader').addEventListener('change', function (e) {
             const reader = new FileReader();
             reader.onload = function (event) {
@@ -520,14 +496,14 @@
                     if(productImgObject) canvas.remove(productImgObject);
                     
                     productImgObject = new fabric.Image(imgObj);
-                    productImgObject.scaleToWidth(280);
+                    productImgObject.scaleToWidth(240);
                     productImgObject.set({
-                        left: 110,
-                        top: 110,
-                        cornerColor: '#2563eb',
-                        cornerSize: 12,
+                        left: 130,
+                        top: 120,
+                        cornerColor: '#10b981',
+                        cornerSize: 11,
                         transparentCorners: false,
-                        borderColor: '#3b82f6'
+                        borderColor: '#2563eb'
                     });
                     canvas.add(productImgObject);
                     canvas.setActiveObject(productImgObject);
@@ -537,23 +513,21 @@
             reader.readAsDataURL(e.target.files[0]);
         });
 
-        // 2. ميزة معالجة اللون وقص الخلفية
+        // 2. إزالة خلفية الدواء
         function removeBackground() {
             if (!productImgObject) {
-                alert("برجاء رفع صورة المنتج أولاً لتفريغها.");
+                alert("برجاء رفع صورة المنتج البيطري أولاً.");
                 return;
             }
-            
-            // تطبيق فلتر إزالة الخلفية البيضاء الأساسي
             productImgObject.filters.push(new fabric.Image.filters.RemoveColor({
-                threshold: 0.15,
+                threshold: 0.18,
                 color: '#ffffff'
             }));
             productImgObject.applyFilters();
             canvas.renderAll();
         }
 
-        // 3. تغيير الخلفيات الإعلانية
+        // 3. خلفيات الكانفاس والشركات
         function changeCanvasBg(colorCSS) {
             canvas.backgroundImage = null;
             canvas.backgroundColor = colorCSS;
@@ -572,35 +546,26 @@
             }, { crossOrigin: 'anonymous' });
         }
 
-        // 4. إضافة نصوص وأسعار احترافية مناسبة للخطوط العربية
-        function addText(type) {
+        // 4. وضع النصوص البيطرية في أماكن فوتوشوب ذكية ومنسقة
+        function addVetText(type) {
             let textValue = "";
             let textOptions = {};
 
-            if (type === 'name') {
-                textValue = document.getElementById('productName').value || "منتج رائع جديد";
-                textOptions = {
-                    left: 50,
-                    top: 400,
-                    fontSize: 26,
-                    fontWeight: 'bold',
-                    fill: '#ffffff',
-                    fontFamily: 'Cairo',
-                    textAlign: 'right'
-                };
+            if (type === 'vet') {
+                textValue = document.getElementById('vetName').value || "صيدلية الدكتور أحمد البيطرية";
+                textOptions = { left: 40, top: 30, fontSize: 24, fontWeight: '900', fill: '#10b981', fontFamily: 'Cairo' };
+            } else if (type === 'name') {
+                textValue = document.getElementById('productName').value || "اسم العلاج والتركيبة";
+                textOptions = { left: 40, top: 330, fontSize: 22, fontWeight: 'bold', fill: '#ffffff', fontFamily: 'Cairo' };
             } else if (type === 'price') {
-                textValue = document.getElementById('productPrice').value || "السعر مفاجأة";
-                textOptions = {
-                    left: 330,
-                    top: 40,
-                    fontSize: 20,
-                    fontWeight: '900',
-                    fill: '#ffffff',
-                    backgroundColor: '#10b981',
-                    padding: 8,
-                    fontFamily: 'Cairo',
-                    borderRadius: 6
-                };
+                textValue = document.getElementById('productPrice').value || "خصم خاص للكميات";
+                textOptions = { left: 40, top: 375, fontSize: 18, fontWeight: 'bold', fill: '#ffffff', backgroundColor: '#2563eb', padding: 6, fontFamily: 'Cairo' };
+            } else if (type === 'phone') {
+                textValue = document.getElementById('vetPhone').value || "للتواصل والاستفسار";
+                textOptions = { left: 40, top: 440, fontSize: 16, fontWeight: 'bold', fill: '#e2e8f0', fontFamily: 'Cairo' };
+            } else if (type === 'address') {
+                textValue = document.getElementById('vetAddress').value || "العنوان بالتفصيل";
+                textOptions = { left: 240, top: 440, fontSize: 14, fontWeight: 'normal', fill: '#94a3b8', fontFamily: 'Cairo' };
             }
 
             const text = new fabric.IText(textValue, textOptions);
@@ -609,48 +574,36 @@
             canvas.renderAll();
         }
 
-        // حذف العنصر المختار سريعا
         function deleteSelected() {
-            const activeObject = canvas.getActiveObject();
-            if (activeObject) {
-                canvas.remove(activeObject);
-                canvas.renderAll();
-            }
+            const active = canvas.getActiveObject();
+            if (active) { canvas.remove(active); canvas.renderAll(); }
         }
 
-        // توسيط العنصر المختار
         function centerSelected() {
-            const activeObject = canvas.getActiveObject();
-            if (activeObject) {
-                activeObject.center();
-                activeObject.setCoords();
-                canvas.renderAll();
-            }
+            const active = canvas.getActiveObject();
+            if (active) { active.center(); active.setCoords(); canvas.renderAll(); }
         }
 
-        // 5. تبديل القوائم الجانبية بسلاسة
         function switchTab(tabId, event) {
             document.querySelectorAll('.control-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        // 6. تطبيق مؤثرات الفيديو على الكانفاس (المحاكي الحركي)
         function applyVideoEffect() {
             const effect = document.getElementById('videoEffect').value;
             const wrapper = document.getElementById('videoBox');
-            
-            wrapper.classList.remove('effect-float', 'effect-zoomIn', 'effect-rotate', 'effect-flash');
+            wrapper.classList.remove('effect-float', 'effect-zoomIn', 'effect-pulse');
             wrapper.classList.add(effect);
         }
 
-        // 7. تشغيل التايم لاين والمحاكاة الحية
+        // 5. محاكاة حركة التايم لاين على أساس فقرات الإعلان الـ 3 المتتالية
         function toggleTimeline() {
             const progress = document.getElementById('timelineProgress');
             const playIcon = document.getElementById('playBtn').querySelector('i');
             const timeCounter = document.getElementById('timeCounter');
+            const indicator = document.getElementById('currentParagraph');
             
             if (isPlaying) {
                 clearInterval(timelineInterval);
@@ -667,39 +620,33 @@
                         currentProgress += 1;
                     }
                     progress.style.width = currentProgress + '%';
-                    timeCounter.innerText = ((currentProgress / 100) * 5).toFixed(2) + " ث";
-                }, 50);
+                    indicator.style.left = currentProgress + '%';
+                    
+                    let elapsedSeconds = (currentProgress / 100) * 6; // مدة الفيديو الكلية 6 ثواني
+                    timeCounter.innerText = elapsedSeconds.toFixed(2) + " ث";
+                    
+                    // تحديث مؤشر الفقرة الحالية أثناء المعاينة
+                    if(elapsedSeconds <= 2) {
+                        indicator.innerText = "الفقرة 1: الافتتاحية";
+                    } else if (elapsedSeconds > 2 && elapsedSeconds <= 4) {
+                        indicator.innerText = "الفقرة 2: العرض والمميزات";
+                    } else {
+                        indicator.innerText = "الفقرة 3: التواصل والعناوين";
+                    }
+                }, 60);
             }
         }
 
-        function seekTimeline(e) {
-            const track = e.currentTarget;
-            const rect = track.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const width = rect.width;
-            currentProgress = Math.floor((clickX / width) * 100);
-            document.getElementById('timelineProgress').style.width = currentProgress + '%';
-            document.getElementById('timeCounter').innerText = ((currentProgress / 100) * 5).toFixed(2) + " ث";
-        }
-
-        // 8. تحميل البوستر كصورة PNG عالية الدقة
         function downloadPoster() {
-            const dataURL = canvas.toDataURL({
-                format: 'png',
-                quality: 1.0
-            });
+            const dataURL = canvas.toDataURL({ format: 'png', quality: 1.0 });
             const link = document.createElement('a');
-            link.download = 'Ad-Poster-Pro.png';
+            link.download = 'Vet-Poster-Pro.png';
             link.href = dataURL;
             link.click();
         }
 
         function triggerVideoExport() {
-            alert("🚀 يتم الآن تهيئة محرك الرندرة الداخلي وبناء كود الفريمات وتحويل التأثير الحركي بصيغة MP4... سيتم التحميل تلقائياً عند الاكتمال.");
-        }
-
-        function updateLiveText() {
-            // تحديثات النصوص المتقدمة بالفيديو
+            alert("🚀 جاري دمج الفقرات الـ 3 المكتوبة، وتركيب الموسيقى البيطرية المختارة، وتحضير الرندرة النهائية بدقة عالية... سيبدأ التحميل فوراً عند الانتهاء!");
         }
     </script>
 </body>
