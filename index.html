@@ -1,107 +1,202 @@
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
-import threading
-import yt_dlp
-import os
-
-class SnaptubePC:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("منصة التحميل الذكية للكمبيوتر (SnapTube PC)")
-        self.root.geometry("600x350")
-        self.root.configure(bg="#0f172a") # خلفية داكنة احترافية
-        
-        # ضبط اتجاه الواجهة والخطوط
-        self.font_main = ("Cairo", 12)
-        self.font_title = ("Cairo", 16, "bold")
-
-        # العنوان العلوي
-        title_lbl = tk.Label(root, text="محرك تحميل يوتيوب الاحترافي", font=self.font_title, fg="#f8fafc", bg="#0f172a")
-        title_lbl.pack(pady=20)
-
-        # حقل إدخال الرابط
-        input_frame = tk.Frame(root, bg="#0f172a")
-        input_frame.pack(pady=10, fill="x", px=40)
-        
-        lbl_url = tk.Label(input_frame, text="أدخل رابط الفيديو أو قائمة التشغيل (Playlist):", font=self.font_main, fg="#94a3b8", bg="#0f172a")
-        lbl_url.pack(anchor="e", pady=5)
-        
-        self.url_entry = tk.Entry(input_frame, font=("Arial", 11), bg="#1e293b", fg="#f8fafc", insertbackground="white", bd=0, relief="flat")
-        self.url_entry.pack(fill="x", ipady=12)
-
-        # شريط نسبة تقدم التحميل
-        self.progress_bar = ttk.Progressbar(root, orient="horizontal", length=400, mode="determinate")
-        self.progress_bar.pack(pady=20)
-        
-        self.status_lbl = tk.Label(root, text="جاهز لبدء التحميل...", font=("Cairo", 10), fg="#94a3b8", bg="#0f172a")
-        self.status_lbl.pack()
-
-        # زر التحميل المباشر
-        self.download_btn = tk.Button(root, text="ابدأ التحميل وحدد مسار الحفظ", font=self.font_main, bg="#3b82f6", fg="white", bd=0, relief="flat", activebackground="#2563eb", activeforeground="white", command=self.start_download_thread)
-        self.download_btn.pack(pady=15, ipady=8, ipadx=20)
-
-    def progress_hook(self, d):
-        """دالة تحديث شريط التقدم ونسبة التحميل في الخلفية"""
-        if d['status'] == 'downloading':
-            # استخراج النسبة المئوية للتحميل
-            total_bytes = d.get('total_bytes') or d.get('total_bytes_estimate') or 1
-            downloaded_bytes = d.get('downloaded_bytes', 0)
-            percentage = (downloaded_bytes / total_bytes) * 100
-            
-            # تحديث الواجهة بأمان
-            self.progress_bar['value'] = percentage
-            self.status_lbl.config(text=f"جاري التحميل في الخلفية: {percentage:.1f}% | السرعة: {d.get('_speed_str', '0B/s')}")
-            self.root.update_idletasks()
-            
-        elif d['status'] == 'finished':
-            self.status_lbl.config(text="✨ اكتمل تحميل الملف ويتم الآن الحفظ النهائي بجهازك...")
-
-    def download_process(self, url, save_path):
-        """المحرك الخلفي المسؤول عن الاتصال المباشر والتحميل الفعلي"""
-        ydl_opts = {
-            # تحميل أفضل جودة فيديو مدمجة مع الصوت مباشرة لتفادي التعقيدات
-            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-            'outtmpl': os.path.join(save_path, '%(title)s.%(ext)s'),
-            'progress_hooks': [self.progress_hook],
-            'noplaylist': False, # السماح بتحميل القوائم الكاملة تلقائياً
-        }
-        
-        try:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([url])
-            messagebox.showinfo("نجاح العملية", "✨ تم تحميل وفصل ودمج الملفات بنجاح وحفظها في المجلد المحدد!")
-            self.status_lbl.config(text="جاهز لبدء التحميل...")
-            self.progress_bar['value'] = 0
-        except Exception as e:
-            messagebox.showerror("خطأ في المحرك", f"تعذر التحميل، تأكد من اتصالك بالإنترنت ومن صحة الرابط.\nالخطأ: {str(e)}")
-            self.status_lbl.config(text="حدث خطأ أثناء المعالجة.")
-        finally:
-            self.download_btn.config(state="normal")
-
-    def start_download_thread(self):
-        url = self.url_entry.get().strip()
-        if not url:
-            messagebox.showwarning("تنبيه", "من فضلك ضع رابط يوتيوب أولاً!")
-            return
-
-        # تفتح نافذة نظام الويندوز الرسمية ليختار المستخدم مكان حفظ الملف بنفسه وبكل حرية
-        save_directory = filedialog.askdirectory(title="اختر المجلد الذي تريد حفظ الفيديوهات بداخله")
-        
-        if not save_directory:
-            return # إذا أغلق المستخدم النافذة بدون اختيار مجلد
-
-        self.download_btn.config(state="disabled")
-        self.status_lbl.config(text="جاري الاتصال المباشر بخوادم يوتيوب وفك التشفير...")
-        
-        # تشغيل دالة التحميل في مسار خلفي منفصل (Thread) لمنع تجمد الواجهة أثناء تنزيل الأحجام الكبيرة
-        threading.Thread(target=self.download_process, args=(url, save_directory), daemon=True).start()
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    # لتعديل مظهر شريط التقدم ليكون فلات وحديث
-    style = ttk.Style()
-    style.theme_use('default')
-    style.configure("Horizontal.TProgressbar", thickness=8, background="#10b981", trowcolor="#1e293b")
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة التحميل العالمية الاحترافية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     
-    app = SnaptubePC(root)
-    root.mainloop()
+    <style>
+        :root {
+            --bg-dark: #0b0f19;         /* Deep Night Blue */
+            --card-bg: #151d30;         /* Graphite */
+            --border-color: #242f4d;    /* Slate border */
+            --accent-primary: #2563eb;  /* Premium Blue */
+            --accent-hover: #3b82f6;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+            --success-glow: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.25s ease-in-out;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 45px 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 14.5px;
+            margin-bottom: 40px;
+        }
+
+        .input-box-wrapper {
+            margin-bottom: 30px;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid var(--border-color);
+            background: #090d16;
+            border-radius: 16px;
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+            text-align: left;
+            direction: ltr;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-hover);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }
+
+        .btn-premium {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-primary), #1d4ed8);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-premium:hover {
+            background: linear-gradient(135deg, var(--accent-hover), var(--accent-primary));
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* إطار دمج المحرك المستقر داخل الموقع */
+        .engine-frame-container {
+            display: none;
+            margin-top: 30px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #090d16;
+            padding: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 480px;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .status-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: #090d16;
+            border-radius: 16px;
+            border: 1px dashed var(--border-color);
+            display: none;
+            color: var(--success-glow);
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-card">
+        <h1>محرك المعالجة والتحميل الفوري للويب</h1>
+        <p class="subtitle">نظام هجين متطور فلات لتحميل الفيديوهات الكبيرة وقوائم التشغيل مباشرة إلى الكمبيوتر</p>
+
+        <div class="input-box-wrapper">
+            <label for="videoUrl">ضع رابط يوتيوب المراد تحميله:</label>
+            <input type="text" id="videoUrl" placeholder="قم بلصق رابط الفيديو أو الـ Playlist هنا..." autocomplete="off">
+        </div>
+
+        <button class="btn-premium" id="actionBtn" onclick="initiateWebEngine()">بدء المعالجة واستخراج روابط الحفظ</button>
+
+        <div class="status-panel" id="statusPanel">
+            ✨ تم الاتصال بمصفوفة فك التشفير بنجاح! اختر الجودة ومسار الحفظ من اللوحة بالأسفل:
+        </div>
+
+        <div class="engine-frame-container" id="engineFrameContainer">
+            <iframe id="downloadEngine" src=""></iframe>
+        </div>
+    </div>
+
+    <script {
+        function initiateWebEngine() {
+            const rawUrl = document.getElementById('videoUrl').value.trim();
+            const actionBtn = document.getElementById('actionBtn');
+            const statusPanel = document.getElementById('statusPanel');
+            const frameContainer = document.getElementById('engineFrameContainer');
+            const downloadEngine = document.getElementById('downloadEngine');
+
+            if (!rawUrl) {
+                alert('من فضلك ضع رابط صحيح أولاً!');
+                return;
+            }
+
+            actionBtn.disabled = true;
+            statusPanel.style.display = 'block';
+            
+            // استخدام نظام الاستدعاء الهجين المستقر للتحميل المباشر بجودات متعددة وصوت
+            // هذا المحرك مخصص للمطورين ليعمل داخل الـ iframe بأمان تامة وبدون مشاكل CORS
+            const targetUrl = encodeURIComponent(rawUrl);
+            downloadEngine.src = `https://twdown.onrender.com/api/widget?url=${targetUrl}`;
+
+            // بديل احترافي فوري في حال تعطل الخادم الأول
+            // downloadEngine.src = `https://loader.to/api/card/?url=${targetUrl}&f=mp4`;
+
+            setTimeout(() => {
+                frameContainer.style.display = 'block';
+                actionBtn.disabled = false;
+            }, 1000);
+        }
+    } </script>
+</body>
+</html>
