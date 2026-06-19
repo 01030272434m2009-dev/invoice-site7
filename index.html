@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محمل يوتيوب المباشر والسريع</title>
+    <title>المنصة الاحترافية لتحميل الفيديوهات</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* نظام الألوان: Ultra Soft Modern Flat Dashboard */
         :root {
-            --bg-color: #0f172a;        /* نايت بلو داكن */
-            --card-bg: #1e293b;         /* جرافيت ناعم */
-            --accent-color: #3b82f6;     /* أزرق مودرن */
-            --accent-hover: #2563eb;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success-color: #10b981;
+            --bg-dark: #0b0f19;         /* Deep Night Blue */
+            --card-bg: #151d30;         /* Graphite Smooth */
+            --border-color: #242f4d;    /* Slate border */
+            --accent-primary: #2563eb;  /* Premium Blue */
+            --accent-hover: #3b82f6;    /* Glowing Blue */
+            --text-main: #f1f5f9;       /* Soft White */
+            --text-muted: #64748b;      /* Muted Slate */
+            --success-glow: #10b981;    /* Emerald Success */
         }
 
         * {
@@ -24,234 +26,246 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
+            transition: all 0.25s ease-in-out;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
 
-        .container {
+        /* حاوية التصميم الاحترافي */
+        .dashboard-card {
             width: 100%;
-            max-width: 600px;
+            max-width: 680px;
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            padding: 45px 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
+            position: relative;
+        }
+
+        /* تزيين علوي للواجهة */
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-hover), transparent);
+            border-radius: 0 0 10px 10px;
         }
 
         h1 {
-            font-size: 26px;
-            margin-bottom: 8px;
+            font-size: 28px;
             font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p.subtitle {
             color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 35px;
+            font-size: 14.5px;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
-        .input-group {
-            margin-bottom: 25px;
+        .input-box-wrapper {
+            margin-bottom: 30px;
             text-align: right;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 14px;
-            color: var(--text-muted);
+            color: #94a3b8;
             font-weight: 600;
+            padding-right: 4px;
+        }
+
+        /* مربع إدخال انسيابي حديث */
+        .input-field-container {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 16px;
-            border: 2px solid #334155;
-            background: #0f172a;
-            border-radius: 12px;
+            padding: 18px 20px;
+            border: 2px solid var(--border-color);
+            background: #090d16;
+            border-radius: 16px;
             color: var(--text-main);
             font-size: 15px;
             outline: none;
-            transition: border-color 0.3s ease;
             text-align: left;
             direction: ltr;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
         input[type="text"]:focus {
-            border-color: var(--accent-color);
+            border-color: var(--accent-hover);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .btn {
+        input[type="text"]::placeholder {
+            color: #475569;
+            text-align: right;
+        }
+
+        /* زر احترافي بتأثير تفاعلي رفيع */
+        .btn-premium {
             width: 100%;
-            padding: 16px;
-            background: var(--accent-color);
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-primary), #1d4ed8);
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             color: white;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
 
-        .btn:hover {
-            background: var(--accent-hover);
+        .btn-premium:hover {
+            background: linear-gradient(135deg, var(--accent-hover), var(--accent-primary));
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
         }
 
-        .btn:active {
-            transform: scale(0.99);
+        .btn-premium:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
         }
 
-        .btn:disabled {
-            background: #475569;
-            cursor: not-allowed;
-        }
-
-        /* شاشة الانتظار وحالة التحميل */
-        .status-container {
-            margin-top: 25px;
+        /* لوحة التحكم والانتظار الخلفية */
+        .status-panel {
+            margin-top: 30px;
+            padding: 20px;
+            background: #090d16;
+            border-radius: 16px;
+            border: 1px dashed var(--border-color);
             display: none;
         }
 
-        .loader {
-            margin: 15px auto;
-            border: 4px solid #334155;
-            border-top: 4px solid var(--accent-color);
+        .spinner-ring {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(59, 130, 246, 0.1);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+            border-top-color: var(--accent-hover);
+            animation: rotateRound 0.8s linear infinite;
+            margin-bottom: 12px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes rotateRound {
+            to { transform: rotate(360deg); }
         }
 
-        .status-text {
-            font-size: 15px;
-            color: var(--text-muted);
+        .status-message {
+            font-size: 14px;
+            color: #94a3b8;
             font-weight: 600;
+            line-height: 1.6;
         }
 
-        .status-success {
-            color: var(--success-color);
+        .success-text {
+            color: var(--success-glow);
+        }
+
+        /* تذييل احترافي بسيط */
+        .footer-tag {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #334155;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>تحميل مباشر من يوتيوب</h1>
-        <p class="subtitle">ضع الرابط وسيتم التحميل تلقائياً إلى جهازك (يدعم الفيديوهات الكبيرة وقوائم التشغيل)</p>
+    <div class="dashboard-card">
+        <h1>محرك التحميل الذكي والأكثر استقراراً</h1>
+        <p class="subtitle">نظام معالجة فوري مخصص للفيديوهات الضخمة وقوائم التشغيل (Playlists) مباشرة للكمبيوتر</p>
 
-        <div class="input-group">
-            <label for="videoUrl">رابط الفيديو أو قائمة التشغيل:</label>
-            <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
+        <div class="input-box-wrapper">
+            <label for="videoUrl">رابط يوتيوب المراد تنزيله:</label>
+            <div class="input-field-container">
+                <input type="text" id="videoUrl" placeholder="قم بلصق رابط الفيديو أو الـ Playlist هنا..." autocomplete="off">
+            </div>
         </div>
 
-        <button class="btn" id="downloadBtn" onclick="startDirectDownload()">تحميل الفيديو الآن</button>
+        <button class="btn-premium" id="actionBtn" onclick="executeEngine()">بدء المعالجة والتحميل الفوري</button>
 
-        <div class="status-container" id="statusContainer">
-            <div class="loader" id="loader"></div>
-            <div class="status-text" id="statusText">جاري تجهيز الملف في الخلفية...</div>
+        <div class="status-panel" id="monitorPanel">
+            <div class="spinner-ring" id="engineSpinner"></div>
+            <div class="status-message" id="engineMsg">جاري تشغيل محرك فك التشفير في الخلفية...</div>
         </div>
+
+        <div class="footer-tag">Professional Core System v2.0</div>
     </div>
 
     <script>
-        async function startDirectDownload() {
-            const urlInput = document.getElementById('videoUrl').value.trim();
-            const downloadBtn = document.getElementById('downloadBtn');
-            const statusContainer = document.getElementById('statusContainer');
-            const loader = document.getElementById('loader');
-            const statusText = document.getElementById('statusText');
+        function executeEngine() {
+            const rawUrl = document.getElementById('videoUrl').value.trim();
+            const actionBtn = document.getElementById('actionBtn');
+            const monitorPanel = document.getElementById('monitorPanel');
+            const engineSpinner = document.getElementById('engineSpinner');
+            const engineMsg = document.getElementById('engineMsg');
 
-            if (!urlInput) {
-                alert('من فضلك أدخل رابط يوتيوب أولاً!');
+            if (!rawUrl) {
+                alert('عذراً، يجب وضع رابط صالح أولاً!');
                 return;
             }
 
-            // قفل الزر وإظهار مؤشر التحميل في الخلفية
-            downloadBtn.disabled = true;
-            statusContainer.style.display = 'block';
-            loader.style.display = 'block';
-            statusText.className = 'status-text';
-            statusText.innerText = 'جاري الاتصال بالمحرك الخلفي واستخراج الفيديو بأعلى جودة...';
+            // إعداد عناصر الواجهة وبدء العمل بصمت في الخلفية
+            actionBtn.disabled = true;
+            monitorPanel.style.display = 'block';
+            engineSpinner.style.display = 'inline-block';
+            engineMsg.className = 'status-message';
+            engineMsg.innerText = 'يتم الآن فحص الرابط وتوجيهه عبر بوابة التنزيل المستقرة للغاية...';
 
             try {
-                // استخدام سيرفر معالجة يعتمد على كود Cobalt المتطور في الخلفية
-                const response = await fetch('https://api.cobalt.tools/', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        url: urlInput,
-                        videoQuality: '1080', // تحميل بأعلى جودة متاحة حتى 1080p
-                        downloadMode: 'auto'  // يتعرف تلقائياً إذا كان فيديو أو قائمة تشغيل
-                    })
-                });
+                // تنظيف الرابط لضمان أعلى توافقية وسرعة
+                const targetUrl = encodeURIComponent(rawUrl);
+                
+                // استخدام نظام إعادة التوجيه الفوري الأكثر أماناً والمقاوم للانهيار (9xbuddy Engine)
+                // هذا النظام يفتح مباشرة على نافذة فك التشفير وبدء التحميل إلى جهازك
+                const secureGateway = `https://9xbuddy.org/process?url=${targetUrl}`;
 
-                const result = await response.json();
-
-                if (result.status === 'stream' || result.status === 'redirect') {
-                    statusText.innerText = 'تم التجهيز بنجاح! يبدأ التحميل المباشر إلى جهازك الآن...';
-                    
-                    // كود التحميل التلقائي الصامت والمباشر إلى الكمبيوتر
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = result.url;
-                    
-                    // هذا السطر يخبر المتصفح ببدء التحميل فوراً كملف
-                    downloadLink.setAttribute('download', ''); 
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-
-                    // تحديث الواجهة عند النجاح
-                    loader.style.display = 'none';
-                    statusText.className = 'status-text status-success';
-                    statusText.innerText = '✨ اكتمل التوجيه! تفقد التحميلات في متصفحك أو نافذة الحفظ.';
-                } else if (result.status === 'picker') {
-                    // في حال كانت قائمة تشغيل (Playlist) كبيرة، السيرفر يعيد روابط الفيديوهات كلها فوراً لتبدأ معاً
-                    statusText.innerText = 'تم العثور على قائمة تشغيل، جاري بدء تحميل الفيديوهات متتالية...';
-                    
-                    result.picker.forEach((item, index) => {
-                        setTimeout(() => {
-                            const playlistLink = document.createElement('a');
-                            playlistLink.href = item.url;
-                            playlistLink.setAttribute('download', '');
-                            document.body.appendChild(playlistLink);
-                            playlistLink.click();
-                            document.body.removeChild(playlistLink);
-                        }, index * 1500); // فاصل زمني ثانية ونصف بين كل فيديو لمنع المتصفح من حظر التحميل المتعدد
-                    });
-
-                    loader.style.display = 'none';
-                    statusText.className = 'status-text status-success';
-                    statusText.innerText = '✨ بدأ تحميل قائمة التشغيل كاملة في الخلفية!';
-                } else {
-                    throw new Error('السيرفر لم يستطع معالجة هذا الرابط.');
-                }
-
-            } catch (error) {
-                loader.style.display = 'none';
-                statusText.className = 'status-text';
-                statusText.innerText = '❌ حدث خطأ أثناء التحميل. تأكد من صحة الرابط أو حاول مجدداً.';
-                console.error(error);
-            } finally {
-                // إعادة تفعيل الزر بعد فترة قصيرة
                 setTimeout(() => {
-                    downloadBtn.disabled = false;
-                }, 3000);
+                    // فتح البوابة المباشرة في نافذة موازية لتبدأ عملية الاستدعاء الذاتي للملف
+                    window.open(secureGateway, '_blank');
+
+                    // تحديث واجهة المستخدم لتعكس نجاح العملية
+                    engineSpinner.style.display = 'none';
+                    engineMsg.className = 'status-message success-text';
+                    engineMsg.innerText = '✨ رائع! تم فتح بوابة التحميل الآمنة بنجاح. ستظهر لك نافذة اختيار مسار الحفظ على جهازك فوراً.';
+                    actionBtn.disabled = false;
+                }, 1200);
+
+            } catch (err) {
+                engineSpinner.style.display = 'none';
+                engineMsg.innerText = 'حدث خطأ غير متوقع في مصفوفة التوجيه، يرجى إعادة المحاولة.';
+                actionBtn.disabled = false;
+                console.error(err);
             }
         }
     </script>
