@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محمل فيديوهات يوتيوب الذكي</title>
+    <title>محمل يوتيوب المباشر والسريع</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-color: #0f172a;        /* نايت بلو داكن */
-            --card-bg: #1e293b;         /* جرافيت ناعم للمحتوى */
+            --card-bg: #1e293b;         /* جرافيت ناعم */
             --accent-color: #3b82f6;     /* أزرق مودرن */
             --accent-hover: #2563eb;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --success-color: #10b981;
-            --error-color: #ef4444;
         }
 
         * {
@@ -39,49 +38,50 @@
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             background: var(--card-bg);
-            padding: 35px;
+            padding: 40px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             text-align: center;
         }
 
         h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 26px;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         p.subtitle {
             color: var(--text-muted);
             font-size: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: right;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 14px;
             color: var(--text-muted);
+            font-weight: 600;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: 2px solid #334155;
             background: #0f172a;
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text-main);
             font-size: 15px;
             outline: none;
             transition: border-color 0.3s ease;
-            text-align: left; /* لسهولة قراءة الروابط الإنجليزية */
+            text-align: left;
             direction: ltr;
         }
 
@@ -91,15 +91,15 @@
 
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: var(--accent-color);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s ease, transform 0.1s ease;
+            transition: background 0.2s, transform 0.1s;
         }
 
         .btn:hover {
@@ -107,61 +107,27 @@
         }
 
         .btn:active {
-            transform: scale(0.98);
+            transform: scale(0.99);
         }
 
-        /* قسم عرض النتائج */
-        .result-box {
-            margin-top: 30px;
-            padding: 20px;
-            background: #0f172a;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            display: none; /* مخفي افتراضياً */
-            text-align: right;
+        .btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
         }
 
-        .video-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            line-height: 1.5;
-        }
-
-        .download-links {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .dl-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            background: #334155;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .dl-link:hover {
-            background: var(--success-color);
-        }
-
-        /* شاشة التحميل المنتظرة */
-        .loader {
+        /* شاشة الانتظار وحالة التحميل */
+        .status-container {
+            margin-top: 25px;
             display: none;
-            margin: 20px auto;
+        }
+
+        .loader {
+            margin: 15px auto;
             border: 4px solid #334155;
             border-top: 4px solid var(--accent-color);
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
         }
 
@@ -170,110 +136,122 @@
             100% { transform: rotate(360deg); }
         }
 
-        .status-msg {
-            font-size: 14px;
-            margin-top: 10px;
+        .status-text {
+            font-size: 15px;
             color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .status-success {
+            color: var(--success-color);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>محمل فيديوهات يوتيوب</h1>
-        <p class="subtitle">يدعم تحميل الفيديوهات الفردية، الأحجام الكبيرة، وقوائم التشغيل</p>
+        <h1>تحميل مباشر من يوتيوب</h1>
+        <p class="subtitle">ضع الرابط وسيتم التحميل تلقائياً إلى جهازك (يدعم الفيديوهات الكبيرة وقوائم التشغيل)</p>
 
         <div class="input-group">
-            <label for="videoUrl">أدخل رابط الفيديو أو قائمة التشغيل (Playlist):</label>
-            <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
+            <label for="videoUrl">رابط الفيديو أو قائمة التشغيل:</label>
+            <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
         </div>
 
-        <button class="btn" id="startBtn" onclick="processDownload()">ابدأ استخراج الروابط</button>
+        <button class="btn" id="downloadBtn" onclick="startDirectDownload()">تحميل الفيديو الآن</button>
 
-        <div class="loader" id="loader"></div>
-        <div class="status-msg" id="statusMsg"></div>
-
-        <div class="result-box" id="resultBox">
-            <div class="video-title" id="resTitle">عنوان الفيديو يظهر هنا</div>
-            <div class="download-links" id="resLinks">
-                </div>
+        <div class="status-container" id="statusContainer">
+            <div class="loader" id="loader"></div>
+            <div class="status-text" id="statusText">جاري تجهيز الملف في الخلفية...</div>
         </div>
     </div>
 
     <script>
-        async function processDownload() {
+        async function startDirectDownload() {
             const urlInput = document.getElementById('videoUrl').value.trim();
-            const startBtn = document.getElementById('startBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const statusContainer = document.getElementById('statusContainer');
             const loader = document.getElementById('loader');
-            const statusMsg = document.getElementById('statusMsg');
-            const resultBox = document.getElementById('resultBox');
-            const resTitle = document.getElementById('resTitle');
-            const resLinks = document.getElementById('resLinks');
+            const statusText = document.getElementById('statusText');
 
             if (!urlInput) {
-                alert('من فضلك ضع رابط يوتيوب أولاً!');
+                alert('من فضلك أدخل رابط يوتيوب أولاً!');
                 return;
             }
 
-            // إعداد الواجهة أثناء المعالجة
-            startBtn.disabled = true;
+            // قفل الزر وإظهار مؤشر التحميل في الخلفية
+            downloadBtn.disabled = true;
+            statusContainer.style.display = 'block';
             loader.style.display = 'block';
-            statusMsg.innerText = 'جاري الاتصال بالسيرفر وفك تشفير الفيديو الفردي أو القائمة...';
-            resultBox.style.style = 'none';
-            resLinks.innerHTML = '';
+            statusText.className = 'status-text';
+            statusText.innerText = 'جاري الاتصال بالمحرك الخلفي واستخراج الفيديو بأعلى جودة...';
 
             try {
-                // نستخدم هنا API مجاني ومفتوح يعتمد على yt-dlp للتحويل الفوري
-                // يقوم الـ API بتحليل الرابط وإرجاع روابط تحميل مباشرة ومقسمة حسب الجودة
-                const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://noembed.com/embed?url=' + urlInput)}`;
-                
-                // خطوة 1: جلب بيانات الفيديو الأساسية للتأكد من صحة الرابط
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                const videoData = JSON.parse(data.contents);
-
-                if (videoData.error || !videoData.title) {
-                    throw new Error('لم نتمكن من التعرف على الرابط، تأكد أنه رابط صحيح.');
-                }
-
-                // عرض عنوان الفيديو
-                resTitle.innerText = videoData.title;
-
-                // خطوة 2: توليد روابط التحميل الاعتمادية (تحويل عبر بوابة تحميل شهيرة وسريعة تلقائياً)
-                // نستخدم نظام التوجيه الذكي للفيديوهات الكبيرة وقوائم التشغيل لضمان استقرار التحميل
-                const cleanUrl = urlInput.split('&')[0]; // تنظيف الرابط من التتبعات
-                
-                // توليد أزرار التحميل السريع بناءً على الصيغ الأكثر طلباً
-                const qualities = [
-                    { name: 'تحميل فيديو بجودة عالية (MP4)', format: '1080p', icon: '🎬' },
-                    { name: 'تحميل فيديو بجودة عادية (MP4)', format: '720p', icon: '📱' },
-                    { name: 'تحميل صوت فقط (MP3)', format: 'audio', icon: '🎵' }
-                ];
-
-                qualities.forEach(q => {
-                    // نربط الرابط بأداة تحويل سريعة تتيح للمستخدم التحميل بضغطة زر واحدة مجاناً وبأعلى سرعة
-                    const downloadServiceUrl = `https://9xbuddy.org/process?url=${encodeURIComponent(urlInput)}`;
-                    
-                    const a = document.createElement('a');
-                    a.href = downloadServiceUrl;
-                    a.target = '_blank';
-                    a.className = 'dl-link';
-                    a.innerHTML = `${q.icon} ${q.name}`;
-                    resLinks.appendChild(a);
+                // استخدام سيرفر معالجة يعتمد على كود Cobalt المتطور في الخلفية
+                const response = await fetch('https://api.cobalt.tools/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url: urlInput,
+                        videoQuality: '1080', // تحميل بأعلى جودة متاحة حتى 1080p
+                        downloadMode: 'auto'  // يتعرف تلقائياً إذا كان فيديو أو قائمة تشغيل
+                    })
                 });
 
-                // إظهار صندوق النتيجة بنجاح
-                loader.style.display = 'none';
-                statusMsg.innerText = 'تم تجهيز الروابط بنجاح! اضغط على الجودة المطلوبة لإتمام التحميل عبر البوابة السريعة.';
-                resultBox.style.display = 'block';
+                const result = await response.json();
+
+                if (result.status === 'stream' || result.status === 'redirect') {
+                    statusText.innerText = 'تم التجهيز بنجاح! يبدأ التحميل المباشر إلى جهازك الآن...';
+                    
+                    // كود التحميل التلقائي الصامت والمباشر إلى الكمبيوتر
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = result.url;
+                    
+                    // هذا السطر يخبر المتصفح ببدء التحميل فوراً كملف
+                    downloadLink.setAttribute('download', ''); 
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+
+                    // تحديث الواجهة عند النجاح
+                    loader.style.display = 'none';
+                    statusText.className = 'status-text status-success';
+                    statusText.innerText = '✨ اكتمل التوجيه! تفقد التحميلات في متصفحك أو نافذة الحفظ.';
+                } else if (result.status === 'picker') {
+                    // في حال كانت قائمة تشغيل (Playlist) كبيرة، السيرفر يعيد روابط الفيديوهات كلها فوراً لتبدأ معاً
+                    statusText.innerText = 'تم العثور على قائمة تشغيل، جاري بدء تحميل الفيديوهات متتالية...';
+                    
+                    result.picker.forEach((item, index) => {
+                        setTimeout(() => {
+                            const playlistLink = document.createElement('a');
+                            playlistLink.href = item.url;
+                            playlistLink.setAttribute('download', '');
+                            document.body.appendChild(playlistLink);
+                            playlistLink.click();
+                            document.body.removeChild(playlistLink);
+                        }, index * 1500); // فاصل زمني ثانية ونصف بين كل فيديو لمنع المتصفح من حظر التحميل المتعدد
+                    });
+
+                    loader.style.display = 'none';
+                    statusText.className = 'status-text status-success';
+                    statusText.innerText = '✨ بدأ تحميل قائمة التشغيل كاملة في الخلفية!';
+                } else {
+                    throw new Error('السيرفر لم يستطع معالجة هذا الرابط.');
+                }
 
             } catch (error) {
                 loader.style.display = 'none';
-                statusMsg.innerText = '';
-                alert('عذراً، حدث خطأ أثناء جلب البيانات. تأكد من أن الفيديو عام وليس خاصاً أو محظوراً.');
+                statusText.className = 'status-text';
+                statusText.innerText = '❌ حدث خطأ أثناء التحميل. تأكد من صحة الرابط أو حاول مجدداً.';
                 console.error(error);
             } finally {
-                startBtn.disabled = false;
+                // إعادة تفعيل الزر بعد فترة قصيرة
+                setTimeout(() => {
+                    downloadBtn.disabled = false;
+                }, 3000);
             }
         }
     </script>
