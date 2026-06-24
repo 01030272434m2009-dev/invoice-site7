@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منشئ جداول المهام الأسبوعية</title>
+    <title>منشئ جداول المهام الأسبوعية الاحترافي</title>
     <style>
         /* تنسيقات الشاشة الأساسية */
         body {
@@ -33,12 +33,12 @@
             color: #000;
         }
 
-        /* حاوية الصفحات */
+        /* حاوية الصفحات لملء الـ A4 بالكامل بالعرض */
         .page {
-            width: 297mm; /* عرض ورقة A4 */
-            height: 210mm; /* ارتفاع ورقة A4 بالعرض */
+            width: 297mm;
+            height: 210mm;
             margin: 0 auto 20px auto;
-            padding: 10mm;
+            padding: 5mm 7mm; /* تقليل الهوامش الخارجية لزيادة مساحة الجدول */
             box-sizing: border-box;
             background: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -48,7 +48,7 @@
             page-break-after: always;
         }
 
-        /* منطقة القص في المنتصف */
+        /* خط القص في المنتصف */
         .cut-line {
             position: absolute;
             left: 50%;
@@ -59,16 +59,21 @@
             width: 0;
         }
 
-        /* تقسيم الجدولين يمين ويسار */
+        /* تقسيم الجدولين يمين ويسار بأقصى عرض ممكن */
         .table-container {
-            width: 48%; /* كل جدول يأخذ أقل من نصف الصفحة */
+            width: 48.5%; 
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
+            flex-grow: 1; /* جعل الجدول يمتد لملء المساحة الطولية المتاحة */
         }
 
         th, td {
@@ -82,39 +87,53 @@
 
         .main-title {
             font-weight: bold;
-            font-size: 14px;
-            height: 35px;
-            background-color: #fff;
+            font-size: 13px;
+            height: 28px;
         }
 
         .header-row th {
             font-weight: bold;
-            font-size: 12px;
-            height: 25px;
-            background-color: #fff;
-        }
-
-        .day-column {
-            width: 35%;
-            font-weight: bold;
             font-size: 11px;
-            line-height: 1.4;
-            background-color: #fff;
+            height: 22px;
         }
 
+        /* تصغير خانة اليوم والتاريخ والعداد */
+        .day-column {
+            width: 26%; /* تم تصغيرها من 35% إلى 26% */
+            font-weight: bold;
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        /* توسيع خانة المهام لأقصى مساحة عرضية وطولية */
         .task-column {
-            width: 65%;
-            height: 55px; /* ارتفاع خانة الكتابة */
+            width: 74%; /* زادت المساحة العرضية للمهام */
+            height: 22mm; /* زيادة الارتفاع الطولي لكل خانة مهام لملء الورقة تماماً */
         }
 
-        /* تنسيقات خاصة بالطباعة فقط */
+        /* سطر ملاحظات الأسبوع أسفل الجدول */
+        .week-notes {
+            margin-top: 5px;
+            border: 1px solid #000;
+            height: 12mm; /* مساحة مناسبة لكتابة الملاحظات */
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            padding-right: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* تنسيقات خاصة بالطباعة الفورية */
         @media print {
             body {
                 background-color: #fff;
                 padding: 0;
             }
             .no-print-zone {
-                display: none; /* إخفاء زر الطباعة أثناء الطباعة */
+                display: none;
             }
             .page {
                 margin: 0;
@@ -124,9 +143,8 @@
                 height: 100%;
             }
             .cut-line {
-                border-left: 1px dashed #000; /* جعل خط القص واضح في الطباعة */
+                border-left: 1px dashed #000;
             }
-            /* إجبار المتصفح على الطباعة بالعرض وأبيض وأسود */
             @page {
                 size: A4 landscape;
                 margin: 0;
@@ -147,59 +165,49 @@
             const container = document.getElementById("pages-container");
             const daysNames = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
             
-            // إعداد التواريخ
-            const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026 (الشهور تبدأ من 0)
+            const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026
             const endDate = new Date(2027, 6, 20);  // 20 يوليو 2027
-            
             const totalWeeks = 45;
-            let currentDayDate = new Date(startDate);
 
-            // إنشاء الصفحات والجداول (كل لفة تصنع صفحة تحتوي على جدولين)
             for (let weekNum = 1; weekNum <= totalWeeks; weekNum += 2) {
                 
-                // إنشاء صفحة A4 جديدة
                 const page = document.createElement("div");
                 page.className = "page";
 
-                // إضافة خط القص في المنتصف
                 const cutLine = document.createElement("div");
                 cutLine.className = "cut-line";
                 page.appendChild(cutLine);
 
-                // بناء الجدول الأيمن (الأسبوع الحالي) والجدول الأيسر (الأسبوع التالي)
                 for (let i = 0; i < 2; i++) {
                     let activeWeek = weekNum + i;
-                    if (activeWeek > totalWeeks) break; // التوقف إذا تجاوزنا 45 أسبوعاً
+                    if (activeWeek > totalWeeks) break;
 
                     const tableContainer = document.createElement("div");
                     tableContainer.className = "table-container";
 
                     let tableHTML = `
-                        <table>
-                            <thead>
-                                <tr class="main-title">
-                                    <th colspan="2">جدول المهام الأسبوعية - الأسبوع « ${activeWeek} »</th>
-                                </tr>
-                                <tr class="header-row">
-                                    <th>اليوم والتاريخ والعداد</th>
-                                    <th>المهام والملحوظات اليومية</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr class="main-title">
+                                        <th colspan="2">جدول المهام الأسبوعية - الأسبوع « ${activeWeek} »</th>
+                                    </tr>
+                                    <tr class="header-row">
+                                        <th>اليوم والتاريخ</th>
+                                        <th>المهام والملحوظات اليومية</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                     `;
 
-                    // بناء الـ 7 أيام للجدول
                     for (let d = 0; d < 7; d++) {
-                        // حساب التاريخ الحالي
                         let dayTime = new Date(startDate.getTime() + (((activeWeek - 1) * 7) + d) * 24 * 60 * 60 * 1000);
                         
-                        // تنسيق التاريخ YYYY/MM/DD
                         let yyyy = dayTime.getFullYear();
                         let mm = String(dayTime.getMonth() + 1).padStart(2, '0');
                         let dd = String(dayTime.getDate()).padStart(2, '0');
                         let formattedDate = `${yyyy}/${mm}/${dd}`;
 
-                        // حساب العدادات
                         let daysPassed = Math.floor((dayTime - startDate) / (1000 * 60 * 60 * 24));
                         let daysRemaining = Math.floor((endDate - dayTime) / (1000 * 60 * 60 * 24));
                         if (daysRemaining < 0) daysRemaining = 0;
@@ -207,8 +215,8 @@
                         tableHTML += `
                             <tr>
                                 <td class="day-column">
-                                    ${daysNames[d]}<br>${formattedDate}<br>
-                                    <span style="font-size: 9px; font-weight: normal;">مضى: ${daysPassed} | متبقي: ${daysRemaining}</span>
+                                    <strong>${daysNames[d]}</strong><br>${formattedDate}<br>
+                                    <span style="font-size: 8px; font-weight: normal; color: #333;">مضى: ${daysPassed}<br>متبقي: ${daysRemaining}</span>
                                 </td>
                                 <td class="task-column"></td>
                             </tr>
@@ -216,8 +224,10 @@
                     }
 
                     tableHTML += `
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                            <div class="week-notes">ملاحظات الأسبوع:</div>
+                        </div>
                     `;
 
                     tableContainer.innerHTML = tableHTML;
