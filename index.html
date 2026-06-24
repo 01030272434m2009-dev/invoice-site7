@@ -97,17 +97,18 @@
             height: 22px;
         }
 
-        /* تصغير خانة اليوم والتاريخ والعداد */
+        /* تصغير خانة اليوم والتاريخ والعداد لتكون على المقاس تماماً */
         .day-column {
-            width: 26%; /* تم تصغيرها من 35% إلى 26% */
+            width: 18%; /* تم تقليصها إلى 18% لتناسب التاريخ والعداد دون زيادة */
             font-weight: bold;
             font-size: 10px;
-            line-height: 1.3;
+            line-height: 1.2;
+            white-space: nowrap; /* يمنع النص الأساسي من الانقسام غير المتناسق */
         }
 
-        /* توسيع خانة المهام لأقصى مساحة عرضية وطولية */
+        /* توسيع خانة المهام لأقصى مساحة عرضية وطولية ممكنة */
         .task-column {
-            width: 74%; /* زادت المساحة العرضية للمهام */
+            width: 82%; /* تم رفعها إلى 82% للاستفادة الكاملة من المساحة */
             height: 22mm; /* زيادة الارتفاع الطولي لكل خانة مهام لملء الورقة تماماً */
         }
 
@@ -193,8 +194,8 @@
                                         <th colspan="2">جدول المهام الأسبوعية - الأسبوع « ${activeWeek} »</th>
                                     </tr>
                                     <tr class="header-row">
-                                        <th>اليوم والتاريخ</th>
-                                        <th>المهام والملحوظات اليومية</th>
+                                        <th class="day-column">اليوم والتاريخ</th>
+                                        <th class="task-column">المهام والملحوظات اليومية</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -216,7 +217,7 @@
                             <tr>
                                 <td class="day-column">
                                     <strong>${daysNames[d]}</strong><br>${formattedDate}<br>
-                                    <span style="font-size: 8px; font-weight: normal; color: #333;">مضى: ${daysPassed}<br>متبقي: ${daysRemaining}</span>
+                                    <span style="font-size: 8px; font-weight: normal; color: #333; display: block; white-space: nowrap;">مضى: ${daysPassed} | متبقي: ${daysRemaining}</span>
                                 </td>
                                 <td class="task-column"></td>
                             </tr>
