@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تعقب الأيام السنوية الاحترافية</title>
+    <title>منشئ جداول المهام الأسبوعية الاحترافي - جاهز للطباعة والقص ككتاب</title>
     <style>
         /* تنسيقات الشاشة الأساسية */
         body {
@@ -15,11 +15,11 @@
         }
         .no-print-zone {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .btn-print {
-            padding: 10px 25px;
-            font-size: 16px;
+            padding: 12px 30px;
+            font-size: 18px;
             font-weight: bold;
             background-color: #000;
             color: #fff;
@@ -33,71 +33,101 @@
             color: #000;
         }
 
-        /* حاوية الورقة A4 بالعرض لملء الصفحة تماماً */
-        .page-a4 {
+        /* حاوية الصفحات لملء الـ A4 بالكامل بالعرض */
+        .page {
             width: 297mm;
             height: 210mm;
-            margin: 0 auto;
-            padding: 6mm 8mm;
+            margin: 0 auto 20px auto;
+            padding: 5mm 7mm;
             box-sizing: border-box;
             background: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             display: flex;
+            justify-content: space-between;
+            position: relative;
+            page-break-after: always;
+        }
+
+        /* خط القص في المنتصف */
+        .cut-line {
+            position: absolute;
+            left: 50%;
+            top: 5mm;
+            bottom: 5mm;
+            transform: translateX(-50%);
+            border-left: 1px dashed #ccc;
+            width: 0;
+        }
+
+        /* تقسيم الجدولين يمين ويسار بأقصى عرض ممكن */
+        .table-container {
+            width: 48.5%; 
+            box-sizing: border-box;
+            display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
 
-        /* عنوان اللوحة */
-        .page-title {
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #000;
-            border-bottom: 2px solid #000;
-            padding-bottom: 5px;
-        }
-
-        /* شبكة الدوائر الذكية */
-        .circles-grid {
-            display: grid;
-            /* توزيع 28 عموداً بشكل متساوي ومحكم */
-            grid-template-columns: repeat(28, 1fr); 
-            gap: 2.2px; /* المسافة بين الدوائر لضمان عدم التداخل */
-            justify-content: center;
-            align-content: center;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             flex-grow: 1;
         }
 
-        /* تصميم الدائرة الفردية */
-        .day-circle {
-            aspect-ratio: 1 / 1; /* يضمن بقاء العنصر دائرياً تماماً */
+        th, td {
             border: 1px solid #000;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #fff;
-            box-sizing: border-box;
-            padding: 2px;
+            padding: 4px; 
+            text-align: center;
+            vertical-align: middle;
+            font-size: 11px;
+            word-wrap: break-word;
         }
 
-        /* نصوص داخل الدائرة بخطوط صغيرة جداً ودقيقة للطباعة */
-        .day-name {
-            font-size: 6.5px;
+        .main-title {
             font-weight: bold;
-            line-height: 1;
-            margin-bottom: 1px;
+            font-size: 12px;
+            height: 26px;
         }
 
-        .day-date {
-            font-size: 6px;
-            font-weight: normal;
-            color: #333;
-            line-height: 1;
+        .header-row th {
+            font-weight: bold;
+            font-size: 11px;
+            height: 22px;
         }
 
-        /* تنسيقات خاصة بالطباعة */
+        /* خانة اليوم والتاريخ تنكمش على قد المحتوى تماماً */
+        .day-column {
+            width: 1%; 
+            white-space: nowrap; 
+            font-weight: bold;
+            font-size: 10.5px;
+            line-height: 1.3;
+            padding: 0 6px; 
+        }
+
+        /* خانة المهام تأخذ كل المساحة المتبقية */
+        .task-column {
+            width: auto; 
+            height: 20.5mm; 
+        }
+
+        /* سطر ملاحظات الأسبوع أسفل الجدول */
+        .week-notes {
+            margin-top: 4px;
+            border: 1px solid #000;
+            height: 10mm;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            padding-right: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* تنسيقات خاصة بالطباعة الفورية */
         @media print {
             body {
                 background-color: #fff;
@@ -106,11 +136,15 @@
             .no-print-zone {
                 display: none;
             }
-            .page-a4 {
+            .page {
                 margin: 0;
                 box-shadow: none;
+                page-break-after: always;
                 width: 100%;
                 height: 100%;
+            }
+            .cut-line {
+                border-left: 1px dashed #000;
             }
             @page {
                 size: A4 landscape;
@@ -122,55 +156,145 @@
 <body>
 
     <div class="no-print-zone">
-        <button class="btn-print" onclick="window.print()">🖨️ طباعة لوحة الدوائر السنوية</button>
+        <button class="btn-print" onclick="window.print()">🖨️ اضغط هنا لطباعة الجداول</button>
+        <p style="font-size: 14px; color: #555; margin-top: 10px;">إرشادات: اطبع على الوجهين (Duplex - Flip on Short Edge) ثم قص الأوراق من المنتصف ورتبها فوق بعضها مباشرة.</p>
     </div>
 
-    <div class="page-a4">
-        <div class="page-title">لوحة تعقب الأيام السنوية (2026/08/01 - 2027/08/01)</div>
-        <div class="circles-grid" id="grid-container"></div>
-    </div>
+    <div id="pages-container"></div>
 
     <script>
+        function getHijriDate(date) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const hijriFormatter = new Intl.DateTimeFormat('ar-TN-u-ca-islamic-umalqura', options);
+            return hijriFormatter.format(date);
+        }
+
+        function getWeekMonthsTitle(startOfWeekDate) {
+            const midWeekDate = new Date(startOfWeekDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+            const miladiMonth = String(midWeekDate.getMonth() + 1).padStart(2, '0');
+            const miladiYear = midWeekDate.getFullYear();
+            const hijriOptions = { month: 'long' };
+            const hijriMonthFormatter = new Intl.DateTimeFormat('ar-TN-u-ca-islamic-umalqura', hijriOptions);
+            const hijriMonthName = hijriMonthFormatter.format(midWeekDate);
+            return `(شهر: ${hijriMonthName} / ${miladiYear}/${miladiMonth})`;
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
-            const gridContainer = document.getElementById("grid-container");
-            const daysNames = ["سبت", "أحد", "إثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة"];
+            const container = document.getElementById("pages-container");
+            const daysNames = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
             
-            // تحديد النطاق الزمني المطلوب (من 1 أغسطس 2026 إلى 1 أغسطس 2027)
-            const startDate = new Date(2026, 7, 1); 
-            const endDate = new Date(2027, 7, 1); 
+            const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026
+            const endDate = new Date(2027, 6, 20);  // 20 يوليو 2027
+            
+            const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            const totalWeeks = Math.ceil(totalDays / 7);
 
-            let currentDate = new Date(startDate);
-            let count = 0;
-
-            // حلقة تكرارية لإنشاء الدوائر بناءً على الأيام
-            while (currentDate <= endDate) {
-                count++;
-                
-                // جلب اسم اليوم المختصر
-                const dayName = daysNames[currentDate.getDay() === 6 ? 0 : currentDate.getDay() + 1];
-                
-                // صيغة التاريخ (يوم/شهر) لتوفير المساحة داخل الدائرة الصغيرة جداً
-                const day = String(currentDate.getDate()).padStart(2, '0');
-                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                const formattedDate = `${day}/${month}`;
-
-                // إنشاء عنصر الدائرة
-                const circle = document.createElement("div");
-                circle.className = "day-circle";
-                circle.title = `اليوم ${count}: ${currentDate.toLocaleDateString('ar-EG')}`; // يظهر عند تمرير الماوس
-
-                circle.innerHTML = `
-                    <span class="day-name">${dayName}</span>
-                    <span class="day-date">${formattedDate}</span>
-                `;
-
-                gridContainer.appendChild(circle);
-
-                // الانتقال لليوم التالي
-                currentDate.setDate(currentDate.getDate() + 1);
+            // مصفوفة لتحديد ترتيب الأسابيع المطبوعة يمين ويسار لضمان الترتيب الصحيح بعد القص
+            let printOrder = [];
+            
+            // خوارزمية ترتيب الصفحات لقص الدفاتر (Booklet Layout)
+            // كل ورقة (وجه وظهر) تحتوي على 4 صفحات صغيرة:
+            // وجه الورقة: [الأسبوع N] (يمين) و [الأسبوع N+2] (يسار)
+            // ظهر الورقة: [الأسبوع N+1] (يمين) و [الأسبوع N+3] (يسار)
+            for (let chunk = 1; chunk <= totalWeeks; chunk += 4) {
+                // الورقة الأولى (وجه)
+                printOrder.push([chunk, chunk + 2]);
+                // الورقة الأولى (ظهر) - إذا كان هناك أسابيع متبقية
+                if (chunk + 1 <= totalWeeks || chunk + 3 <= totalWeeks) {
+                    printOrder.push([chunk + 1, chunk + 3]);
+                }
             }
-            
-            console.log("إجمالي الأيام التي تم توليدها وطباعتها داخل الدوائر: " + count);
+
+            // توليد الصفحات بناءً على الترتيب الجديد
+            printOrder.forEach(pair => {
+                const page = document.createElement("div");
+                page.className = "page";
+
+                const cutLine = document.createElement("div");
+                cutLine.className = "cut-line";
+                page.appendChild(cutLine);
+
+                for (let i = 0; i < 2; i++) {
+                    let activeWeek = pair[i];
+
+                    const tableContainer = document.createElement("div");
+                    tableContainer.className = "table-container";
+
+                    // إذا تجاوزنا إجمالي الأسابيع نترك النصف فارغاً أو نضع جدولاً فارغاً للهيكل
+                    if (!activeWeek || activeWeek > totalWeeks) {
+                        tableContainer.innerHTML = `<div style="text-align:center; margin-top:50mm; color:#ccc; font-weight:bold;">صفحة فارغة</div>`;
+                        page.appendChild(tableContainer);
+                        continue;
+                    }
+
+                    let weekStartDate = new Date(startDate.getTime() + ((activeWeek - 1) * 7) * 24 * 60 * 60 * 1000);
+                    let monthBracketTitle = getWeekMonthsTitle(weekStartDate);
+
+                    let tableHTML = `
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr class="main-title">
+                                        <th colspan="2">جدول المهام الأسبوعية - الأسبوع « ${activeWeek} » <span style="font-size:11px; font-weight:normal; margin-right:5px;">${monthBracketTitle}</span></th>
+                                    </tr>
+                                    <tr class="header-row">
+                                        <th class="day-column">اليوم والتاريخ</th>
+                                        <th class="task-column">المهام والملحوظات اليومية</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    for (let d = 0; d < 7; d++) {
+                        let dayTime = new Date(startDate.getTime() + (((activeWeek - 1) * 7) + d) * 24 * 60 * 60 * 1000);
+                        
+                        if (dayTime > endDate) {
+                            tableHTML += `
+                                <tr>
+                                    <td class="day-column" style="background:#f9f9f9; color:#ccc;">-</td>
+                                    <td class="task-column" style="background:#f9f9f9;"></td>
+                                </tr>
+                            `;
+                            continue;
+                        }
+
+                        let yyyy = dayTime.getFullYear();
+                        let mm = String(dayTime.getMonth() + 1).padStart(2, '0');
+                        let dd = String(dayTime.getDate()).padStart(2, '0');
+                        let formattedDate = `${yyyy}/${mm}/${dd}`;
+
+                        let daysPassed = Math.floor((dayTime - startDate) / (1000 * 60 * 60 * 24));
+                        let daysRemaining = Math.floor((endDate - dayTime) / (1000 * 60 * 60 * 24));
+                        if (daysRemaining < 0) daysRemaining = 0;
+
+                        let hijriDateStr = getHijriDate(dayTime);
+
+                        tableHTML += `
+                            <tr>
+                                <td class="day-column">
+                                    <strong>${daysNames[d]}</strong><br>
+                                    ${formattedDate}<br>
+                                    <span style="font-size: 8px; font-weight: normal; color: #444; display: block; margin-top:1px;">مضى: ${daysPassed} | متبقي: ${daysRemaining}</span>
+                                    <span style="font-size: 8px; font-weight: normal; color: #666; display: block; direction:ltr; margin-top:2px;">${hijriDateStr}</span>
+                                </td>
+                                <td class="task-column"></td>
+                            </tr>
+                        `;
+                    }
+
+                    tableHTML += `
+                                </tbody>
+                            </table>
+                            <div class="week-notes">ملاحظات الأسبوع:</div>
+                        </div>
+                    `;
+
+                    tableContainer.innerHTML = tableHTML;
+                    page.appendChild(tableContainer);
+                }
+
+                container.appendChild(page);
+            });
         });
     </script>
 </body>
