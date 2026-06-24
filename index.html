@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منشئ جداول المهام الأسبوعية - أقصى مساحة للمهام</title>
+    <title>منشئ جداول المهام الأسبوعية الاحترافي</title>
     <style>
         /* تنسيقات الشاشة الأساسية */
         body {
@@ -38,7 +38,7 @@
             width: 297mm;
             height: 210mm;
             margin: 0 auto 20px auto;
-            padding: 4mm 5mm; /* هوامش متناهية الصغر لاستغلال كل مليمتر */
+            padding: 5mm 7mm; /* تقليل الهوامش الخارجية لزيادة مساحة الجدول */
             box-sizing: border-box;
             background: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -52,16 +52,16 @@
         .cut-line {
             position: absolute;
             left: 50%;
-            top: 4mm;
-            bottom: 4mm;
+            top: 5mm;
+            bottom: 5mm;
             transform: translateX(-50%);
-            border-left: 1px dashed #000;
+            border-left: 1px dashed #ccc;
             width: 0;
         }
 
         /* تقسيم الجدولين يمين ويسار بأقصى عرض ممكن */
         .table-container {
-            width: 48.8%; 
+            width: 48.5%; 
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -73,63 +73,49 @@
             width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
-            flex-grow: 1;
+            flex-grow: 1; /* جعل الجدول يمتد لملء المساحة الطولية المتاحة */
         }
 
         th, td {
             border: 1px solid #000;
-            padding: 2px 4px;
+            padding: 4px;
             text-align: center;
             vertical-align: middle;
-            font-size: 11px;
+            font-size: 12px;
             word-wrap: break-word;
         }
 
         .main-title {
             font-weight: bold;
             font-size: 13px;
-            height: 25px;
+            height: 28px;
         }
 
         .header-row th {
             font-weight: bold;
             font-size: 11px;
-            height: 20px;
+            height: 22px;
         }
 
-        /* تضييق خانة اليوم والتاريخ والعداد إلى أقصى حد لمنع أي هدر */
+        /* تصغير خانة اليوم والتاريخ والعداد */
         .day-column {
-            width: 14%; /* تم تخفيضها من 20% إلى 14% (على القد تماماً) */
+            width: 26%; /* تم تصغيرها من 35% إلى 26% */
             font-weight: bold;
             font-size: 10px;
-            line-height: 1.2;
-            padding: 1px !important;
+            line-height: 1.3;
         }
 
-        /* توسيع خانة المهام لتستحوذ على المساحة العظمى من الورقة */
+        /* توسيع خانة المهام لأقصى مساحة عرضية وطولية */
         .task-column {
-            width: 86%; /* زادت المساحة العرضية للمهام إلى 86% */
-            height: 23mm; /* أقصى ارتفاع طولي ممكن لملء ارتفاع الورقة بالكامل */
-        }
-
-        /* تنسيق اسم المناسبة الدينية والمصرية */
-        .holiday {
-            display: block;
-            font-size: 8px;
-            color: #000;
-            border: 1px solid #000;
-            margin-top: 2px;
-            padding: 1px;
-            font-weight: bold;
-            background-color: #f0f0f0; /* خلفية رمادية خفيفة موفرة للحبر */
-            line-height: 1.1;
+            width: 74%; /* زادت المساحة العرضية للمهام */
+            height: 22mm; /* زيادة الارتفاع الطولي لكل خانة مهام لملء الورقة تماماً */
         }
 
         /* سطر ملاحظات الأسبوع أسفل الجدول */
         .week-notes {
-            margin-top: 4px;
+            margin-top: 5px;
             border: 1px solid #000;
-            height: 10mm; 
+            height: 12mm; /* مساحة مناسبة لكتابة الملاحظات */
             width: 100%;
             box-sizing: border-box;
             display: flex;
@@ -156,6 +142,9 @@
                 width: 100%;
                 height: 100%;
             }
+            .cut-line {
+                border-left: 1px dashed #000;
+            }
             @page {
                 size: A4 landscape;
                 margin: 0;
@@ -178,34 +167,7 @@
             
             const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026
             const endDate = new Date(2027, 6, 20);  // 20 يوليو 2027
-            
-            // حساب الأسابيع لتغطية المدة كاملة حتى 20/7/2027
-            const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
-            const totalWeeks = Math.ceil(totalDays / 7);
-
-            // مواعيد المناسبات الرسمية والدينية في مصر (2026 - 2027)
-            const holidays = {
-                // 2026
-                "2026/08/25": "المولد النبوي",
-                "2026/10/06": "نصر 6 أكتوبر",
-                
-                // 2027
-                "2027/01/07": "عيد الميلاد",
-                "2027/01/25": "ثورة 25 يناير",
-                "2027/02/08": "أول رمضان 🌙",
-                "2027/03/09": "عيد الفطر المبارك",
-                "2027/03/10": "ثاني أيام العيد",
-                "2027/03/11": "ثالث أيام العيد",
-                "2027/04/25": "تحرير سيناء",
-                "2027/05/01": "عيد العمال",
-                "2027/05/02": "عيد القيامة",
-                "2027/05/03": "شم النسيم",
-                "2027/05/16": "عيد الأضحى 🐑",
-                "2027/05/17": "ثاني أيام العيد",
-                "2027/05/18": "ثالث أيام العيد",
-                "2027/06/06": "رأس السنة الهجرية",
-                "2027/06/30": "ثورة 30 يونيو"
-            };
+            const totalWeeks = 45;
 
             for (let weekNum = 1; weekNum <= totalWeeks; weekNum += 2) {
                 
@@ -231,7 +193,7 @@
                                         <th colspan="2">جدول المهام الأسبوعية - الأسبوع « ${activeWeek} »</th>
                                     </tr>
                                     <tr class="header-row">
-                                        <th>اليوم</th>
+                                        <th>اليوم والتاريخ</th>
                                         <th>المهام والملحوظات اليومية</th>
                                     </tr>
                                 </thead>
@@ -241,12 +203,6 @@
                     for (let d = 0; d < 7; d++) {
                         let dayTime = new Date(startDate.getTime() + (((activeWeek - 1) * 7) + d) * 24 * 60 * 60 * 1000);
                         
-                        // التوقف إذا تجاوزنا التاريخ المحدد 20/7/2027
-                        if (dayTime > endDate) {
-                            tableHTML += `<tr><td class="day-column">-</td><td class="task-column"></td></tr>`;
-                            continue;
-                        }
-
                         let yyyy = dayTime.getFullYear();
                         let mm = String(dayTime.getMonth() + 1).padStart(2, '0');
                         let dd = String(dayTime.getDate()).padStart(2, '0');
@@ -256,18 +212,11 @@
                         let daysRemaining = Math.floor((endDate - dayTime) / (1000 * 60 * 60 * 24));
                         if (daysRemaining < 0) daysRemaining = 0;
 
-                        // التحقق من المناسبة
-                        let holidayText = "";
-                        if (holidays[formattedDate]) {
-                            holidayText = `<span class="holiday">${holidays[formattedDate]}</span>`;
-                        }
-
                         tableHTML += `
                             <tr>
                                 <td class="day-column">
                                     <strong>${daysNames[d]}</strong><br>${formattedDate}<br>
-                                    <span style="font-size: 7.5px; font-weight: normal; color: #444;">م:${daysPassed} | ب:${daysRemaining}</span>
-                                    ${holidayText}
+                                    <span style="font-size: 8px; font-weight: normal; color: #333;">مضى: ${daysPassed}<br>متبقي: ${daysRemaining}</span>
                                 </td>
                                 <td class="task-column"></td>
                             </tr>
