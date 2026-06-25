@@ -28,6 +28,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            page-break-after: always; /* فصل الصفحات عند الطباعة */
         }
 
         /* الهيدر العلوي والتسطير الصريح للورقة */
@@ -39,17 +40,26 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #000; /* الخط الفاصل الممتد تحت الهيدر */
             margin-bottom: 15px;
-            height: 90px; /* توفير مساحة هيدر ثابتة ومتوازنة */
         }
 
         .header-right, .header-left {
-            width: 45%;
+            width: 38%;
             font-size: 16px;
             font-weight: bold;
             line-height: 1.5;
         }
         .header-right { text-align: right; }
         .header-left { text-align: left; }
+
+        .header-logo {
+            width: 20%;
+            text-align: center;
+        }
+        .header-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
 
         /* منطقة عناوين خط السير الجاهزة للكتابة */
         .title-section {
@@ -94,6 +104,13 @@
         .col-day { width: 25%; }
         .col-date { width: 25%; }
         .col-destination { width: 50%; }
+
+        /* ستايل مخصص لخانة الإجازة الرسمية */
+        .holiday-text {
+            font-weight: bold;
+            font-size: 15px;
+            color: #000;
+        }
 
         /* منطقة التوقيعات الجاهزة */
         .signatures-section {
@@ -172,7 +189,7 @@
 <body>
 
     <div class="print-btn-container">
-        <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا للطباعة الفورية</button>
+        <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا لطباعة الصفحتين معاً</button>
     </div>
 
     <div class="a4-container">
@@ -183,6 +200,9 @@
                     مديرية الشئون الصحية<br>
                     الادارة العامة للصيدلة<br>
                     ادارة مراقبة العهد
+                </div>
+                <div class="header-logo">
+                    <img src="https://i.ibb.co/3mSg9g44/Sharkia-Health-Logo.png" alt="شعار مديرية الشئون الصحية بالشرقية">
                 </div>
                 <div class="header-left">
                     Sharkia Governorate<br>
@@ -205,7 +225,7 @@
                         <th class="col-destination">الجهة</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
+                <tbody id="table-body-july">
                     </tbody>
             </table>
         </div>
@@ -213,7 +233,69 @@
         <div>
             <div class="signatures-section">
                 <div class="sig-block">مراقب العهد<br><br>...................</div>
-                <div class="sig-block">مشرف Admin<br><br>...................</div>
+                <div class="sig-block">مشرف الادارة<br><br>...................</div>
+                <div class="sig-block">مدير مراقبة العهد<br><br>...................</div>
+                <div class="sig-block">مدير عام ادارة الصيدلة<br><br>...................</div>
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-right">
+                    العنوان :<br>
+                    الزقازيق - شارع مدير الأمن - بجوار نقابة التجاريين - المبنى الجديد الدور الرابع - إدارة العامة للصيدلة<br>
+                    ت : سكرتارية ٠٥٥/٢٣٠٢٥٩٧ - فاكس : ٠٥٥/٢٣٥٦٣٦٩ داخلي ١٩٨
+                </div>
+                <div class="footer-left">
+                    <span>الإدارة العامة للصيدلة</span><br>
+                    صادر رقم : ....................<br>
+                    في : &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp; / ٢٠٢ م &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">صفحة 37 من 37</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="a4-container">
+        <div>
+            <div class="header-section">
+                <div class="header-right">
+                    محافظة الشرقية<br>
+                    مديرية الشئون الصحية<br>
+                    الادارة العامة للصيدلة<br>
+                    ادارة مراقبة العهد
+                </div>
+                <div class="header-logo">
+                    <img src="https://i.ibb.co/3mSg9g44/Sharkia-Health-Logo.png" alt="شعار مديرية الشئون الصحية بالشرقية">
+                </div>
+                <div class="header-left">
+                    Sharkia Governorate<br>
+                    Directorate of Health Affairs<br>
+                    General pharmacy Administration
+                </div>
+            </div>
+
+            <div class="title-section">
+                <h1 class="main-title">خط سير مراقب عهد بالادارة الصحية بـ .......................</h1>
+                <p class="sub-title">دكتورة / ...........................................................</p>
+                <p class="sub-title">الفترة من &nbsp; ........................ &nbsp; إلى &nbsp; ........................</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-day">اليوم</th>
+                        <th class="col-date">التاريخ</th>
+                        <th class="col-destination">الجهة</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body-blank">
+                    </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="signatures-section">
+                <div class="sig-block">مراقب العهد<br><br>...................</div>
+                <div class="sig-block">مشرف الادارة<br><br>...................</div>
                 <div class="sig-block">مدير مراقبة العهد<br><br>...................</div>
                 <div class="sig-block">مدير عام ادارة الصيدلة<br><br>...................</div>
             </div>
@@ -235,35 +317,53 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const tableBody = document.getElementById("table-body");
+            // 1. توليد الصفحة الأولى (شهر يوليو المجدول مع إجازة 23 يوليو)
+            const tableJuly = document.getElementById("table-body-july");
             const daysNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
             
-            // تاريخ البداية المطلوب: 6 يوليو 2026 (شهر يوليو هو رقم 6 برمجياً)
-            let currentDate = new Date(2026, 6, 6); 
-            // تاريخ النهاية المستهدف: 31 يوليو 2026
-            const endDate = new Date(2026, 6, 31); 
+            let currentDate = new Date(2026, 6, 6); // 6 يوليو 2026
+            const endDate = new Date(2026, 6, 31); // 31 يوليو 2026
 
             while (currentDate <= endDate) {
                 let dayOfWeek = currentDate.getDay(); 
                 
-                // تصفية الأيام المطلوبة: 1=الاثنين، 2=الثلاثاء، 3=الأربعاء، 4=الخميس
                 if (dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4) {
                     let dayName = daysNames[dayOfWeek];
-                    let month = currentDate.getMonth() + 1; // تعديل رقم الشهر للعرض البشري (7)
+                    let month = currentDate.getMonth() + 1;
                     let dayStr = currentDate.getDate();
                     let formattedDate = `${month} / ${dayStr}`;
+
+                    // التحقق مما إذا كان اليوم هو 23 يوليو لإدراج الإجازة الرسمية في خانة الجهة
+                    let destinationContent = "";
+                    if (dayStr === 23 && month === 7) {
+                        destinationContent = `<span class="holiday-text">إجازة رسمية ثورة يوليو</span>`;
+                    }
 
                     let rowHTML = `
                         <tr>
                             <td class="col-day">${dayName}</td>
                             <td class="col-date">${formattedDate}</td>
-                            <td class="col-destination"></td>
+                            <td class="col-destination">${destinationContent}</td>
                         </tr>
                     `;
-                    tableBody.innerHTML += rowHTML;
+                    tableJuly.innerHTML += rowHTML;
                 }
-                // الانتقال لليوم التالي
                 currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            // 2. توليد الصفحة الثانية الفارغة تماماً وبنفس عدد السطور الدقيق للمحاكاة
+            const tableBlank = document.getElementById("table-body-blank");
+            const totalBlankRows = 16; // عدد مثالي من السطور الحرة لملء الورقة تماماً
+
+            for (let i = 0; i < totalBlankRows; i++) {
+                let blankRowHTML = `
+                    <tr>
+                        <td class="col-day"></td>
+                        <td class="col-date"></td>
+                        <td class="col-destination"></td>
+                    </tr>
+                `;
+                tableBlank.innerHTML += blankRowHTML;
             }
         });
     </script>
