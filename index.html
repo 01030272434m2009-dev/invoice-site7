@@ -3,142 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متابعة أيام الأحد والثلاثاء - تصميم كتاب</title>
+    <title>خط سير مراقب عهد بالإدارة الصحية</title>
     <style>
-        /* تنسيقات الشاشة الأساسية */
+        /* إعدادات الخطوط والصفحة العامة */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #f5f5f5;
             color: #000;
-        }
-        .no-print-zone {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .btn-print {
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            background-color: #000;
-            color: #fff;
-            border: 2px solid #000;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .btn-print:hover {
-            background-color: #fff;
-            color: #000;
+            direction: rtl;
         }
 
-        /* حاوية الصفحات لملء الـ A4 بالكامل بالعرض */
-        .page {
-            width: 297mm;
-            height: 210mm;
-            margin: 0 auto 20px auto;
-            padding: 6mm 8mm;
-            box-sizing: border-box;
+        /* حاوية ورق الـ A4 لضمان محاكاة الطباعة بدقة */
+        .a4-container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 12mm 10mm 12mm;
+            margin: 20px auto;
             background: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            page-break-after: always;
-        }
-
-        /* خط القص في المنتصف */
-        .cut-line {
-            position: absolute;
-            left: 50%;
-            top: 6mm;
-            bottom: 6mm;
-            transform: translateX(-50%);
-            border-left: 1px dashed #ccc;
-            width: 0;
-        }
-
-        /* تقسيم الجدولين يمين ويسار (كل نصف يمثل شهراً كاملاً) */
-        .month-container {
-            width: 48.5%; 
             box-sizing: border-box;
+            position: relative;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            justify-content: space-between;
         }
 
-        .month-title {
-            text-align: center;
+        /* الهيدر العلوي */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .header-right, .header-left {
+            width: 35%;
             font-size: 15px;
             font-weight: bold;
-            margin-bottom: 5px;
-            border: 2px solid #000;
-            padding: 4px;
-            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+        .header-right { text-align: right; }
+        .header-left { text-align: center; }
+
+        .header-logo {
+            width: 20%;
+            text-align: center;
+        }
+        .header-logo img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
         }
 
-        .table-scroll {
-            flex-grow: 1;
-            overflow: hidden;
+        /* العناوين الرئيسية في المنتصف */
+        .title-section {
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .main-title {
+            font-size: 19px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin: 0;
+        }
+        .sub-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin: 5px 0 0 0;
         }
 
-        table {
+        /* الجدول الأساسي */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 30px;
+            flex-grow: 1;
         }
-
-        th, td {
+        .data-table th, .data-table td {
             border: 1px solid #000;
-            padding: 3px 5px; 
             text-align: center;
             vertical-align: middle;
+            font-size: 16px;
+            height: 38px; /* ارتفاع مريح ومطابق للأصل للكتابة اليدوية */
+        }
+        .data-table th {
+            font-weight: bold;
+            font-size: 17px;
+            background-color: #fafafa;
+            height: 35px;
+        }
+        
+        /* تحديد أوزان الأعمدة بدقة */
+        .col-day { width: 25%; }
+        .col-date { width: 25%; }
+        .col-destination { width: 50%; }
+
+        /* منطقة التوقيعات السفلى */
+        .signatures-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px 10px 40px 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .sig-block {
+            width: 23%;
+            text-align: center;
+        }
+
+        /* الفوتر السفلي الصغير */
+        .footer-section {
+            border-top: 1px solid #000;
+            padding-top: 5px;
             font-size: 11px;
-            word-wrap: break-word;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+        .footer-right {
+            text-align: right;
+            line-height: 1.4;
+        }
+        .footer-left {
+            text-align: left;
         }
 
-        thead th {
-            font-weight: bold;
-            background-color: #f0f0f0;
-            height: 24px;
+        /* زر طباعة يختفي عند بدء الطباعة الفعلية */
+        .print-btn-container {
+            text-align: center;
+            margin: 20px 0;
         }
+        .print-btn {
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #002b5c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .print-btn:hover { background-color: #001f42; }
 
-        /* تحديد أحجام الخانات بدقة لتكفي الصفحة */
-        .day-col {
-            width: 18%;
-            font-weight: bold;
-        }
-        .task-col {
-            width: 37%;
-            height: 13.5mm; /* ارتفاع مناسب جداً للكتابة المريحة ويضمن ملاءمة الشهر بالكامل */
-        }
-        .check-col {
-            width: 8%;
-            font-size: 9px;
-            font-weight: bold;
-        }
-
-        /* تنسيقات خاصة بالطباعة الفورية */
+        /* إعدادات الميديا الخاصة بالطباعة الفورية على A4 */
         @media print {
             body {
                 background-color: #fff;
                 padding: 0;
             }
-            .no-print-zone {
+            .print-btn-container {
                 display: none;
             }
-            .page {
-                margin: 0;
+            .a4-container {
                 box-shadow: none;
-                page-break-after: always;
+                margin: 0;
                 width: 100%;
                 height: 100%;
-            }
-            .cut-line {
-                border-left: 1px dashed #000;
+                padding: 12mm 10mm;
             }
             @page {
-                size: A4 landscape;
+                size: A4 portrait;
                 margin: 0;
             }
         }
@@ -146,147 +177,121 @@
 </head>
 <body>
 
-    <div class="no-print-zone">
-        <button class="btn-print" onclick="window.print()">🖨️ طباعة دفتر المتابعة</button>
-        <p style="font-size: 13px; color: #555; margin-top: 8px;">
-            <strong>طريقة الطباعة:</strong> اختر الطباعة على الوجهين والتقليب على الحافة القصيرة 
-            <span dir="ltr">(Flip on Short Edge)</span> ثم قص الأوراق من المنتصف ورتب النصف الأيسر فوق الأيمن.
-        </p>
+    <div class="print-btn-container">
+        <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا للطباعة الفورية بجودة ممتازة</button>
     </div>
 
-    <div id="pages-container"></div>
+    <div class="a4-container">
+        <div>
+            <div class="header-section">
+                <div class="header-right">
+                    محافظة الشرقية<br>
+                    مديرية الشئون الصحية<br>
+                    الادارة العامة للصيدلة<br>
+                    ادارة مراقبة العهد
+                </div>
+                <div class="header-logo">
+                    <svg viewBox="0 0 100 100" width="70" height="70">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="2,2"/>
+                        <path d="M30 65 Q 50 20, 70 65 Z" fill="none" stroke="#000" stroke-width="2"/>
+                        <circle cx="50" cy="45" r="8" fill="#000"/>
+                    </svg>
+                </div>
+                <div class="header-left">
+                    Sharkia Governorate<br>
+                    Directorate of Health Affairs<br>
+                    General pharmacy Administration
+                </div>
+            </div>
+
+            <div class="title-section">
+                <h1 class="main-title">خط سير مراقب عهد بالادارة الصحية بـ .......................</h1>
+                <p class="sub-title">دكتورة / ...........................................................</p>
+                <p class="sub-title" id="date-range-text">الفترة من &nbsp;&nbsp; 15 / 6 &nbsp;&nbsp; الى &nbsp;&nbsp; ... / ...</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-day">اليوم</th>
+                        <th class="col-date">التاريخ</th>
+                        <th class="col-destination">الجهة</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="signatures-section">
+                <div class="sig-block">مراقب العهد<br><br>...................</div>
+                <div class="sig-block">مشرف الادارة<br><br>...................</div>
+                <div class="sig-block">مدير مراقبة العهد<br><br>...................</div>
+                <div class="sig-block">مدير عام ادارة الصيدلة<br><br>...................</div>
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-right">
+                    العنوان :<br>
+                    الزقازيق - شارع مدير الأمن - بجوار نقابة التجاريين - المبنى الجديد الدور الرابع - إدارة العامة للصيدلة<br>
+                    ت : سكرتارية ٠٥٥/٢٣٠٢٥٩٧ - فاكس : ٠٥٥/٢٣٥٦٣٦٩ داخلي ١٩٨
+                </div>
+                <div class="footer-left">
+                    <span style="font-size: 10px;">الإدارة العامة للصيدلة</span><br>
+                    صادر رقم : .................... في : &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp; / ٢٠٢ م
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // دالة لجلب أسماء الأشهر بالعربية ميلادي
-        function getMonthNameAr(monthIndex) {
-            const months = [
-                "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-                "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-            ];
-            return months[monthIndex];
-        }
-
         document.addEventListener("DOMContentLoaded", function() {
-            const container = document.getElementById("pages-container");
+            const tableBody = document.getElementById("table-body");
+            const daysNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
             
-            const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026
-            const endDate = new Date(2027, 7, 1);   // 1 أغسطس 2027
+            // سنة الأساس الافتراضية لتواريخ 15-6
+            const baseYear = 2026; 
+            let currentDate = new Date(baseYear, 5, 15); // شهر يونيو البرمجي يبدأ من كود 5 
 
-            // 1. توليد وتجميع الأيام المستهدفة (الأحد والثلاثاء فقط) لكل شهر
-            let monthsData = {};
-            
-            let currentDate = new Date(startDate);
-            while (currentDate <= endDate) {
-                let dayOfWeek = currentDate.getDay(); // 0 = الأحد, 2 = الثلاثاء
+            let rowsCount = 0;
+            const maxRows = 23; // عدد الصفوف الكلي المتاح في الورقة لمحاكاة شكل الورقة الأصلية تماماً
+            let lastGeneratedDateStr = "";
+
+            // تكرار الحلقات لجلب أيام (الاثنين، الثلاثاء، الأربعاء) فقط بالتتابع
+            while (rowsCount < maxRows) {
+                let dayOfWeek = currentDate.getDay(); 
                 
-                if (dayOfWeek === 0 || dayOfWeek === 2) {
-                    let year = currentDate.getFullYear();
-                    let month = currentDate.getMonth();
-                    let key = `${year}-${month}`;
-                    
-                    if (!monthsData[key]) {
-                        monthsData[key] = {
-                            year: year,
-                            month: month,
-                            days: []
-                        };
+                // 1 = الاثنين , 2 = الثلاثاء , 3 = الأربعاء
+                if (dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 3) {
+                    let dayName = daysNames[dayOfWeek];
+                    let month = currentDate.getMonth() + 1;
+                    let dayStr = currentDate.getDate();
+                    let formattedDate = `${month} / ${dayStr}`;
+
+                    if (rowsCount === 0) {
+                        // تثبيت أول تاريخ للفترة
+                        document.getElementById("date-range-text").innerHTML = `الفترة من &nbsp;&nbsp; ${formattedDate} &nbsp;&nbsp; إلى &nbsp;&nbsp; <span id="end-date-val">...</span>`;
                     }
-                    
-                    monthsData[key].days.push({
-                        dayName: dayOfWeek === 0 ? "الأحد" : "الثلاثاء",
-                        dateStr: `${currentDate.getDate()}/${month + 1}`
-                    });
+                    lastGeneratedDateStr = formattedDate;
+
+                    let rowHTML = `
+                        <tr>
+                            <td class="col-day">${dayName}</td>
+                            <td class="col-date">${formattedDate}</td>
+                            <td class="col-destination"></td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += rowHTML;
+                    rowsCount++;
                 }
+                // الانتقال لليوم التالي
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            // تحويل الكائن إلى مصفوفة مرتبة من الأشهر
-            let sortedMonths = Object.values(monthsData);
-            let totalMonths = sortedMonths.length;
-
-            // 2. تطبيق خوارزمية ترتيب الصفحات (Booklet Layout لـ 4 أشهر في الورقة وش وظهر)
-            let printOrder = [];
-            for (let chunk = 0; chunk < totalMonths; chunk += 4) {
-                // وجه الورقة الأولى: الشهر الحالي (يمين) والشهر الحالي + 2 (يسار)
-                printOrder.push([chunk, chunk + 2]);
-                // ظهر الورقة الأولى: الشهر الحالي + 1 (يمين) والشهر الحالي + 3 (يسار)
-                if (chunk + 1 < totalMonths || chunk + 3 < totalMonths) {
-                    printOrder.push([chunk + 1, chunk + 3]);
-                }
-            }
-
-            // 3. بناء صفحات الطباعة هيدروليكياً بناءً على الترتيب المطلوب
-            printOrder.forEach(pair => {
-                const page = document.createElement("div");
-                page.className = "page";
-
-                const cutLine = document.createElement("div");
-                cutLine.className = "cut-line";
-                page.appendChild(cutLine);
-
-                for (let i = 0; i < 2; i++) {
-                    let monthIndex = pair[i];
-                    const monthContainer = document.createElement("div");
-                    monthContainer.className = "month-container";
-
-                    // إذا لم تكن هناك بيانات شهر (فارغ في نهاية السنة مثلاً)
-                    if (monthIndex === undefined || monthIndex >= totalMonths) {
-                        monthContainer.innerHTML = `<div style="text-align:center; margin-top:50mm; color:#ccc; font-weight:bold;">صفحة فارغة للملاحظات</div>`;
-                        page.appendChild(monthContainer);
-                        continue;
-                    }
-
-                    let mData = sortedMonths[monthIndex];
-                    let titleText = `جدول متابعة: ${getMonthNameAr(mData.month)} ${mData.year}`;
-
-                    let tableHTML = `
-                        <div class="month-title">${titleText}</div>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="day-col" rowspan="2">اليوم والتاريخ</th>
-                                        <th colspan="2">جدول الحفظ المنهجي</th>
-                                        <th colspan="2">جدول الواجبات والمهام</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="task-col">المحتوى / السورة والآيات</th>
-                                        <th class="check-col">التمام</th>
-                                        <th class="task-col">الواجب والمراجعة</th>
-                                        <th class="check-col">التمام</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                    `;
-
-                    // تكرار الأيام الخاصة بهذا الشهر فقط
-                    mData.days.forEach(day => {
-                        tableHTML += `
-                            <tr>
-                                <td class="day-col">
-                                    ${day.dayName}<br>
-                                    <span style="font-size:10px; color:#444; font-weight:normal;">${day.dateStr}</span>
-                                </td>
-                                <td class="task-col"></td>
-                                <td class="check-col">⬜</td>
-                                <td class="task-col"></td>
-                                <td class="check-col">⬜</td>
-                            </tr>
-                        `;
-                    });
-
-                    tableHTML += `
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
-
-                    monthContainer.innerHTML = tableHTML;
-                    page.appendChild(monthContainer);
-                }
-
-                container.appendChild(page);
-            });
+            // تحديث تاريخ نهاية الفترة تلقائياً بالهيدر بناء على آخر سطر تم توليده
+            document.getElementById("end-date-val").innerText = lastGeneratedDateStr;
         });
     </script>
 </body>
