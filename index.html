@@ -15,12 +15,12 @@
             direction: rtl;
         }
 
-        /* حاوية ورق الـ A4 المقاس القياسي */
+        /* حاوية ورق الـ A4 المقاس القياسي محكومة الارتفاع */
         .a4-container {
             width: 210mm;
-            min-height: 297mm;
-            padding: 12mm 15mm 10mm 15mm;
-            margin: 20px auto;
+            height: 297mm; /* تثبيت الارتفاع الكامل للورقة */
+            padding: 10mm 15mm 10mm 15mm;
+            margin: 15px auto;
             background: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             box-sizing: border-box;
@@ -28,7 +28,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            page-break-after: always; /* فصل الصفحات عند الطباعة */
+            page-break-after: always; /* فصل حتمي للصفحات عند الطباعة */
         }
 
         /* الهيدر العلوي والتسطير الصريح للورقة */
@@ -37,16 +37,16 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding-bottom: 15px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #000; /* الخط الفاصل الممتد تحت الهيدر */
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .header-right, .header-left {
-            width: 48%; /* تعديل المساحة لتشمل كامل العرض بعد حذف اللوجو */
-            font-size: 16px;
+            width: 48%; 
+            font-size: 15px;
             font-weight: bold;
-            line-height: 1.5;
+            line-height: 1.4;
         }
         .header-right { text-align: right; }
         .header-left { text-align: left; }
@@ -54,74 +54,73 @@
         /* منطقة عناوين خط السير الجاهزة للكتابة */
         .title-section {
             text-align: center;
-            margin-bottom: 15px;
-            line-height: 1.8;
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
         .main-title {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: bold;
             text-decoration: underline;
-            margin: 0 0 8px 0;
+            margin: 0 0 5px 0;
         }
         .sub-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
-            margin: 5px 0;
+            margin: 3px 0;
         }
 
-        /* الجدول الأساسي المتطابق */
+        /* الجدول الأساسي المتطابق وموزون الارتفاع آلياً */
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            flex-grow: 1;
+            margin-bottom: 10px;
         }
         .data-table th, .data-table td {
             border: 1px solid #000;
             text-align: center;
             vertical-align: middle;
-            font-size: 16px;
-            height: 38px; /* ارتفاع مريح ومطابق للأصل للكتابة اليدوية */
+            font-size: 15px;
+            height: 32px; /* ارتفاع آمن ومناسب جداً للكتابة دون الخروج عن الصفحة */
         }
         .data-table th {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
             background-color: #fff;
-            height: 35px;
+            height: 30px;
         }
         
         /* أوزان الأعمدة بدقة */
-        .col-day { width: 25%; }
-        .col-date { width: 25%; }
-        .col-destination { width: 50%; }
+        .col-day { width: 22%; }
+        .col-date { width: 22%; }
+        .col-destination { width: 56%; }
 
         /* ستايل مخصص لخانة الإجازة الرسمية */
         .holiday-text {
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             color: #000;
         }
 
-        /* منطقة التوقيعات الجاهزة */
+        /* منطقة التوقيعات الجاهزة الموزونة */
         .signatures-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding: 10px 10px 30px 10px;
+            padding: 5px 5px 20px 5px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
         }
         .sig-block {
-            width: 23%;
+            width: 24%;
             text-align: center;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* الفوتر السفلي */
+        /* الفوتر السفلي المحكم بأسفل الورقة */
         .footer-section {
             border-top: 1px solid #000;
-            padding-top: 6px;
+            padding-top: 5px;
             font-size: 12px;
             display: flex;
             justify-content: space-between;
@@ -130,17 +129,17 @@
         }
         .footer-right {
             text-align: right;
-            line-height: 1.5;
+            line-height: 1.4;
         }
         .footer-left {
             text-align: left;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         /* زر الاختفاء للطباعة */
         .print-btn-container {
             text-align: center;
-            margin: 20px 0;
+            margin: 15px 0;
         }
         .print-btn {
             padding: 10px 25px;
@@ -164,10 +163,11 @@
             }
             .a4-container {
                 box-shadow: none;
-                margin: 0;
-                width: 100%;
-                height: 100%;
-                padding: 10mm 12mm;
+                margin: 0 auto;
+                width: 210mm;
+                height: 297mm;
+                padding: 10mm 15mm;
+                page-break-after: always;
             }
             @page {
                 size: A4 portrait;
@@ -179,10 +179,9 @@
 <body>
 
     <div class="print-btn-container">
-        <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا لطباعة الصفحتين معاً</button>
+        <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا للطباعة الموزونة (A4)</button>
     </div>
 
-    <!-- الصفحة الأولى -->
     <div class="a4-container">
         <div>
             <div class="header-section">
@@ -242,7 +241,6 @@
     </div>
 
 
-    <!-- الصفحة الثانية -->
     <div class="a4-container">
         <div>
             <div class="header-section">
@@ -303,7 +301,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. توليد الصفحة الأولى (شهر يوليو المجدول مع إجازة 23 يوليو)
+            // 1. توليد الصفحة الأولى لشهر يوليو
             const tableJuly = document.getElementById("table-body-july");
             const daysNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
             
@@ -319,7 +317,6 @@
                     let dayStr = currentDate.getDate();
                     let formattedDate = `${month} / ${dayStr}`;
 
-                    // التحقق مما إذا كان اليوم هو 23 يوليو لإدراج الإجازة الرسمية في خانة الجهة
                     let destinationContent = "";
                     if (dayStr === 23 && month === 7) {
                         destinationContent = `<span class="holiday-text">إجازة رسمية ثورة يوليو</span>`;
@@ -337,9 +334,9 @@
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            // 2. توليد الصفحة الثانية الفارغة تماماً وبنفس عدد السطور الدقيق للمحاكاة
+            // 2. توليد الصفحة الثانية الفارغة تماماً بعدد سطور متناسق لمنع الخروج عن الإطار
             const tableBlank = document.getElementById("table-body-blank");
-            const totalBlankRows = 16; // عدد مثالي من السطور الحرة لملء الورقة تماماً
+            const totalBlankRows = 15; // عدد أسطر مثالي ومحكم للورقة الثانية الحرة
 
             for (let i = 0; i < totalBlankRows; i++) {
                 let blankRowHTML = `
