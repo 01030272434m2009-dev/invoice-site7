@@ -3,229 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام طباعة دفاتر المتابعة الاحترافي</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+    <title>خط سير مراقب عهد بالإدارة الصحية</title>
     <style>
-        /* تنسيقات الواجهة العصرية */
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #16a085;
-            --bg-color: #f4f6f9;
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
+        /* إعدادات الصفحة العامة */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: #333;
+            background-color: #f5f5f5;
+            color: #000;
+            direction: rtl;
         }
 
-        /* الفورم الأنيق للتحكم */
-        .control-dashboard {
-            background: linear-gradient(135deg, var(--primary-color), #34495e);
-            color: #fff;
-            padding: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            margin-bottom: 30px;
-            text-align: center;
-            border-bottom: 5px solid var(--accent-color);
-        }
-
-        .dashboard-title {
-            margin: 0 0 15px 0;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        .system-selector {
-            display: inline-flex;
-            background: rgba(255,255,255,0.1);
-            padding: 5px;
-            border-radius: 30px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .radio-btn {
-            display: none;
-        }
-
-        .system-label {
-            padding: 10px 25px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .radio-btn:checked + .system-label {
-            background-color: var(--accent-color);
-            color: white;
-            box-shadow: 0 2px 10px rgba(22, 160, 133, 0.4);
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 0 auto;
-            max-width: 500px;
-        }
-
-        .btn-print-pro, .btn-pdf-pro {
-            flex: 1;
-            padding: 14px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-print-pro {
-            background-color: #fff;
-            color: var(--primary-color);
-        }
-
-        .btn-pdf-pro {
-            background-color: var(--accent-color);
-            color: #fff;
-        }
-
-        .btn-print-pro:hover, .btn-pdf-pro:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-
-        .instruction-badge {
-            display: inline-block;
-            margin-top: 15px;
-            font-size: 13px;
-            background: rgba(255,255,255,0.15);
-            padding: 6px 15px;
-            border-radius: 5px;
-            color: #e0e0e0;
-        }
-
-        /* حاوية الأوراق لمعاينتها في الشاشة */
-        #pages-container {
-            padding: 10px;
-        }
-
-        .page {
-            width: 297mm;
-            height: 210mm;
-            margin: 0 auto 30px auto;
-            padding: 6mm 8mm;
-            box-sizing: border-box;
+        /* حاوية ورق الـ A4 المقاس القياسي محكومة الارتفاع */
+        .a4-container {
+            width: 210mm;
+            height: 297mm; /* تثبيت الارتفاع الكامل للورقة */
+            padding: 10mm 15mm 10mm 15mm;
+            margin: 15px auto;
             background: #fff;
-            box-shadow: var(--card-shadow);
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            border-radius: 4px;
-            page-break-after: always; /* مهم لتقسيم صفحات الـ PDF تلقائياً */
-        }
-
-        .cut-line {
-            position: absolute;
-            left: 50%;
-            top: 6mm;
-            bottom: 6mm;
-            transform: translateX(-50%);
-            border-left: 1px dashed #bbb;
-            width: 0;
-        }
-
-        .month-container {
-            width: 48.5%; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             box-sizing: border-box;
+            position: relative;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            justify-content: space-between;
+            page-break-after: always; /* فصل حتمي للصفحات عند الطباعة */
         }
 
-        .month-title {
-            text-align: center;
-            font-size: 14px;
+        /* الهيدر العلوي والتسطير الصريح للورقة */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #000; /* الخط الفاصل الممتد تحت الهيدر */
+            margin-bottom: 10px;
+        }
+
+        .header-right, .header-left {
+            width: 48%; 
+            font-size: 15px;
             font-weight: bold;
-            margin-bottom: 8px;
-            border: 2px solid #2c3e50;
-            padding: 5px;
-            background-color: #f8f9fa;
-            color: #2c3e50;
-            border-radius: 4px;
+            line-height: 1.4;
+        }
+        .header-right { text-align: right; }
+        .header-left { text-align: left; }
+
+        /* منطقة عناوين خط السير الجاهزة للكتابة */
+        .title-section {
+            text-align: center;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .main-title {
+            font-size: 19px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin: 0 0 5px 0;
+        }
+        .sub-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin: 3px 0;
         }
 
-        .table-scroll {
-            flex-grow: 1;
-            overflow: hidden;
-        }
-
-        table {
+        /* الجدول الأساسي المتطابق وموزون الارتفاع آلياً */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 10px;
         }
-
-        th, td {
-            border: 1px solid #333;
-            padding: 4px 5px; 
+        .data-table th, .data-table td {
+            border: 1px solid #000;
             text-align: center;
             vertical-align: middle;
-            font-size: 11px;
+            font-size: 15px;
+            height: 32px; /* ارتفاع آمن ومناسب جداً للكتابة دون الخروج عن الصفحة */
         }
-
-        thead th {
+        .data-table th {
             font-weight: bold;
-            background-color: #eaeded;
-            color: #2c3e50;
+            font-size: 16px;
+            background-color: #fff;
+            height: 30px;
+        }
+        
+        /* أوزان الأعمدة بدقة */
+        .col-day { width: 22%; }
+        .col-date { width: 22%; }
+        .col-destination { width: 56%; }
+
+        /* ستايل مخصص لخانة الإجازة الرسمية */
+        .holiday-text {
+            font-weight: bold;
+            font-size: 14px;
+            color: #000;
         }
 
-        .day-col { width: 20%; font-weight: bold; }
-        .task-col { width: 35%; height: 13.5mm; }
-        .check-col { width: 10%; font-size: 10px; }
-
-        /* تلوين تمييزي خفيف حسب النظام الفعال للرؤية البصرية */
-        .system-1-active thead th { background-color: #eaeded; }
-        .system-2-active thead th { background-color: #e8f8f5; }
-
-        /* لضمان التوافق التام مع توجيهات التدوير */
-        .page:nth-child(even) {
-            transform: rotate(180deg);
+        /* منطقة التوقيعات الجاهزة الموزونة */
+        .signatures-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 5px 5px 20px 5px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .sig-block {
+            width: 24%;
+            text-align: center;
+            line-height: 1.5;
         }
 
-        /* ===================================================
-           تنسيقات وإعدادات الطباعة الاحترافية والقلب التلقائي
-        ====================================================== */
+        /* الفوتر السفلي المحكم بأسفل الورقة */
+        .footer-section {
+            border-top: 1px solid #000;
+            padding-top: 5px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+        .footer-right {
+            text-align: right;
+            line-height: 1.4;
+        }
+        .footer-left {
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        /* زر الاختفاء للطباعة */
+        .print-btn-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .print-btn {
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #111;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .print-btn:hover { background-color: #333; }
+
         @media print {
             body {
                 background-color: #fff;
                 padding: 0;
             }
-            .control-dashboard {
-                display: none; /* إخفاء الفورم تماماً عند الطباعة */
+            .print-btn-container {
+                display: none;
             }
-            .page {
-                margin: 0;
+            .a4-container {
                 box-shadow: none;
-                width: 100vw;
-                height: 100vh;
-                border-radius: 0;
+                margin: 0 auto;
+                width: 210mm;
+                height: 297mm;
+                padding: 10mm 15mm;
+                page-break-after: always;
             }
-            .cut-line {
-                border-left: 1px dashed #000;
-            }
-
             @page {
-                size: A4 landscape;
+                size: A4 portrait;
                 margin: 0;
             }
         }
@@ -233,194 +178,176 @@
 </head>
 <body>
 
-    <div class="control-dashboard">
-        <h1 class="dashboard-title">🗂️ لوحة تحكم طباعة الدفاتر المنهجية</h1>
-        
-        <div class="system-selector">
-            <input type="radio" id="sys1" name="systemType" value="1" class="radio-btn" checked onchange="switchSystem()">
-            <label for="sys1" class="system-label">نظام (الأحد - الثلاثاء)</label>
+    <div class="print-btn-container">
+        <button class="print-btn" onclick="window.print()">🖨️ اضغط هنا للطباعة الموزونة (A4)</button>
+    </div>
 
-            <input type="radio" id="sys2" name="systemType" value="2" class="radio-btn" onchange="switchSystem()">
-            <label for="sys2" class="system-label">نظام (السبت - الإثنين)</label>
+    <div class="a4-container">
+        <div>
+            <div class="header-section">
+                <div class="header-right">
+                    محافظة الشرقية<br>
+                    مديرية الشئون الصحية<br>
+                    الادارة العامة للصيدلة<br>
+                    ادارة مراقبة العهد
+                </div>
+                <div class="header-left">
+                    Sharkia Governorate<br>
+                    Directorate of Health Affairs<br>
+                    General pharmacy Administration
+                </div>
+            </div>
+
+            <div class="title-section">
+                <h1 class="main-title">خط سير مراقب عهد بالادارة الصحية بـ .......................</h1>
+                <p class="sub-title">دكتورة / ...........................................................</p>
+                <p class="sub-title">الفترة من &nbsp; ........................ &nbsp; إلى &nbsp; ........................</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-day">اليوم</th>
+                        <th class="col-date">التاريخ</th>
+                        <th class="col-destination">الجهة</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body-july">
+                </tbody>
+            </table>
         </div>
 
-        <div class="button-group">
-            <button class="btn-print-pro" onclick="window.print()">🖨️ طباعة فورية</button>
-            <button class="btn-pdf-pro" onclick="saveAsPDF()">💾 حفظ كـ ملف PDF</button>
-        </div>
-        
-        <div class="instruction-badge">
-            ℹ️ النظام يقوم تلقائياً بقلب صفحات الظهر برمجياً لضمان خروج الكشكول معدولاً عند الثني والتدبيس.
+        <div>
+            <div class="signatures-section">
+                <div class="sig-block">مراقب العهد<br><br>...................</div>
+                <div class="sig-block">مشرف الادارة<br><br>...................</div>
+                <div class="sig-block">مدير مراقبة العهد<br><br>...................</div>
+                <div class="sig-block">مدير عام ادارة الصيدلة<br><br>...................</div>
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-right">
+                    العنوان :<br>
+                    الزقازيق - شارع مدير الأمن - بجوار نقابة التجاريين - المبنى الجديد الدور الرابع - إدارة العامة للصيدلة<br>
+                    ت : سكرتارية ٠٥٥/٢٣٠٢٥٩٧ - فاكس : ٠٥٥/٢٣٥٦٣٦٩ داخلي ١٩٨
+                </div>
+                <div class="footer-left">
+                    <span>الإدارة العامة للصيدلة</span><br>
+                    صادر رقم : ....................<br>
+                    في : &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp; / ٢٠٢ م &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">صفحة 37 من 37</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="pages-container" class="system-1-active"></div>
+
+    <div class="a4-container">
+        <div>
+            <div class="header-section">
+                <div class="header-right">
+                    محافظة الشرقية<br>
+                    مديرية الشئون الصحية<br>
+                    الادارة العامة للصيدلة<br>
+                    ادارة مراقبة العهد
+                </div>
+                <div class="header-left">
+                    Sharkia Governorate<br>
+                    Directorate of Health Affairs<br>
+                    General pharmacy Administration
+                </div>
+            </div>
+
+            <div class="title-section">
+                <h1 class="main-title">خط سير مراقب عهد بالادارة الصحية بـ .......................</h1>
+                <p class="sub-title">دكتورة / ...........................................................</p>
+                <p class="sub-title">الفترة من &nbsp; ........................ &nbsp; إلى &nbsp; ........................</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="col-day">اليوم</th>
+                        <th class="col-date">التاريخ</th>
+                        <th class="col-destination">الجهة</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body-blank">
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="signatures-section">
+                <div class="sig-block">مراقب العهد<br><br>...................</div>
+                <div class="sig-block">مشرف الادارة<br><br>...................</div>
+                <div class="sig-block">مدير مراقبة العهد<br><br>...................</div>
+                <div class="sig-block">مدير عام ادارة الصيدلة<br><br>...................</div>
+            </div>
+
+            <div class="footer-section">
+                <div class="footer-right">
+                    العنوان :<br>
+                    الزقازيق - شارع مدير الأمن - بجوار نقابة التجاريين - المبنى الجديد الدور الرابع - إدارة العامة للصيدلة<br>
+                    ت : سكرتارية ٠٥٥/٢٣٠٢٥٩٧ - فاكس : ٠٥٥/٢٣٥٦٣٦٩ داخلي ١٩٨
+                </div>
+                <div class="footer-left">
+                    <span>الإدارة العامة للصيدلة</span><br>
+                    صادر رقم : ....................<br>
+                    في : &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp; / ٢٠٢ م &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">صفحة 37 من 37</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        function getMonthNameAr(monthIndex) {
-            const months = [
-                "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-                "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-            ];
-            return months[monthIndex];
-        }
-
-        function generateNotebook(systemId) {
-            const container = document.getElementById("pages-container");
-            container.innerHTML = ""; // تنظيف المحتوى السابق
-
-            // تحديث كلاس التنسيق البصري
-            if(systemId === 1) {
-                container.className = "system-1-active";
-            } else {
-                container.className = "system-2-active";
-            }
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. توليد الصفحة الأولى لشهر يوليو
+            const tableJuly = document.getElementById("table-body-july");
+            const daysNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
             
-            const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026
-            const endDate = new Date(2027, 7, 1);   // 1 أغسطس 2027
+            let currentDate = new Date(2026, 6, 6); // 6 يوليو 2026
+            const endDate = new Date(2026, 6, 31); // 31 يوليو 2026
 
-            let monthsData = {};
-            let currentDate = new Date(startDate);
-
-            // تصفية الأيام بناءً على النظام المختار
             while (currentDate <= endDate) {
                 let dayOfWeek = currentDate.getDay(); 
-                let isTargetDay = false;
-                let dayName = "";
-
-                if (systemId === 1) {
-                    if (dayOfWeek === 0) { isTargetDay = true; dayName = "الأحد"; }
-                    if (dayOfWeek === 2) { isTargetDay = true; dayName = "الثلاثاء"; }
-                } else {
-                    if (dayOfWeek === 6) { isTargetDay = true; dayName = "السبت"; }
-                    if (dayOfWeek === 1) { isTargetDay = true; dayName = "الإثنين"; }
-                }
                 
-                if (isTargetDay) {
-                    let year = currentDate.getFullYear();
-                    let month = currentDate.getMonth();
-                    let key = `${year}-${month}`;
-                    
-                    if (!monthsData[key]) {
-                        monthsData[key] = { year: year, month: month, days: [] };
+                if (dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 3 || dayOfWeek === 4) {
+                    let dayName = daysNames[dayOfWeek];
+                    let month = currentDate.getMonth() + 1;
+                    let dayStr = currentDate.getDate();
+                    let formattedDate = `${month} / ${dayStr}`;
+
+                    let destinationContent = "";
+                    if (dayStr === 23 && month === 7) {
+                        destinationContent = `<span class="holiday-text">إجازة رسمية ثورة يوليو</span>`;
                     }
-                    
-                    monthsData[key].days.push({
-                        dayName: dayName,
-                        dateStr: `${currentDate.getDate()}/${month + 1}`
-                    });
+
+                    let rowHTML = `
+                        <tr>
+                            <td class="col-day">${dayName}</td>
+                            <td class="col-date">${formattedDate}</td>
+                            <td class="col-destination">${destinationContent}</td>
+                        </tr>
+                    `;
+                    tableJuly.innerHTML += rowHTML;
                 }
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            let sortedMonths = Object.values(monthsData);
-            let totalMonths = sortedMonths.length;
+            // 2. توليد الصفحة الثانية الفارغة تماماً بعدد سطور متناسق لمنع الخروج عن الإطار
+            const tableBlank = document.getElementById("table-body-blank");
+            const totalBlankRows = 15; // عدد أسطر مثالي ومحكم للورقة الثانية الحرة
 
-            let printOrder = [];
-            for (let chunk = 0; chunk < totalMonths; chunk += 4) {
-                printOrder.push([chunk, chunk + 2]); 
-                if (chunk + 1 < totalMonths || chunk + 3 < totalMonths) {
-                    printOrder.push([chunk + 1, chunk + 3]); 
-                }
+            for (let i = 0; i < totalBlankRows; i++) {
+                let blankRowHTML = `
+                    <tr>
+                        <td class="col-day"></td>
+                        <td class="col-date"></td>
+                        <td class="col-destination"></td>
+                    </tr>
+                `;
+                tableBlank.innerHTML += blankRowHTML;
             }
-
-            printOrder.forEach(pair => {
-                const page = document.createElement("div");
-                page.className = "page";
-
-                const cutLine = document.createElement("div");
-                cutLine.className = "cut-line";
-                page.appendChild(cutLine);
-
-                for (let i = 0; i < 2; i++) {
-                    let monthIndex = pair[i];
-                    const monthContainer = document.createElement("div");
-                    monthContainer.className = "month-container";
-
-                    if (monthIndex === undefined || monthIndex >= totalMonths) {
-                        monthContainer.innerHTML = `<div style="text-align:center; margin-top:50mm; color:#bbb; font-weight:bold; font-size:14px;">صفحة فارغة للملاحظات والتقييم</div>`;
-                        page.appendChild(monthContainer);
-                        continue;
-                    }
-
-                    let mData = sortedMonths[monthIndex];
-                    let titleText = `جدول متابعة الحفظ والواجبات: ${getMonthNameAr(mData.month)} ${mData.year}`;
-
-                    let tableHTML = `
-                        <div class="month-title">${titleText}</div>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="day-col" rowspan="2">اليوم والتاريخ</th>
-                                        <th colspan="2">جدول الحفظ المنهجي</th>
-                                        <th colspan="2">جدول الواجبات والمهام</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="task-col">المحتوى / السورة والآيات</th>
-                                        <th class="check-col">التمام</th>
-                                        <th class="task-col">الواجب والمراجعة</th>
-                                        <th class="check-col">التمام</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                    `;
-
-                    mData.days.forEach(day => {
-                        tableHTML += `
-                            <tr>
-                                <td class="day-col">
-                                    ${day.dayName}<br>
-                                    <span style="font-size:10px; color:#555; font-weight:normal;">${day.dateStr}</span>
-                                </td>
-                                <td class="task-col"></td>
-                                <td class="check-col">⬜</td>
-                                <td class="task-col"></td>
-                                <td class="check-col">⬜</td>
-                            </tr>
-                        `;
-                    });
-
-                    tableHTML += `
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
-
-                    monthContainer.innerHTML = tableHTML;
-                    page.appendChild(monthContainer);
-                }
-
-                container.appendChild(page);
-            });
-        }
-
-        function switchSystem() {
-            const systemVal = document.querySelector('input[name="systemType"]:checked').value;
-            generateNotebook(parseInt(systemVal));
-        }
-
-        // دالة حفظ الملف بصيغة PDF بشكل مضبوط ومطابق تماماً لأبعاد الكراسة
-        function saveAsPDF() {
-            const element = document.getElementById('pages-container');
-            const systemVal = document.querySelector('input[name="systemType"]:checked').value;
-            const systemName = systemVal === "1" ? "نظام_الأحد_الثلاثاء" : "نظام_السبت_الإثنين";
-            
-            // إعدادات تصدير الـ PDF الذكية لملائمة أبعاد الـ A4 بالعرض
-            const opt = {
-                margin:       0,
-                filename:     `دفتر_المتابعة_الاحترافي_${systemName}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-            };
-
-            // تشغيل التصدير
-            html2pdf().set(opt).from(element).save();
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            generateNotebook(1);
         });
     </script>
 </body>
