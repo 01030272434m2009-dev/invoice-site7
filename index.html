@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام طباعة دفاتر المتابعة الاحترافي</title>
+    <title>نظام طباعة دفاتر المتابعة الاحترافي - كشكول حقيقي</title>
     <style>
         /* تنسيقات الواجهة العصرية */
         :root {
@@ -21,7 +21,6 @@
             color: #333;
         }
 
-        /* الفورم الأنيق للتحكم */
         .control-dashboard {
             background: linear-gradient(135deg, var(--primary-color), #34495e);
             color: #fff;
@@ -36,7 +35,6 @@
             margin: 0 0 15px 0;
             font-size: 24px;
             font-weight: bold;
-            letter-spacing: 0.5px;
         }
 
         .system-selector {
@@ -95,18 +93,20 @@
             padding: 6px 15px;
             border-radius: 5px;
             color: #e0e0e0;
+            max-width: 600px;
+            line-height: 1.5;
         }
 
-        /* حاوية الأوراق لمعاينتها في الشاشة */
         #pages-container {
             padding: 10px;
         }
 
+        /* تحسينات جودة وأبعاد المعاينة لمنع أي هدر أو تداخل */
         .page {
             width: 297mm;
             height: 210mm;
             margin: 0 auto 30px auto;
-            padding: 6mm 8mm;
+            padding: 8mm 10mm;
             box-sizing: border-box;
             background: #fff;
             box-shadow: var(--card-shadow);
@@ -114,31 +114,33 @@
             justify-content: space-between;
             position: relative;
             border-radius: 4px;
+            page-break-after: always;
         }
 
         .cut-line {
             position: absolute;
             left: 50%;
-            top: 6mm;
-            bottom: 6mm;
+            top: 0;
+            bottom: 0;
             transform: translateX(-50%);
-            border-left: 1px dashed #bbb;
+            border-left: 1px dashed #ccc;
             width: 0;
         }
 
         .month-container {
-            width: 48.5%; 
+            width: 47%; 
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             height: 100%;
+            justify-content: flex-start;
         }
 
         .month-title {
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             border: 2px solid #2c3e50;
             padding: 5px;
             background-color: #f8f9fa;
@@ -148,7 +150,6 @@
 
         .table-scroll {
             flex-grow: 1;
-            overflow: hidden;
         }
 
         table {
@@ -157,8 +158,8 @@
         }
 
         th, td {
-            border: 1px solid #333;
-            padding: 4px 5px; 
+            border: 1.5px solid #000; /* زيادة السمك لجودة طباعة ممتازة */
+            padding: 5px 4px; 
             text-align: center;
             vertical-align: middle;
             font-size: 11px;
@@ -166,47 +167,42 @@
 
         thead th {
             font-weight: bold;
-            background-color: #eaeded;
+            background-color: #f2f4f4 !important;
             color: #2c3e50;
         }
 
-        .day-col { width: 20%; font-weight: bold; }
-        .task-col { width: 35%; height: 13.5mm; }
-        .check-col { width: 10%; font-size: 10px; }
-
-        /* تلوين تمييزي خفيف حسب النظام الفعال للرؤية البصرية */
-        .system-1-active thead th { background-color: #eaeded; }
-        .system-2-active thead th { background-color: #e8f8f5; }
+        .day-col { width: 22%; font-weight: bold; }
+        .task-col { width: 34%; height: 12mm; }
+        .check-col { width: 10%; font-size: 11px; }
 
         /* ===================================================
-           تنسيقات وإعدادات الطباعة الاحترافية والقلب التلقائي
+           إعدادات الطباعة الاحترافية العالية الجودة (HD Print)
         ====================================================== */
         @media print {
             body {
                 background-color: #fff;
                 padding: 0;
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .control-dashboard {
-                display: none; /* إخفاء الفورم تماماً عند الطباعة */
+                display: none;
             }
             .page {
                 margin: 0;
                 box-shadow: none;
-                width: 100vw;
-                height: 100vh;
-                page-break-after: always;
+                width: 297mm;
+                height: 210mm;
+                max-width: 297mm;
+                max-height: 210mm;
                 border-radius: 0;
+                position: relative;
+                box-sizing: border-box;
             }
             .cut-line {
-                border-left: 1px dashed #000;
+                border-left: 1px dashed #999;
             }
-
-            /* الحل السحري: قلب الصفحة الثانية (الظهر) تلقائياً 180 درجة */
-            /* هذا يجعل الأوراق تخرج متناسقة ومعدولة تماماً أياً كانت طريقة قلب الطابعة */
-            .page:nth-child(even) {
-                transform: rotate(180deg);
-            }
-
             @page {
                 size: A4 landscape;
                 margin: 0;
@@ -217,7 +213,7 @@
 <body>
 
     <div class="control-dashboard">
-        <h1 class="dashboard-title">🗂️ لوحة تحكم طباعة الدفاتر المنهجية</h1>
+        <h1 class="dashboard-title">🗂️ لوحة تحكم طباعة الدفاتر المنهجية (ترتيب الكشكول التلقائي)</h1>
         
         <div class="system-selector">
             <input type="radio" id="sys1" name="systemType" value="1" class="radio-btn" checked onchange="switchSystem()">
@@ -230,37 +226,29 @@
         <button class="btn-print-pro" onclick="window.print()">🖨️ ابدأ الطباعة الفورية</button>
         
         <div class="instruction-badge">
-            ℹ️ النظام يقوم تلقائياً بقلب صفحات الظهر برمجياً لضمان خروج الكشكول معدولاً عند الثني والتدبيس.
+            <strong>💡 طريقة الحجم والكشكول الذكي:</strong><br>
+            اطبع الأوراق (وجه وضهر) مباشرة دون تغيير ترتيبها. عند خروج الأوراق، ضعها فوق بعضها كما هي، ثم اثنِ المجموعة كاملة من المنتصف ودبسها لتجد الكشكول مرتباً تلقائياً من الشهر الأول للأخير!
         </div>
     </div>
 
-    <div id="pages-container" class="system-1-active"></div>
+    <div id="pages-container"></div>
 
     <script>
         function getMonthNameAr(monthIndex) {
-            const months = [
-                "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-                "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-            ];
+            const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
             return months[monthIndex];
         }
 
         function generateNotebook(systemId) {
             const container = document.getElementById("pages-container");
-            container.innerHTML = ""; // تنظيف المحتوى السابق
-
-            // تحديث كلاس التنسيق البصري
-            if(systemId === 1) {
-                container.className = "system-1-active";
-            } else {
-                container.className = "system-2-active";
-            }
+            container.innerHTML = ""; 
             
             const startDate = new Date(2026, 7, 1); // 1 أغسطس 2026
             const endDate = new Date(2027, 7, 1);   // 1 أغسطس 2027
 
-            let monthsData = {};
+            let monthsData = [];
             let currentDate = new Date(startDate);
+            let tempMonths = {};
 
             // تصفية الأيام بناءً على النظام المختار
             while (currentDate <= endDate) {
@@ -269,11 +257,9 @@
                 let dayName = "";
 
                 if (systemId === 1) {
-                    // نظام الأحد (0) والثلاثاء (2)
                     if (dayOfWeek === 0) { isTargetDay = true; dayName = "الأحد"; }
                     if (dayOfWeek === 2) { isTargetDay = true; dayName = "الثلاثاء"; }
                 } else {
-                    // نظام السبت (6) والإثنين (1)
                     if (dayOfWeek === 6) { isTargetDay = true; dayName = "السبت"; }
                     if (dayOfWeek === 1) { isTargetDay = true; dayName = "الإثنين"; }
                 }
@@ -283,11 +269,11 @@
                     let month = currentDate.getMonth();
                     let key = `${year}-${month}`;
                     
-                    if (!monthsData[key]) {
-                        monthsData[key] = { year: year, month: month, days: [] };
+                    if (!tempMonths[key]) {
+                        tempMonths[key] = { year: year, month: month, days: [] };
                     }
                     
-                    monthsData[key].days.push({
+                    tempMonths[key].days.push({
                         dayName: dayName,
                         dateStr: `${currentDate.getDate()}/${month + 1}`
                     });
@@ -295,19 +281,35 @@
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
-            let sortedMonths = Object.values(monthsData);
-            let totalMonths = sortedMonths.length;
-
-            // خوارزمية ترتيب الصفحات الذكية (كراسة متتالية وش وظهر)
-            let printOrder = [];
-            for (let chunk = 0; chunk < totalMonths; chunk += 4) {
-                printOrder.push([chunk, chunk + 2]); // الوجه الأول
-                if (chunk + 1 < totalMonths || chunk + 3 < totalMonths) {
-                    printOrder.push([chunk + 1, chunk + 3]); // الظهر الأول (الذي سيتم قلبه تلقائياً)
-                }
+            let sortedMonths = Object.values(tempMonths);
+            
+            // لإتمام خوارزمية الكشكول (Booklet)، يجب أن يكون إجمالي عدد الصفحات (الشهور) مضاعفاً للرقم 4
+            // إذا لم يكن مضاعفاً لـ 4، نقوم بإضافة صفحات فارغة للملاحظات في نهاية الدفتر حتى يكتمل العدد تماماً ولا يحدث أي هدر
+            while (sortedMonths.length % 4 !== 0) {
+                sortedMonths.push({ isBlank: true });
             }
 
-            // بناء هيدروليكي للصفحات للطباعة والمعاينة
+            let totalPages = sortedMonths.length;
+            let printOrder = [];
+
+            // خوارزمية فرض الصفحات الذكية للكراسات المطبوعة (Booklet Imposition Algorithm)
+            // تقرن الصفحة الأولى بالأخيرة، والثانية بقبل الأخيرة مع مراعاة اتجاه الكتابة العربي (اليمين واليسار) لثني الكشكول
+            let left = 0;
+            let right = totalPages - 1;
+
+            for (let p = 0; p < totalPages / 2; p++) {
+                if (p % 2 === 0) {
+                    // الوجه (الأوراق الفردية): الصفحة الأخيرة على اليمين، والأولى على اليسار لتبدأ من اليمين عند الفتح
+                    printOrder.push({ right: sortedMonths[right], left: sortedMonths[left] });
+                } else {
+                    // الظهر (الأوراق الزوجية): الصفحة الثانية على اليمين، وقبل الأخيرة على اليسار
+                    printOrder.push({ right: sortedMonths[left], left: sortedMonths[right] });
+                }
+                left++;
+                right--;
+            }
+
+            // بناء هيدروليكي للصفحات بناءً على الترتيب الفعلي للكشكول
             printOrder.forEach(pair => {
                 const page = document.createElement("div");
                 page.className = "page";
@@ -316,18 +318,17 @@
                 cutLine.className = "cut-line";
                 page.appendChild(cutLine);
 
-                for (let i = 0; i < 2; i++) {
-                    let monthIndex = pair[i];
+                // طباعة الجزء الأيمن ثم الأيسر بالترتيب الصحيح
+                [pair.right, pair.left].forEach(mData => {
                     const monthContainer = document.createElement("div");
                     monthContainer.className = "month-container";
 
-                    if (monthIndex === undefined || monthIndex >= totalMonths) {
-                        monthContainer.innerHTML = `<div style="text-align:center; margin-top:50mm; color:#bbb; font-weight:bold; font-size:14px;">صفحة فارغة للملاحظات والتقييم</div>`;
+                    if (!mData || mData.isBlank) {
+                        monthContainer.innerHTML = `<div style="text-align:center; margin-top:60mm; color:#7f8c8d; border: 2px dashed #bdc3c7; padding: 20px; border-radius:8px; font-weight:bold; font-size:14px;">📝 صفحة فارغة<br><span style="font-size:11px; font-weight:normal; color:#95a5a6;">للملاحظات والتقييم الشهري والواجبات الإضافية</span></div>`;
                         page.appendChild(monthContainer);
-                        continue;
+                        return;
                     }
 
-                    let mData = sortedMonths[monthIndex];
                     let titleText = `جدول متابعة الحفظ والواجبات: ${getMonthNameAr(mData.month)} ${mData.year}`;
 
                     let tableHTML = `
@@ -355,7 +356,7 @@
                             <tr>
                                 <td class="day-col">
                                     ${day.dayName}<br>
-                                    <span style="font-size:10px; color:#555; font-weight:normal;">${day.dateStr}</span>
+                                    <span style="font-size:10px; color:#444; font-weight:normal;">${day.dateStr}</span>
                                 </td>
                                 <td class="task-col"></td>
                                 <td class="check-col">⬜</td>
@@ -373,19 +374,17 @@
 
                     monthContainer.innerHTML = tableHTML;
                     page.appendChild(monthContainer);
-                }
+                });
 
                 container.appendChild(page);
             });
         }
 
-        // تابع لتبديل الأنظمة من خلال الفورم
         function switchSystem() {
             const systemVal = document.querySelector('input[name="systemType"]:checked').value;
             generateNotebook(parseInt(systemVal));
         }
 
-        // تشغيل النظام الأول افتراضياً بمجرد فتح الصفحة
         document.addEventListener("DOMContentLoaded", function() {
             generateNotebook(1);
         });
